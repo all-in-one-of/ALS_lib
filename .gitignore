@@ -1,0 +1,10 @@
+# python compiled
+*.pyc
+
+# backup dirs
+examples/backup
+otls/*/backup
+gallery/backup
+
+# backup files
+*_bak*.hip
