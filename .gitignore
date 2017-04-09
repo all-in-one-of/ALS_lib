@@ -2,8 +2,7 @@
 *.pyc
 
 # backup dirs
-examples/backup
-otls/*/backup
+hda/*/backup
 gallery/backup
 
 # backup files
