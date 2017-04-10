@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100px" height="100px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 100 100"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil1 {fill:#FEFEFE}
+    .fil7 {fill:url(#id14)}
+    .fil0 {fill:url(#id15)}
+    .fil2 {fill:url(#id16)}
+    .fil5 {fill:url(#id17)}
+    .fil4 {fill:url(#id18)}
+    .fil3 {fill:url(#id19)}
+    .fil6 {fill:url(#id20)}
+   ]]>
+  </style>
+     <mask id="id0">
+  <radialGradient id="id1" gradientUnits="userSpaceOnUse" cx="-0" cy="1.18291" r="0" fx="-0" fy="1.18291">
+   <stop offset="0" style="stop-opacity:0.309804; stop-color:white"/>
+   <stop offset="0.729412" style="stop-opacity:-127.427; stop-color:white"/>
+   <stop offset="1" style="stop-opacity:0.541176; stop-color:white"/>
+  </radialGradient>
+      <rect style="fill:url(#id1)" x="-1" width="37.451" height="37.451"/>
+     </mask>
+     <mask id="id2">
+  <radialGradient id="id3" gradientUnits="userSpaceOnUse" cx="34.6142" cy="17.4576" r="0" fx="34.6142" fy="17.4576">
+   <stop offset="0" style="stop-opacity:0.309804; stop-color:white"/>
+   <stop offset="0.729412" style="stop-opacity:-127.427; stop-color:white"/>
+   <stop offset="1" style="stop-opacity:0.541176; stop-color:white"/>
+  </radialGradient>
+      <rect style="fill:url(#id3)" x="34" y="16" width="49.748" height="49.748"/>
+     </mask>
+     <mask id="id4">
+  <radialGradient id="id5" gradientUnits="userSpaceOnUse" cx="22.1242" cy="48.2981" r="0" fx="22.1242" fy="48.2981">
+   <stop offset="0" style="stop-opacity:0.309804; stop-color:white"/>
+   <stop offset="0.729412" style="stop-opacity:-127.427; stop-color:white"/>
+   <stop offset="1" style="stop-opacity:0.541176; stop-color:white"/>
+  </radialGradient>
+      <rect style="fill:url(#id5)" x="21" y="47" width="33.1673" height="33.1673"/>
+     </mask>
+     <mask id="id6">
+  <radialGradient id="id7" gradientUnits="userSpaceOnUse" cx="56.4595" cy="36.4251" r="0" fx="56.4595" fy="36.4251">
+   <stop offset="0" style="stop-opacity:0.309804; stop-color:white"/>
+   <stop offset="0.729412" style="stop-opacity:-127.427; stop-color:white"/>
+   <stop offset="1" style="stop-opacity:0.541176; stop-color:white"/>
+  </radialGradient>
+      <rect style="fill:url(#id7)" x="55" y="35" width="23.0202" height="23.0202"/>
+     </mask>
+     <mask id="id8">
+  <radialGradient id="id9" gradientUnits="userSpaceOnUse" cx="81.5105" cy="0" r="0" fx="81.5105" fy="0">
+   <stop offset="0" style="stop-opacity:0.309804; stop-color:white"/>
+   <stop offset="0.729412" style="stop-opacity:-127.427; stop-color:white"/>
+   <stop offset="1" style="stop-opacity:0.541176; stop-color:white"/>
+  </radialGradient>
+      <rect style="fill:url(#id9)" x="81" y="-1" width="19.4904" height="19.4904"/>
+     </mask>
+     <mask id="id10">
+  <radialGradient id="id11" gradientUnits="userSpaceOnUse" cx="68.8325" cy="68.8725" r="0" fx="68.8325" fy="68.8725">
+   <stop offset="0" style="stop-opacity:0.309804; stop-color:white"/>
+   <stop offset="0.729412" style="stop-opacity:-127.427; stop-color:white"/>
+   <stop offset="1" style="stop-opacity:0.541176; stop-color:white"/>
+  </radialGradient>
+      <rect style="fill:url(#id11)" x="68" y="68" width="33.1673" height="33.1673"/>
+     </mask>
+     <mask id="id12">
+  <radialGradient id="id13" gradientUnits="userSpaceOnUse" cx="13.5919" cy="81.2855" r="0" fx="13.5919" fy="81.2855">
+   <stop offset="0" style="stop-opacity:0.309804; stop-color:white"/>
+   <stop offset="0.729412" style="stop-opacity:-127.427; stop-color:white"/>
+   <stop offset="1" style="stop-opacity:0.541176; stop-color:white"/>
+  </radialGradient>
+      <rect style="fill:url(#id13)" x="13" y="80" width="15.4428" height="15.4428"/>
+     </mask>
+  <radialGradient id="id14" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.19058 -0 -0 1.19058 -4 -17)" cx="18.9695" cy="86.6631" r="5.64555" fx="18.9695" fy="86.6631">
+   <stop offset="0" style="stop-opacity:1; stop-color:#8EDEDE"/>
+   <stop offset="0.588235" style="stop-opacity:1; stop-color:#47BFE1"/>
+   <stop offset="1" style="stop-opacity:1; stop-color:#00A0E3"/>
+  </radialGradient>
+  <radialGradient id="id15" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.19045 -0 -0 1.19045 -3 -3)" xlink:href="#id14" cx="14.1809" cy="15.3638" r="14.8898" fx="14.1809" fy="15.3638">
+  </radialGradient>
+  <radialGradient id="id16" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.19047 -0 -0 1.19047 -10 -7)" xlink:href="#id14" cx="53.7137" cy="36.5571" r="20.0544" fx="53.7137" fy="36.5571">
+  </radialGradient>
+  <radialGradient id="id17" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.19042 -0 -0 1.19042 -17 -1)" xlink:href="#id14" cx="88.5069" cy="6.99644" r="7.34641" fx="88.5069" fy="6.99644">
+  </radialGradient>
+  <radialGradient id="id18" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.19051 -0 -0 1.19051 -12 -9)" xlink:href="#id14" cx="64.8678" cy="44.8334" r="8.82829" fx="64.8678" fy="44.8334">
+  </radialGradient>
+  <radialGradient id="id19" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.19051 -0 -0 1.19051 -7 -12)" xlink:href="#id14" cx="34.5912" cy="60.7651" r="13.09" fx="34.5912" fy="60.7651">
+  </radialGradient>
+  <radialGradient id="id20" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.19051 -0 -0 1.19051 -15 -15)" xlink:href="#id14" cx="81.2995" cy="81.3395" r="13.09" fx="81.2995" fy="81.3395">
+  </radialGradient>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_2031975942896">
+   <g>
+    <path class="fil0" style="mask:url(#id0)" d="M18 1c10,0 17,8 17,18 0,10 -7,18 -17,18 -10,0 -18,-8 -18,-18 0,-10 8,-18 18,-18z"/>
+    <circle class="fil1" cx="13" cy="13" r="2"/>
+   </g>
+   <g>
+    <path class="fil2" style="mask:url(#id2)" d="M58 17c14,0 24,11 24,24 0,14 -10,24 -24,24 -13,0 -23,-10 -23,-24 0,-13 10,-24 23,-24z"/>
+    <circle class="fil1" cx="52" cy="34" r="3"/>
+   </g>
+   <g>
+    <path class="fil3" style="mask:url(#id4)" d="M38 48c8,0 15,7 15,16 0,8 -7,15 -15,15 -9,0 -16,-7 -16,-15 0,-9 7,-16 16,-16z"/>
+    <circle class="fil1" cx="33" cy="59" r="2"/>
+   </g>
+   <g>
+    <path class="fil4" style="mask:url(#id6)" d="M67 36c6,0 10,5 10,11 0,6 -4,10 -10,10 -6,0 -11,-4 -11,-10 0,-6 5,-11 11,-11z"/>
+    <circle class="fil1" cx="64" cy="44" r="1"/>
+   </g>
+   <g>
+    <path class="fil5" style="mask:url(#id8)" d="M90 0c5,0 9,4 9,9 0,5 -4,8 -9,8 -5,0 -8,-3 -8,-8 0,-5 3,-9 8,-9z"/>
+    <circle class="fil1" cx="88" cy="6" r="1"/>
+   </g>
+   <g>
+    <path class="fil6" style="mask:url(#id10)" d="M84 69c9,0 16,7 16,15 0,9 -7,16 -16,16 -8,0 -15,-7 -15,-16 0,-8 7,-15 15,-15z"/>
+    <circle class="fil1" cx="80" cy="80" r="2"/>
+   </g>
+   <g>
+    <path class="fil7" style="mask:url(#id12)" d="M20 81c4,0 7,3 7,7 0,4 -3,7 -7,7 -3,0 -6,-3 -6,-7 0,-4 3,-7 6,-7z"/>
+    <circle class="fil1" cx="18" cy="86" r="1"/>
+   </g>
+  </g>
+ </g>
+</svg>
