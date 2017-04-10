@@ -1,102 +1,89 @@
-import os,sys,subprocess, socket, platform
-system = platform.system()
+import os
+import sys
+import subprocess
+import re
 
-user = os.path.expandvars("%userprofile%").split('\\')[-1]
-users = [ 'a.grabovski', 'a.krylevsky' ]
+profile = os.path.expandvars("%userprofile%").split('\\')[-1]
+users = {'a.grabovski' : 'a.grabovski',
+         'a.krylevsky' : 'a.krylevsky',
+         'Anton'       : 'a.grabovski',}
 
-SOLIDANGLE = '//PROJECTS/Alisa_Film/HoudiniProject/Solidangle/htoa/htoa-1.14.3_r9b05dbe_houdini-16.0.557'
+user  = users[profile] if profile in users else 'default'
 
-HOUDINI_MAJOR_RELEASE = '16' 
-HOUDINI_MINOR_RELEASE = '0' 
-HOUDINI_BUILD_VERSION = '557' 
-HOUDINI_PACK_VERSION  = ''
-# 
-HOUDINI_INSTALL_PATH='C:/Houdini16/Houdini_'
-# if socket.gethostname() == "os_01" or socket.gethostname() == "rrw01":
-#     HOUDINI_INSTALL_PATH='C:/Program Files/Side Effects Software/Houdini '
-    
-    
-HOUDINI_GLOB_PATH = "//PROJECTS/Alisa_Film/HoudiniProject"
-if system == "Linux" :
-    HOUDINI_INSTALL_PATH = '/opt/hfs'
-    HOUDINI_GLOB_PATH = "/projects/Alisa_Film/HoudiniProject"
+#------------------------- get version string ----------------------------
+try:
+    HOUDINI_BUILD = sys.argv[1]
+except IndexError:
+    HOUDINI_BUILD = '16.0.557'
 
-if HOUDINI_PACK_VERSION :
-    HOUDINI_BUILD = '%s.%s.%s.%s'%( 
-    HOUDINI_MAJOR_RELEASE, 
-    HOUDINI_MINOR_RELEASE, 
-    HOUDINI_BUILD_VERSION,
-    HOUDINI_PACK_VERSION)
-else :
-    HOUDINI_BUILD = '%s.%s.%s'%( 
-    HOUDINI_MAJOR_RELEASE, 
-    HOUDINI_MINOR_RELEASE, 
-    HOUDINI_BUILD_VERSION)
-    
-# 
+vpat = re.compile('(?P<maj>\d+)\.(?P<min>\d+)\.(?P<build>\d+)(?=$|\.(?P<pack>\d+))') #pattern for build version
+vers = vpat.match(HOUDINI_BUILD)
+
+HOUDINI_MAJOR_RELEASE = vers.group('maj')
+HOUDINI_MINOR_RELEASE = vers.group('min')
+HOUDINI_BUILD_VERSION = vers.group('build')
+HOUDINI_PACK_VERSION  = vers.group('pack')
+
+#--------------------------- get project and bin path ----------------------
+ROOT_DIR = '//PROJECTS/Alisa_Film'
+if profile == 'Anton':
+    ROOT_DIR = 'D:'
+
+HOUDINI_INSTALL_PATH='C:/Houdini{}/Houdini_'.format(HOUDINI_MAJOR_RELEASE)
+HOUDINI_GLOB_PATH = "{0}/HoudiniProjects".format(ROOT_DIR)
+ALS_PATH = '{0}/ALS_lib'.format(HOUDINI_GLOB_PATH)
+#
 HFS = HOUDINI_INSTALL_PATH + HOUDINI_BUILD
-os.environ['HFS']=HFS 
-
-# 
+os.environ['HFS'] = HFS 
 HB = HFS + '/bin'
-os.environ['PATH']=os.path.pathsep.join([HB,os.environ['PATH']])
 
+#------------------------- get shot information ----------------------------
+seqShPat = re.compile('\\\\(?P<proj>[^\\\\]*)\\\\seq\d+\\\\(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\\\\*|\/*)')
+# print seqShPat.search(r'D:\HoudiniProjects\scenes\seq000\seq000_sh000').groups()
 
+try:
+    filePath = sys.argv[1]
+    shotInfo = seqShPat.search(filePath)
+    proj = shotInfo.group('proj')
+    seq = shotInfo.group('seq')
+    sh = shotInfo.group('sh')
+    sub = shotInfo.group('sub')
+    shotDir = '{0}/{0}_{1}_{2}'.format(seq, sh, sub) if sub else '{0}/{0}_{1}'.format(seq, sh)
+    localDir = '{0}{1}/scenes/{2}'.format(HOUDINI_GLOB_PATH, proj, shotDir)
+
+except IndexError:
+    filePath = ''
+    localDir = ''
+
+#--------------------------- set environment variables ---------------------
+def setGlobVar(varName, valList):
+    os.environ[varName] = os.path.pathsep.join(valList)
 #
-file = None
-localDir = None
-try :
-    file = sys.argv[1]
-    sep = "\\" if system == "Windows" else "/"
-    partsList = file.split("\\")
-    for part in partsList :
-        if "_sh" in part :
-            shPath = part.split("_")
-            seq  = shPath[0]
-            sh = shPath[1]
-            localDir = "%s/%s_%s" % ( seq, seq, sh )
-            break
-except :
-    file = ''
-#
+PATH = [HB, os.environ['PATH']]
+HOUDINI_PATH = ['{0}'.format( HOUDINI_GLOB_PATH ), localDir, '&']
+HOUDINI_DSO_PATH = ['{0}/dso/'.format(HOUDINI_GLOB_PATH),'@/dso']
+HOUDINI_GALLERY_PATH = ['{0}/gallery/'.format(ALS_PATH),'@/gallery']
+HOUDINI_OTLSCAN_PATH = ['{0}/otls/{1}'.format(ALS_PATH, i) for i in ['OBJ', 'SOP', 'DOP', 'ROP']] + ['@/otls']
+HOUDINI_SCRIPT_PATH = ['{0}/scripts'.format(ALS_PATH), '@/scripts']
+HOUDINI_TOOLBAR_PATH = ['{0}/toolbar/'.format(ALS_PATH),'@/toolbar']
+HOUDINI_VEX_PATH = ['{0}/vex/^'.format(ALS_PATH),'@/vex/^']
+PYTHON_PANEL_PATH = ['{0}/python_panels'.format(ALS_PATH), '&']
 
-os.environ['HOUDINI_PATH'] = os.path.pathsep.join(['%s'%HOUDINI_GLOB_PATH,'&'])
-os.environ['HOUDINI_SCRIPT_PATH'] = os.path.pathsep.join(['%s/scripts/'%HOUDINI_GLOB_PATH,'@/scripts'])
-os.environ['HOUDINI_OTLSCAN_PATH']= os.path.pathsep.join(['%s/hda/'%HOUDINI_GLOB_PATH,
-                                                          '%s/hda/OBJ/'%HOUDINI_GLOB_PATH,
-                                                          '%s/hda/SOP/'%HOUDINI_GLOB_PATH,
-                                                          '%s/hda/DOP/'%HOUDINI_GLOB_PATH,
-                                                          '%s/hda/Octane/'%HOUDINI_GLOB_PATH,
-                                                          '%s/hda/ROP/'%HOUDINI_GLOB_PATH, '@/otls'])
-os.environ['HOUDINI_VEX_PATH']= os.path.pathsep.join(['%s/vex/^'%HOUDINI_GLOB_PATH,'@/vex/^'])
-os.environ['HOUDINI_DSO_PATH']= os.path.pathsep.join(['%s/dso/^'%HOUDINI_GLOB_PATH,'@/dso'])
-os.environ['HOUDINI_GALLERY_PATH']= os.path.pathsep.join(['%s/gallery/'%HOUDINI_GLOB_PATH,'@/gallery'])
-os.environ['HOUDINI_TOOLBAR_PATH']= os.path.pathsep.join(['%s/toolbar/'%HOUDINI_GLOB_PATH,'@/toolbar'])
+setGlobVar('PATH', PATH)
+setGlobVar('HOUDINI_PATH', HOUDINI_PATH)
+setGlobVar('HOUDINI_DSO_PATH', HOUDINI_DSO_PATH)
+setGlobVar('HOUDINI_GALLERY_PATH', HOUDINI_GALLERY_PATH)
+setGlobVar('HOUDINI_OTLSCAN_PATH', HOUDINI_OTLSCAN_PATH)
+setGlobVar('HOUDINI_SCRIPT_PATH', HOUDINI_SCRIPT_PATH)
+setGlobVar('HOUDINI_TOOLBAR_PATH', HOUDINI_TOOLBAR_PATH)
+setGlobVar('HOUDINI_VEX_PATH', HOUDINI_VEX_PATH)
+setGlobVar('PYTHON_PANEL_PATH', PYTHON_PANEL_PATH)
 
-os.environ['HOUDINI_SPLASH_FILE']= "%s/icons/houdini15_splash_Anton_Grabovskiy_var2.tif"%HOUDINI_GLOB_PATH
-os.environ['VISUAL']= "C:/Program Files/Sublime Text 2/sublime_text.exe"
-
-
-os.environ['HOUDINI_USER_PREF_DIR'] = '%s/preference/%s/houdini___HVER__'% ( HOUDINI_GLOB_PATH, user )
-
+os.environ['HOUDINI_SPLASH_FILE']= "{0}/icons/houdini15_splash_Anton_Grabovskiy_var1.tif".format(ALS_PATH)
+os.environ['VISUAL'] = "C:/Program Files/Sublime Text 3/sublime_text.exe"
+os.environ['HOUDINI_USER_PREF_DIR'] = '{0}/preference/{1}/houdini___HVER__'.format(ALS_PATH, user)
 os.environ['HOUDINI_CONSOLE_LINES'] = "1024"
-#os.environ['HOUDINI_UISCALE'] = '20'
-
-
-if localDir :
-    os.environ['HOUDINI_OTLSCAN_PATH'] = '%s/hda/%s;'%(HOUDINI_GLOB_PATH, localDir) + os.environ['HOUDINI_OTLSCAN_PATH']
-    os.environ['HOUDINI_GALLERY_PATH'] = '%s/gallery/%s;'%(HOUDINI_GLOB_PATH, localDir) + os.environ['HOUDINI_GALLERY_PATH']
-
-os.environ[ 'PYTHON_PANEL_PATH' ] = '%s/python_panels;' % HOUDINI_GLOB_PATH
-
-# htoa config start
-# os.environ['PATH']=os.path.pathsep.join([HB,os.environ['PATH'], '{}/scripts/bin'.format(SOLIDANGLE) ])
-# os.environ['HOUDINI_PATH'] = os.path.pathsep.join([SOLIDANGLE, os.environ['HOUDINI_PATH']])
-# htoa config end
-
     
 if __name__ == '__main__':        
-    startpath = ('\"%s/houdinifx\" %s' % (HB, file))
-    #print socket.gethostname()
-    #print startpath
+    startpath = ('\"{0}/houdinifx.exe\" {1}'.format(HB, filePath))
     subprocess.Popen(startpath)
