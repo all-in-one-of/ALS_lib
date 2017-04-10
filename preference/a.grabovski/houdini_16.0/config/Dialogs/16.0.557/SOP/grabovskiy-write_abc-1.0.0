@@ -1,0 +1,496 @@
+// Magic: 4a1c1635
+// Automatically generated PSI dialog (PSI version 16.0.557)
+// Fri Apr  7 02:20:00 2017
+
+
+f_tmp = FLOAT_FIELD;	// dialog.top.ui
+
+mode.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Mode", "mode") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    mode.menu;
+
+    { HSTRETCH }
+
+}
+
+step.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ step.label = PARM_LABEL("Shutter", "step") WIDTH(1.5);
+ PARM(float, 1, "step", none, none) RANGE(0,10)
+	 LABELREF(step.label) HSTRETCH;
+
+}
+execute.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+execute.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    PARM_BUTTON("execute", "Render to Disk")
+	push VALUE(execute.val);
+
+}
+
+execute2.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    {  }
+    { WIDTH(0.1) }
+
+    PARM_BUTTON("execute2", "Submit Job")
+	push VALUE(execute2.val);
+
+}
+}	// Template join.bot
+
+
+f.gad = ROW
+{
+   HSTRETCH
+
+   f.label = PARM_LABEL("Start/End/Inc", "f") WIDTH(1.5);
+   PARM(float, 3, "f", none, none, "#1,#2,#3")
+	RANGE(0,10)  LABELREF(f.label)
+	HSTRETCH;
+
+}
+
+delattribs.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    delattribs.label = PARM_LABEL("Remove Attribs", "delattribs") WIDTH(1.5);
+    PARM_FIELD(string, "delattribs") VALUE(delattribs.val) 
+	LABELREF(delattribs.label) HSTRETCH;
+
+}
+name.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+name.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    name.label = PARM_LABEL("Name", "name") WIDTH(1.5);
+    PARM_FIELD(string, "name") VALUE(name.val) 
+	LABELREF(name.label) HSTRETCH;
+
+}
+
+post.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    post.label = PARM_LABEL("File Postfix", "post") ;
+    PARM_FIELD(string, "post") VALUE(post.val) 
+	LABELREF(post.label) HSTRETCH;
+
+}
+
+ver.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ ver.label = PARM_LABEL("Version", "ver") ;
+ PARM(integer, 1, "ver", none, none) RANGE(1,10)
+	LOCK_RANGE_MIN LABELREF(ver.label) HSTRETCH;
+
+}
+}	// Template join.bot
+
+
+split.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("split", "Split Shape by frame number") toggle VALUE(split.val);
+
+    { HSTRETCH }
+
+}
+
+container.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH JUSTIFY(left,center)
+
+ container.label = PARM_LABEL("Container Object", "container") WIDTH(1.5);
+ PARM_FIELD(pathstring, "container") VALUE(container.val) 
+	LABELREF(container.label) HSTRETCH;
+
+ ACTION_ICONBUTTON "BUTTONS_jump" VALUE(container.jump)
+    HELP("Jump to operator\nCtrl+LMB: Open parameters popup dialog")
+    UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+ ACTION_ICONBUTTON "BUTTONS_chooser_node" VALUE(container.plus)
+    HELP("Open floating operator chooser") UI_FLAT_ICON_BTN_SIZE_SMALL 
+    LOOKFLAT;
+
+}
+
+sepparm.gad = 
+
+{
+    LAYOUT(vertical) HSTRETCH 
+
+    { HEIGHT(0.1) }
+    SEPARATOR; 
+    { HEIGHT(0.1) }
+}
+voxelsize.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+voxelsize.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ voxelsize.label = PARM_LABEL("Voxel Size", "voxelsize") WIDTH(1.5);
+ PARM(float, 1, "voxelsize", none, none) RANGE(0,5)
+	LOCK_RANGE_MIN LABELREF(voxelsize.label) HSTRETCH;
+
+}
+
+merge_sdf.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    {  }
+    { WIDTH(0.1) }
+
+    PARM_BUTTON("merge_sdf", "Merge SDF")
+	push VALUE(merge_sdf.val);
+
+}
+}	// Template join.bot
+
+
+exteriorbandvoxels.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ exteriorbandvoxels.label = PARM_LABEL("Exterior Band Voxels", "exteriorbandvoxels") WIDTH(1.5);
+ PARM(integer, 1, "exteriorbandvoxels", none, none) RANGE(1,10)
+	LOCK_RANGE_MIN LABELREF(exteriorbandvoxels.label) HSTRETCH;
+
+}
+
+interiorbandvoxels.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ interiorbandvoxels.label = PARM_LABEL("Interior Band Voxels", "interiorbandvoxels") WIDTH(1.5);
+ PARM(integer, 1, "interiorbandvoxels", none, none) RANGE(1,10)
+	LOCK_RANGE_MIN LABELREF(interiorbandvoxels.label) HSTRETCH;
+
+}
+
+max_distance.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ max_distance.label = PARM_LABEL("Max Distance", "max_distance") WIDTH(1.5);
+ PARM(float, 1, "max_distance", none, none) RANGE(0,1)
+	 LABELREF(max_distance.label) HSTRETCH;
+
+}
+
+sepparm2.gad = 
+
+{
+    LAYOUT(vertical) HSTRETCH 
+
+    { HEIGHT(0.1) }
+    SEPARATOR; 
+    { HEIGHT(0.1) }
+}
+
+sdf_move.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("sdf_move", "Move Side By SDF") toggle VALUE(sdf_move.val);
+
+    { HSTRETCH }
+
+}
+
+peak.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ peak.label = PARM_LABEL("Peak", "peak") WIDTH(1.5);
+ PARM(float, 1, "peak", none, none) RANGE(0,1)
+	 LABELREF(peak.label) HSTRETCH;
+
+}
+
+bias_exp.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ bias_exp.label = PARM_LABEL("Exponent", "bias_exp") WIDTH(1.5);
+ PARM(float, 1, "bias_exp", none, none) RANGE(0,1)
+	 LABELREF(bias_exp.label) HSTRETCH;
+
+}
+
+sepparm3.gad = 
+
+{
+    LAYOUT(vertical) HSTRETCH 
+
+    { HEIGHT(0.1) }
+    SEPARATOR; 
+    { HEIGHT(0.1) }
+}
+
+addtransform.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("addtransform", "Add Container Vel") toggle VALUE(addtransform.val);
+
+    { HSTRETCH }
+
+}
+particlesep.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+particlesep.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ particlesep.label = PARM_LABEL("Volume Point Separation", "particlesep") WIDTH(1.5);
+ PARM(float, 1, "particlesep", none, none) RANGE(0,10)
+	LOCK_RANGE_MIN LABELREF(particlesep.label) HSTRETCH;
+
+}
+
+merge_points.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    {  }
+    { WIDTH(0.1) }
+
+    PARM_BUTTON("merge_points", "Merge Volume Points")
+	push VALUE(merge_points.val);
+
+}
+}	// Template join.bot
+
+
+visualize_sides.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("visualize_sides", "Visualize Sides") toggle VALUE(visualize_sides.val);
+
+    { HSTRETCH }
+
+}
+
+fusepts.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("fusepts", "Consolidate Points") toggle VALUE(fusepts.val);
+
+    { HSTRETCH }
+
+}
+
+deldegengeo.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("deldegengeo", "Remove Degenerate Primitives") toggle VALUE(deldegengeo.val);
+
+    { HSTRETCH }
+
+}
+
+orientpoly.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("orientpoly", "Orient Polygons") toggle VALUE(orientpoly.val);
+
+    { HSTRETCH }
+
+}
+
+reversewinding.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("reversewinding", "Reverse Winding") toggle VALUE(reversewinding.val);
+
+    { HSTRETCH }
+
+}
+
+fixoverlap.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("fixoverlap", "Fix Overlaps") toggle VALUE(fixoverlap.val);
+
+    { HSTRETCH }
+
+}
+
+deleteoverlap.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("deleteoverlap", "Delete Overlap Pairs") toggle VALUE(deleteoverlap.val);
+
+    { HSTRETCH }
+
+}
+
+delunusedpts.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("delunusedpts", "Remove Unused Points") toggle VALUE(delunusedpts.val);
+
+    { HSTRETCH }
+
+}
+
+folder1.gad = 
+{
+    LAYOUT(vertical) HSTRETCH
+
+    TABDIALOG
+    { 
+	VALUE(folder1.gad.val) STRETCH(1,0)
+
+	TAB "Write"
+	{
+	    LAYOUT(vertical) STRETCH
+
+	    MARGIN(2p) SPACING(2p)
+	    execute.row.join;		
+	    f.gad;		
+	    delattribs.gad;		
+	    name.row.join;		
+	    split.gad;		
+
+	    { STRETCH(1,1) LOOK(plain) }
+	}
+
+	TAB "Container"
+	{
+	    LAYOUT(vertical) STRETCH
+
+	    MARGIN(2p) SPACING(2p)
+	    container.gad;		
+	    sepparm.gad;		
+	    voxelsize.row.join;		
+	    exteriorbandvoxels.gad;		
+	    interiorbandvoxels.gad;		
+	    max_distance.gad;		
+	    sepparm2.gad;		
+	    sdf_move.gad;		
+	    peak.gad;		
+	    bias_exp.gad;		
+	    sepparm3.gad;		
+	    addtransform.gad;		
+	    particlesep.row.join;		
+	    visualize_sides.gad;		
+
+	    { STRETCH(1,1) LOOK(plain) }
+	}
+
+	TAB "Clean"
+	{
+	    LAYOUT(vertical) STRETCH
+
+	    MARGIN(2p) SPACING(2p)
+	    fusepts.gad;		
+	    deldegengeo.gad;		
+	    orientpoly.gad;		
+	    reversewinding.gad;		
+	    fixoverlap.gad;		
+	    deleteoverlap.gad;		
+	    delunusedpts.gad;		
+
+	    { STRETCH(1,1) LOOK(plain) }
+	}
+    } 
+}
+
+folder2.gad = 
+GROUP simple "Motion Blur"
+{ 
+    VALUE(folder2.gad.val) LAYOUT(vertical) HSTRETCH 
+	    mode.gad;		
+	    step.gad;		
+} 
+
+dialog_norm.gad = 
+{
+    LAYOUT(vertical) SPACING(0.02) HSTRETCH LOOK(plain) 
+    folder2.gad; 
+    folder1.gad; 
+} 
+// dialog.bot.ui
+
+extrastuffstowbar_minimize.val := 1;
+
+dialog = OPENNOTIFIER
+{
+    LAYOUT(vertical) SPACING(0.02) LOOK(bg) VALUE(open.val) HSTRETCH
+
+    { HEIGHT(1p) LOOK(bg) HSTRETCH }
+
+    dialog_norm.gad;
+}

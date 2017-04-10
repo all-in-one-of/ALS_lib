@@ -1,0 +1,896 @@
+// Magic: e552f942
+// Automatically generated PSI dialog (PSI version 16.0.557)
+// Wed Apr  5 12:36:05 2017
+
+
+f_tmp = FLOAT_FIELD;	// dialog.top.ui
+execute.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+execute.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    PARM_BUTTON("execute", "Reexport Abc")
+	push VALUE(execute.val);
+
+}
+
+cancel.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    PARM_BUTTON("cancel", "Cancel")
+	push VALUE(cancel.val);
+
+}
+tree.gad = NULL { }
+}	// Template join.bot
+
+searchNew.gad = NULL { }
+
+scene.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+ scene.label = PARM_LABEL("Maya Scene", "scene") WIDTH(1.5);
+
+ PARM_FIELD (pathstring, "scene") LABELREF(scene.label)
+	VALUE(scene.val) HSTRETCH;
+
+    scene.menu SIZE(0.26, 0.26) LOOK(menuiconbutton);
+
+ ACTION_ICONBUTTON "BUTTONS_chooser_file" VALUE(scene.plus) LOOKFLAT
+    HELP("Open floating file chooser") UI_FLAT_ICON_BTN_SIZE_SMALL;
+
+}
+
+abcfile.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+ abcfile.label = PARM_LABEL("Abc File", "abcfile") WIDTH(1.5);
+
+ PARM_FIELD (pathstring, "abcfile") LABELREF(abcfile.label)
+	VALUE(abcfile.val) HSTRETCH;
+
+    abcfile.menu SIZE(0.26, 0.26) LOOK(menuiconbutton);
+
+ ACTION_ICONBUTTON "BUTTONS_chooser_file" VALUE(abcfile.plus) LOOKFLAT
+    HELP("Open floating file chooser") UI_FLAT_ICON_BTN_SIZE_SMALL;
+
+}
+
+sepparm.gad = 
+
+{
+    LAYOUT(vertical) HSTRETCH 
+
+    { HEIGHT(0.1) }
+    SEPARATOR; 
+    { HEIGHT(0.1) }
+}
+mode.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+mode.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) 
+
+    PARM_LABEL_SIMPLE("Export Mode", "mode") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    mode.menu;
+
+    {  }
+
+}
+
+showTree.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    PARM_BUTTON("showTree", "Maya Scene Tree")
+	push VALUE(showTree.val);
+
+}
+
+showjson.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    {  }
+    { WIDTH(0.1) }
+
+    PARM_BUTTON("showjson", "Open Json In Editor")
+	push VALUE(showjson.val);
+
+}
+}	// Template join.bot
+
+
+f.gad = ROW
+{
+   HSTRETCH
+
+   f.label = PARM_LABEL("Frame Range", "f") WIDTH(1.5);
+   PARM(integer, 2, "f", none, none, "#1,#2")
+	RANGE(0,10)  LABELREF(f.label)
+	HSTRETCH;
+
+}
+
+selstr.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    selstr.label = PARM_LABEL("Selection", "selstr") WIDTH(1.5);
+    PARM_FIELD(string, "selstr") VALUE(selstr.val) 
+	LABELREF(selstr.label) HSTRETCH;
+
+}
+doabc.gad = NULL { }
+
+sepparm2.gad = 
+
+{
+    LAYOUT(vertical) HSTRETCH 
+
+    { HEIGHT(0.1) }
+    SEPARATOR; 
+    { HEIGHT(0.1) }
+}
+dosmooth.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+dosmooth.gad = ROW
+{
+    
+
+    PARM_BUTTON("dosmooth", "Smooth") toggle VALUE(dosmooth.val);
+
+    {  }
+
+}
+
+smoothiter.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ smoothiter.label = PARM_LABEL("Smooth Iterations", "smoothiter") ;
+ PARM(integer, 1, "smoothiter", none, none) RANGE(1,10)
+	LOCK_RANGE_MIN LABELREF(smoothiter.label) HSTRETCH;
+
+}
+}	// Template join.bot
+
+checkmblur.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+checkmblur.gad = ROW
+{
+    
+
+    PARM_BUTTON("checkmblur", "Check MBlur") toggle VALUE(checkmblur.val);
+
+    {  }
+
+}
+
+stepsize.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ stepsize.label = PARM_LABEL("      Step Size", "stepsize") ;
+ PARM(float, 1, "stepsize", none, none) RANGE(0.01,1)
+	LOCK_RANGE LABELREF(stepsize.label) HSTRETCH;
+
+}
+}	// Template join.bot
+
+dolight.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+dolight.gad = ROW
+{
+    
+
+    PARM_BUTTON("dolight", "Export Lights") toggle VALUE(dolight.val);
+
+    {  }
+
+}
+
+docam.gad = ROW
+{
+    
+
+    {  }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("docam", "Export camA") toggle VALUE(docam.val);
+
+    {  }
+
+}
+}	// Template join.bot
+
+
+reload.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    { WIDTH(1.5) }
+    { WIDTH(0.1) }
+
+    PARM_BUTTON("reload", "Reload Geometry")
+	push VALUE(reload.val);
+
+}
+
+fileName.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+ fileName.label = PARM_LABEL("File Name", "fileName") WIDTH(1.5);
+
+ PARM_FIELD (pathstring, "fileName") LABELREF(fileName.label)
+	VALUE(fileName.val) HSTRETCH;
+
+    fileName.menu SIZE(0.26, 0.26) LOOK(menuiconbutton);
+
+ ACTION_ICONBUTTON "BUTTONS_chooser_file" VALUE(fileName.plus) LOOKFLAT
+    HELP("Open floating file chooser") UI_FLAT_ICON_BTN_SIZE_SMALL;
+
+}
+
+frame.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ frame.label = PARM_LABEL("Frame", "frame") WIDTH(1.5);
+ PARM(float, 1, "frame", none, none) RANGE(0,10)
+	 LABELREF(frame.label) HSTRETCH;
+
+}
+
+fps.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ fps.label = PARM_LABEL("Frames Per Second", "fps") WIDTH(1.5);
+ PARM(float, 1, "fps", none, none) RANGE(0,10)
+	 LABELREF(fps.label) HSTRETCH;
+
+}
+
+missingfile.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Missing File", "missingfile") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    missingfile.menu;
+
+    { HSTRETCH }
+
+}
+
+loadmode.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Load As", "loadmode") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    loadmode.menu;
+
+    { HSTRETCH }
+
+}
+
+viewportlod.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Display As", "viewportlod") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    viewportlod.menu;
+
+    { HSTRETCH }
+
+}
+
+pointmode.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Points", "pointmode") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    pointmode.menu;
+
+    { HSTRETCH }
+
+}
+
+abcxform.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Create Primitives For", "abcxform") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    abcxform.menu;
+
+    { HSTRETCH }
+
+}
+
+polysoup.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Poly Soup Primitives", "polysoup") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    polysoup.menu;
+
+    { HSTRETCH }
+
+}
+
+includeXform.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("includeXform", "Transform Geometry To World Space") toggle VALUE(includeXform.val);
+
+    { HSTRETCH }
+
+}
+
+usevisibility.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("usevisibility", "Use Visibility") toggle VALUE(usevisibility.val);
+
+    { HSTRETCH }
+
+}
+
+groupnames.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Primitive Groups", "groupnames") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    groupnames.menu;
+
+    { HSTRETCH }
+
+}
+
+subdgroup.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    subdgroup.label = PARM_LABEL("Subdivision Group", "subdgroup") WIDTH(1.5);
+    PARM_FIELD(string, "subdgroup") VALUE(subdgroup.val) 
+	LABELREF(subdgroup.label) HSTRETCH;
+
+}
+objectPath.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+objectPath.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    objectPath.label = PARM_LABEL("Object Path", "objectPath") WIDTH(1.5);
+    PARM_FIELD(string, "objectPath") VALUE(objectPath.val) 
+	LABELREF(objectPath.label) HSTRETCH;
+
+    objectPath.menu SIZE(0.26, 0.26) LOOK(menuiconbutton);
+
+    ACTION_ICONBUTTON "BUTTONS_reselect" VALUE(objectPath.script_action)
+	HELP("Select Alembic objects from an available viewport.")
+	UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+}
+
+pickobjectPath.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    PARM_BUTTON("pickobjectPath", "", "BUTTONS_tree")
+	push VALUE(pickobjectPath.val) UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+}
+}	// Template join.bot
+
+objectExclude.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+objectExclude.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    objectExclude.label = PARM_LABEL("Object Exclude", "objectExclude") WIDTH(1.5);
+    PARM_FIELD(string, "objectExclude") VALUE(objectExclude.val) 
+	LABELREF(objectExclude.label) HSTRETCH;
+
+    objectExclude.menu SIZE(0.26, 0.26) LOOK(menuiconbutton);
+
+    ACTION_ICONBUTTON "BUTTONS_reselect" VALUE(objectExclude.script_action)
+	HELP("Select Alembic objects from an available viewport.")
+	UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+}
+
+pickobjectExclude.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    PARM_BUTTON("pickobjectExclude", "", "BUTTONS_tree")
+	push VALUE(pickobjectExclude.val) UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+}
+}	// Template join.bot
+
+
+objectPattern.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    objectPattern.label = PARM_LABEL("Object Pattern", "objectPattern") WIDTH(1.5);
+    PARM_FIELD(string, "objectPattern") VALUE(objectPattern.val) 
+	LABELREF(objectPattern.label) HSTRETCH;
+
+}
+
+animationfilter.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Animating Objects", "animationfilter") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    animationfilter.menu;
+
+    { HSTRETCH }
+
+}
+
+polygonFilter.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("polygonFilter", "Load Polygons") toggle VALUE(polygonFilter.val);
+
+    { HSTRETCH }
+
+}
+
+curveFilter.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("curveFilter", "Load Curves") toggle VALUE(curveFilter.val);
+
+    { HSTRETCH }
+
+}
+
+NURBSFilter.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("NURBSFilter", "Load NURBS") toggle VALUE(NURBSFilter.val);
+
+    { HSTRETCH }
+
+}
+
+pointsFilter.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("pointsFilter", "Load Points") toggle VALUE(pointsFilter.val);
+
+    { HSTRETCH }
+
+}
+
+subdFilter.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("subdFilter", "Load Subdivision Surfaces") toggle VALUE(subdFilter.val);
+
+    { HSTRETCH }
+
+}
+
+loadLocator.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("loadLocator", "Load Maya Locator") toggle VALUE(loadLocator.val);
+
+    { HSTRETCH }
+
+}
+
+boxcull.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Box Culling", "boxcull") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    boxcull.menu;
+
+    { HSTRETCH }
+
+}
+
+boxsource.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("boxsource", "Use First Input To Specify Box") toggle VALUE(boxsource.val);
+
+    { HSTRETCH }
+
+}
+
+boxsize.gad = ROW
+{
+   HSTRETCH
+
+   boxsize.label = PARM_LABEL("Box Size", "boxsize") WIDTH(1.5);
+   PARM(float, 3, "boxsize", none, none, "X,Y,Z")
+	RANGE(0,10) LOCK_RANGE_MIN LABELREF(boxsize.label)
+	HSTRETCH;
+
+}
+
+boxcenter.gad = ROW
+{
+   HSTRETCH
+
+   boxcenter.label = PARM_LABEL("Box Center", "boxcenter") WIDTH(1.5);
+   PARM(float, 3, "boxcenter", none, none, "X,Y,Z")
+	RANGE(-1,1)  LABELREF(boxcenter.label)
+	HSTRETCH;
+
+}
+
+pointAttributes.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    pointAttributes.label = PARM_LABEL("Point Attributes", "pointAttributes") WIDTH(1.5);
+    PARM_FIELD(string, "pointAttributes") VALUE(pointAttributes.val) 
+	LABELREF(pointAttributes.label) HSTRETCH;
+
+}
+
+vertexAttributes.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    vertexAttributes.label = PARM_LABEL("Vertex Attributes", "vertexAttributes") WIDTH(1.5);
+    PARM_FIELD(string, "vertexAttributes") VALUE(vertexAttributes.val) 
+	LABELREF(vertexAttributes.label) HSTRETCH;
+
+}
+
+primitiveAttributes.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    primitiveAttributes.label = PARM_LABEL("Primitive Attributes", "primitiveAttributes") WIDTH(1.5);
+    PARM_FIELD(string, "primitiveAttributes") VALUE(primitiveAttributes.val) 
+	LABELREF(primitiveAttributes.label) HSTRETCH;
+
+}
+
+detailAttributes.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    detailAttributes.label = PARM_LABEL("Detail Attributes", "detailAttributes") WIDTH(1.5);
+    PARM_FIELD(string, "detailAttributes") VALUE(detailAttributes.val) 
+	LABELREF(detailAttributes.label) HSTRETCH;
+
+}
+
+facesetAttributes.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    facesetAttributes.label = PARM_LABEL("Faceset Attributes", "facesetAttributes") WIDTH(1.5);
+    PARM_FIELD(string, "facesetAttributes") VALUE(facesetAttributes.val) 
+	LABELREF(facesetAttributes.label) HSTRETCH;
+
+}
+
+loadUserProps.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("User Properties", "loadUserProps") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    loadUserProps.menu;
+
+    { HSTRETCH }
+
+}
+
+addpath.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("addpath", "Add Path Attribute") toggle VALUE(addpath.val);
+
+    { HSTRETCH }
+
+}
+
+pathattrib.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    pathattrib.label = PARM_LABEL("Path Attribute", "pathattrib") WIDTH(1.5);
+    PARM_FIELD(string, "pathattrib") VALUE(pathattrib.val) 
+	LABELREF(pathattrib.label) HSTRETCH;
+
+}
+
+addfile.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("addfile", "Add Filename Attribute") toggle VALUE(addfile.val);
+
+    { HSTRETCH }
+
+}
+
+fileattrib.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    fileattrib.label = PARM_LABEL("Filename Attribute", "fileattrib") WIDTH(1.5);
+    PARM_FIELD(string, "fileattrib") VALUE(fileattrib.val) 
+	LABELREF(fileattrib.label) HSTRETCH;
+
+}
+
+remapAttributes.parm =
+{
+    LAYOUT(horizontal) SPACING(0.02) HSTRETCH JUSTIFY(left, center)
+
+    PARM_LABEL_SIMPLE("Remap Attributes", "remapAttributes") WIDTH(1.5);
+    { WIDTH(0.08) }
+
+    ROW
+    {
+	HSTRETCH(0.5) JUSTIFY(left, center)  VALUE(remapAttributes.val)
+
+        remapAttributes.field = PARM_FIELD (integer, "remapAttributes")
+				VALUE(remapAttributes.val) HSTRETCH(0.5)
+				 PREF_WIDTH(0.5);
+
+        ROW
+        {
+	     LOOK(lightline) VMARGIN(1p)
+
+   	     INCREMENT_ICONBUTTON VALUE(remapAttributes.more.val)	
+	    	HELP("Add Another Instance") SIZE(0.2, 0.24);
+	     DECREMENT_ICONBUTTON VALUE(remapAttributes.less.val)	
+	        HELP("Remove Last Instance") SIZE(0.2, 0.24);
+
+	}
+
+	ACTION_BUTTON "Clear" VALUE(remapAttributes.clear.val);
+    }
+
+    { HSTRETCH }
+}
+
+remapAttributes.multilist = 
+{
+    LAYOUT(vertical) STRETCH MARGIN(0.05)
+}
+
+remapAttributes.gad =
+{
+    LAYOUT(vertical) STRETCH SPACING(0.02)
+
+    remapAttributes.parm;
+    remapAttributes.multilist;
+}
+
+stdswitcher.gad = 
+{
+    LAYOUT(vertical) HSTRETCH
+
+    TABDIALOG
+    { 
+	VALUE(stdswitcher.gad.val) STRETCH(1,0)
+
+	TAB "Geometry"
+	{
+	    LAYOUT(vertical) STRETCH
+
+	    MARGIN(2p) SPACING(2p)
+	    loadmode.gad;		
+	    viewportlod.gad;		
+	    pointmode.gad;		
+	    abcxform.gad;		
+	    polysoup.gad;		
+	    includeXform.gad;		
+	    usevisibility.gad;		
+	    groupnames.gad;		
+	    subdgroup.gad;		
+
+	    { STRETCH(1,1) LOOK(plain) }
+	}
+
+	TAB "Selection"
+	{
+	    LAYOUT(vertical) STRETCH
+
+	    MARGIN(2p) SPACING(2p)
+	    objectPath.row.join;		
+	    objectExclude.row.join;		
+	    objectPattern.gad;		
+	    animationfilter.gad;		
+	    polygonFilter.gad;		
+	    curveFilter.gad;		
+	    NURBSFilter.gad;		
+	    pointsFilter.gad;		
+	    subdFilter.gad;		
+	    loadLocator.gad;		
+	    boxcull.gad;		
+	    boxsource.gad;		
+	    boxsize.gad;		
+	    boxcenter.gad;		
+
+	    { STRETCH(1,1) LOOK(plain) }
+	}
+
+	TAB "Attributes"
+	{
+	    LAYOUT(vertical) STRETCH
+
+	    MARGIN(2p) SPACING(2p)
+	    pointAttributes.gad;		
+	    vertexAttributes.gad;		
+	    primitiveAttributes.gad;		
+	    detailAttributes.gad;		
+	    facesetAttributes.gad;		
+	    loadUserProps.gad;		
+	    addpath.gad;		
+	    pathattrib.gad;		
+	    addfile.gad;		
+	    fileattrib.gad;		
+	    remapAttributes.gad;		
+
+	    { STRETCH(1,1) LOOK(plain) }
+	}
+    } 
+}
+
+folder1.gad = 
+{
+    LAYOUT(vertical) HSTRETCH
+
+    TABDIALOG
+    { 
+	VALUE(folder1.gad.val) STRETCH(1,0)
+
+	TAB "Pipeline"
+	{
+	    LAYOUT(vertical) STRETCH
+
+	    MARGIN(0.05) SPACING(2p)
+	    execute.row.join;		
+	    searchNew.gad;		
+	    scene.gad;		
+	    abcfile.gad;		
+	    sepparm.gad;		
+	    mode.row.join;		
+	    f.gad;		
+	    selstr.gad;		
+	    doabc.gad;		
+	    sepparm2.gad;		
+	    dosmooth.row.join;		
+	    checkmblur.row.join;		
+	    dolight.row.join;		
+
+	    { STRETCH(1,1) LOOK(plain) }
+	}
+
+	TAB "Alembic"
+	{
+	    LAYOUT(vertical) STRETCH
+
+	    MARGIN(0.05) SPACING(2p)
+	    reload.gad;		
+	    fileName.gad;		
+	    frame.gad;		
+	    fps.gad;		
+	    missingfile.gad;		
+	    stdswitcher.gad;		
+
+	    { STRETCH(1,1) LOOK(plain) }
+	}
+    } 
+}
+
+dialog_norm.gad = 
+{
+    LAYOUT(vertical) SPACING(0.02) HSTRETCH LOOK(plain) 
+    folder1.gad; 
+} 
+// dialog.bot.ui
+
+extrastuffstowbar_minimize.val := 1;
+
+dialog = OPENNOTIFIER
+{
+    LAYOUT(vertical) SPACING(0.02) LOOK(bg) VALUE(open.val) HSTRETCH
+
+    { HEIGHT(1p) LOOK(bg) HSTRETCH }
+
+    dialog_norm.gad;
+}

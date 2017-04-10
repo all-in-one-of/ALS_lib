@@ -1,0 +1,87 @@
+// Magic: adba007f
+// Automatically generated PSI dialog (PSI version 16.0.557)
+// Thu Apr  6 21:24:07 2017
+
+
+f_tmp = FLOAT_FIELD;	// dialog.top.ui
+starton.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+starton.gad = ROW
+{
+    
+
+    PARM_BUTTON("starton", "Start") toggle VALUE(starton.val);
+
+    {  }
+
+}
+
+start.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ PARM(float, 1, "start", none, none) RANGE(1,240)
+	 HSTRETCH;
+
+}
+}	// Template join.bot
+
+endon.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+endon.gad = ROW
+{
+    
+
+    PARM_BUTTON("endon", "End  ") toggle VALUE(endon.val);
+
+    {  }
+
+}
+
+end.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ PARM(float, 1, "end", none, none) RANGE(1,240)
+	 HSTRETCH;
+
+}
+}	// Template join.bot
+
+
+integerframe.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("integerframe", "Integer Frames") toggle VALUE(integerframe.val);
+
+    { HSTRETCH }
+
+}
+
+dialog_norm.gad = 
+{
+    LAYOUT(vertical) SPACING(0.02) HSTRETCH LOOK(plain) 
+    starton.row.join; 
+    endon.row.join; 
+    integerframe.gad; 
+} 
+// dialog.bot.ui
+
+extrastuffstowbar_minimize.val := 1;
+
+dialog = OPENNOTIFIER
+{
+    LAYOUT(vertical) SPACING(0.02) LOOK(bg) VALUE(open.val) HSTRETCH
+
+    { HEIGHT(1p) LOOK(bg) HSTRETCH }
+
+    dialog_norm.gad;
+}

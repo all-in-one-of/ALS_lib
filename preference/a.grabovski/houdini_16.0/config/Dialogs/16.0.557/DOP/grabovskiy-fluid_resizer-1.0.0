@@ -1,0 +1,168 @@
+// Magic: e3d27ff5
+// Automatically generated PSI dialog (PSI version 16.0.557)
+// Fri Mar 31 15:37:31 2017
+
+
+f_tmp = FLOAT_FIELD;	// dialog.top.ui
+
+sourcepath.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH JUSTIFY(left,center)
+
+ sourcepath.label = PARM_LABEL("Density Source", "sourcepath") WIDTH(1.5);
+ PARM_FIELD(pathstring, "sourcepath") VALUE(sourcepath.val) 
+	LABELREF(sourcepath.label) HSTRETCH;
+
+ ACTION_ICONBUTTON "BUTTONS_jump" VALUE(sourcepath.jump)
+    HELP("Jump to operator\nCtrl+LMB: Open parameters popup dialog")
+    UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+ ACTION_ICONBUTTON "BUTTONS_chooser_node" VALUE(sourcepath.plus)
+    HELP("Open floating operator chooser") UI_FLAT_ICON_BTN_SIZE_SMALL 
+    LOOKFLAT;
+
+}
+
+cambound.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH JUSTIFY(left,center)
+
+ cambound.label = PARM_LABEL("Bounding Box", "cambound") WIDTH(1.5);
+ PARM_FIELD(pathstring, "cambound") VALUE(cambound.val) 
+	LABELREF(cambound.label) HSTRETCH;
+
+ ACTION_ICONBUTTON "BUTTONS_jump" VALUE(cambound.jump)
+    HELP("Jump to operator\nCtrl+LMB: Open parameters popup dialog")
+    UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+ ACTION_ICONBUTTON "BUTTONS_chooser_node" VALUE(cambound.plus)
+    HELP("Open floating operator chooser") UI_FLAT_ICON_BTN_SIZE_SMALL 
+    LOOKFLAT;
+
+}
+
+voxelsize.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ voxelsize.label = PARM_LABEL("Bound Voxel Size", "voxelsize") WIDTH(1.5);
+ PARM(float, 1, "voxelsize", none, none) RANGE(0,5)
+	LOCK_RANGE_MIN LABELREF(voxelsize.label) HSTRETCH;
+
+}
+usecambound.gad = NULL { }
+
+objname.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    objname.label = PARM_LABEL("Object Name", "objname") WIDTH(1.5);
+    PARM_FIELD(string, "objname") VALUE(objname.val) 
+	LABELREF(objname.label) HSTRETCH;
+
+}
+
+dataname.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    dataname.label = PARM_LABEL("Data Name", "dataname") WIDTH(1.5);
+    PARM_FIELD(string, "dataname") VALUE(dataname.val) 
+	LABELREF(dataname.label) HSTRETCH;
+
+}
+
+sepparm.gad = 
+
+{
+    LAYOUT(vertical) HSTRETCH 
+
+    { HEIGHT(0.1) }
+    SEPARATOR; 
+    { HEIGHT(0.1) }
+}
+
+min_den.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ min_den.label = PARM_LABEL("Min Density", "min_den") WIDTH(1.5);
+ PARM(float, 1, "min_den", none, none) RANGE(0,1)
+	 LABELREF(min_den.label) HSTRETCH;
+
+}
+
+minpad.gad = ROW
+{
+   HSTRETCH
+
+   minpad.label = PARM_LABEL("Lower Padding", "minpad") WIDTH(1.5);
+   PARM(float, 3, "minpad", none, none, "X,Y,Z")
+	RANGE(-1,1)  LABELREF(minpad.label)
+	HSTRETCH;
+
+}
+
+maxpad.gad = ROW
+{
+   HSTRETCH
+
+   maxpad.label = PARM_LABEL("Upper Padding", "maxpad") WIDTH(1.5);
+   PARM(float, 3, "maxpad", none, none, "X,Y,Z")
+	RANGE(-1,1)  LABELREF(maxpad.label)
+	HSTRETCH;
+
+}
+
+sepparm2.gad = 
+
+{
+    LAYOUT(vertical) HSTRETCH 
+
+    { HEIGHT(0.1) }
+    SEPARATOR; 
+    { HEIGHT(0.1) }
+}
+
+field.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    field.label = PARM_LABEL("Fields", "field") WIDTH(1.5);
+    PARM_FIELD(string, "field") VALUE(field.val) 
+	LABELREF(field.label) HSTRETCH;
+
+}
+
+# warning cpp warning: "GenV3/subdialog.top.ui":5 Macro "PARMSPACING" redefined.  Using later definition
+# warning cpp warning: "GenV3/subdialog.top.ui":6 Macro "LAYOUTDIR" redefined.  Using later definition
+# warning cpp warning: "GenV3/subdialog.top.ui":7 Macro "LOOK_PLAIN" redefined.  Using later definition
+# warning cpp warning: "GenV3/subdialog.top.ui":8 Macro "DO_JUSTIFY" redefined.  Using later definition
+dialog_norm.gad = 
+{
+    LAYOUT(vertical) SPACING(0.02) HSTRETCH LOOK(plain) 
+    sourcepath.gad; 
+    cambound.gad; 
+    voxelsize.gad; 
+    usecambound.gad; 
+    objname.gad; 
+    dataname.gad; 
+    sepparm.gad; 
+    min_den.gad; 
+    minpad.gad; 
+    maxpad.gad; 
+    sepparm2.gad; 
+    field.gad; 
+} 
+// dialog.bot.ui
+
+extrastuffstowbar_minimize.val := 1;
+
+dialog = OPENNOTIFIER
+{
+    LAYOUT(vertical) SPACING(0.02) LOOK(bg) VALUE(open.val) HSTRETCH
+
+    { HEIGHT(1p) LOOK(bg) HSTRETCH }
+
+    dialog_norm.gad;
+}

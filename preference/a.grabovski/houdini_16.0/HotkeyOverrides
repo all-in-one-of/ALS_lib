@@ -1,0 +1,4 @@
+h.update_mode_always	"Update Mode 'Always'"	"Update mode 'Always'"	 F11
+h.enable_sim	"Enable/Disable Simulations"	"Toggle cooking of simulations"	 F9
+h.update_textures	"Update Textures"	"Refresh textures"	 F12
+h.update_mode_never	"Update Mode 'Never'"	"Update mode 'Never'"	 F10

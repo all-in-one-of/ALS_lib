@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <!-- This file contains definitions of shelves, toolbars, and tools.
+ It should not be hand-edited when it is being used by the application.
+ Note, that two definitions of the same element are not allowed in
+ a single file. -->
+
+  <toolshelf name="my_scripts" label="My Scripts">
+    <memberTool name="reload0"/>
+    <memberTool name="new_shot"/>
+    <memberTool name="savenew0"/>
+    <memberTool name="mergegeo"/>
+    <memberTool name="objMerge0"/>
+    <memberTool name="createOut0"/>
+    <memberTool name="createOutput"/>
+    <memberTool name="createSubnet"/>
+    <memberTool name="transform"/>
+    <memberTool name="blastName"/>
+    <memberTool name="hdaNewVer"/>
+    <memberTool name="calendar"/>
+  </toolshelf>
+
+  <tool name="reload0" label="Reload" icon="$JOB/icons/standart/COMMON/file.svg">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+userfuncs.reloadScene()]]></script>
+  </tool>
+
+  <tool name="new_shot" label="New Shot" icon="$JOB/icons/standart/COMMON/file.svg">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.createNewShot()]]></script>
+  </tool>
+
+  <tool name="savenew0" label="New Version" icon="$JOB/icons/standart/COMMON/file.svg">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.newHipFileVersion()]]></script>
+  </tool>
+
+  <tool name="mergegeo" label="Merge Geo" icon="OBJ_geo">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.mergeToGeo()]]></script>
+  </tool>
+
+  <tool name="objMerge0" label="Merge" icon="SOP_object_merge">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.createMerge()]]></script>
+  </tool>
+
+  <tool name="createOut0" label="OUT" icon="SOP_null">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.createNullOutput()]]></script>
+  </tool>
+
+  <tool name="createOut" label="OUT" icon="SOP_null">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.createNullOutput()]]></script>
+  </tool>
+
+  <tool name="createOutput" label="Output" icon="SOP_output">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.createOutput()]]></script>
+  </tool>
+
+  <tool name="transform" label="Transforms" icon="OBJ_extractgeo">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.extractTrans()]]></script>
+  </tool>
+
+  <tool name="blastName" label="Blast By Name" icon="SOP_blast">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.deleteByName16()]]></script>
+  </tool>
+
+  <tool name="hdaNewVer" label="HDA New Version" icon="SOP_subnet">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.HDA_AddVersion()]]></script>
+  </tool>
+
+  <tool name="calendar" label="Calendar" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[import hou, workCal
+reload( workCal )
+workCal.printMonth()]]></script>
+  </tool>
+
+  <tool name="createSubnet" label="Subnet" icon="SOP_subnet">
+    <script scriptType="python"><![CDATA[import hou, userfuncs
+reload( userfuncs )
+userfuncs.createSubnet()]]></script>
+  </tool>
+</shelfDocument>

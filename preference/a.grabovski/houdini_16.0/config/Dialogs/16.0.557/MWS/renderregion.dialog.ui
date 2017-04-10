@@ -1,0 +1,99 @@
+// Magic: 3ce034c2
+// Automatically generated PSI dialog (PSI version 16.0.557)
+// Mon Apr  3 19:31:14 2017
+
+
+f_tmp = FLOAT_FIELD;	// dialog.top.ui
+
+blendfactor.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ blendfactor.label = PARM_LABEL("Blend", "blendfactor") WIDTH(1.5);
+ PARM(float, 1, "blendfactor", none, none) RANGE(0,1)
+	LOCK_RANGE LABELREF(blendfactor.label) HSTRETCH;
+
+}
+
+delaytime.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ delaytime.label = PARM_LABEL("Delay Time", "delaytime") WIDTH(1.5);
+ PARM(float, 1, "delaytime", none, none) RANGE(0.001,10.000999999999999)
+	LOCK_RANGE_MIN LABELREF(delaytime.label) HSTRETCH;
+
+}
+
+iprenabled.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("iprenabled", "Preview") toggle VALUE(iprenabled.val);
+
+    { HSTRETCH }
+
+}
+
+rop.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    rop.label = PARM_LABEL("Renderer", "rop") WIDTH(1.5);
+    PARM_FIELD(string, "rop") VALUE(rop.val) 
+	LABELREF(rop.label) HSTRETCH;
+
+}
+
+samplemode.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Sample Mode", "samplemode") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    samplemode.menu;
+
+    { HSTRETCH }
+
+}
+
+updatetime.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ updatetime.label = PARM_LABEL("Update Time", "updatetime") WIDTH(1.5);
+ PARM(float, 1, "updatetime", none, none) RANGE(0.001,10.000999999999999)
+	LOCK_RANGE_MIN LABELREF(updatetime.label) HSTRETCH;
+
+}
+
+# warning cpp warning: "GenV3/subdialog.top.ui":5 Macro "PARMSPACING" redefined.  Using later definition
+# warning cpp warning: "GenV3/subdialog.top.ui":6 Macro "LAYOUTDIR" redefined.  Using later definition
+# warning cpp warning: "GenV3/subdialog.top.ui":7 Macro "LOOK_PLAIN" redefined.  Using later definition
+# warning cpp warning: "GenV3/subdialog.top.ui":8 Macro "DO_JUSTIFY" redefined.  Using later definition
+dialog_norm.gad = 
+{
+    LAYOUT(vertical) SPACING(0.02) HSTRETCH LOOK(plain) 
+    blendfactor.gad; 
+    delaytime.gad; 
+    iprenabled.gad; 
+    rop.gad; 
+    samplemode.gad; 
+    updatetime.gad; 
+} 
+// dialog.bot.ui
+
+extrastuffstowbar_minimize.val := 1;
+
+dialog = OPENNOTIFIER
+{
+    LAYOUT(vertical) SPACING(0.02) LOOK(bg) VALUE(open.val) HSTRETCH
+
+    { HEIGHT(1p) LOOK(bg) HSTRETCH }
+
+    dialog_norm.gad;
+}

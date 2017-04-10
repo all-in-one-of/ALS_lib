@@ -1,0 +1,124 @@
+fullscreen   -1
+playbarshown 1
+playbar      9
+shelf        -1
+menubar      -1
+statusbar    9
+radial menu set defaultmodeling
+root {
+    split 0.60625 H {
+        split 0.118462 H L {
+            tabs 0 1 {
+                pane panetab14 -a 0 -l 10 -H /obj/geo1/ -T SOP -m treecontrol
+            }
+            split 0.428988 V {
+                tabs 0 1 {
+                    pane panetab2 -a 0 -l 1 -H /obj/geo1/ -T SOP -m neteditor
+                }
+                split 0.573189 H {
+                    tabs 0 1 {
+                        pane panetab4 -a 0 -l 2 -H /obj/ -T OBJ -m neteditor
+                        pane panetab7 -a 0 -l 0 -H /obj/ -T OBJ -m bundlelist
+                        pane panetab8 -a 0 -l 0 -H /obj/ -T OBJ -m linker
+                    }
+                    tabs 0 1 {
+                        pane panetab6 -a 0 -l 2 -H /obj/ -T OBJ -m parmeditor
+                    }
+                }
+            }
+        }
+        tabs 0 1 {
+            pane panetab5 -a 0 -l 1 -H /obj/geo1/ -T SOP -m parmeditor
+        }
+    }
+
+    panel panel1 -w 1920 40 1920 1137 {
+        split 0.109375 H {
+            tabs 0 1 {
+                pane panetab1 -a 0 -l 10 -H /obj/geo1/ -T SOP -m treecontrol
+            }
+            split 0.774846 V {
+                tabs 0 1 {
+                    pane panetab15 -a 0 -l 10 -H /obj/geo1/ -T SOP -m details
+                }
+                split 0.70229 H {
+                    tabs 0 1 {
+                        pane panetab16 -a 0 -l 10 -H /obj/geo1/ -T SOP -m sceneview
+                        pane panetab20 -a 0 -l 10 -H /obj/geo1/ -T SOP -m iprviewer
+                        pane panetab21 -a 0 -l 10 -H /ch/ -T CHOPNET -m channelview
+                        pane panetab22 -a 0 -l 10 -H /img/ -T IMG -m imageview
+                        pane panetab23 -a 0 -l 10 -H /obj/geo1/ -T SOP -m details
+                        pane panetab3 -a 0 -l 0 -H /obj/ -T OBJ -m materialpalette
+                        pane panetab12 -a 0 -l 0 -H /obj/ -T OBJ -m helpbrowser
+                    }
+                    split 0.511918 V {
+                        tabs 0 1 {
+                            pane panetab17 -a 0 -l 10 -H /obj/geo1/ -T SOP -m python
+                        }
+                        tabs 0 1 {
+                            pane panetab9 -a 0 -l 0 -H /obj/ -T OBJ -m pythonpanel
+                            pane panetab10 -a 0 -l 0 -H /obj/ -T OBJ -m pythonpanel
+                            pane panetab11 -a 0 -l 0 -H /obj/ -T OBJ -m pythonpanel
+                            pane panetab18 -a 0 -l 0 -H /obj/ -T OBJ -m datatree
+                            pane panetab19 -a 0 -l 0 -H /obj/ -T OBJ -m perfmon
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+shelfdock -o 1 -l icon_and_text -G "0.46 0.50" add shelf_set_1 shelf_set_2
+treecontrol -a 0 -h 0 -i 1 -f 0 -O 0 -S 0 -D 0 -P 0 -H 0 -V 0 -C 0 -I 0 -R 0 panetab14
+networkeditor -p '{\n	"sop:listmode":"0",\n	"obj:listmode":"0",\n	"ch:listmode":"0",\n	"out:listmode":"0",\n	"showchilddep":"1",\n	"showdep":"0",\n	"perfstatname":"Time",\n	"showperfstats":"1",\n	"grouplistsplit":"0.75",\n	"showtree":"0",\n	"showtypesidebar":"0",\n	"showparmdialogmax":"1",\n	"treesplit":"0.25",\n	"palettesize":"150 150",\n	"typesidebarsplit":"0.25",\n	"palettemode":"0",\n	"showgrouplist":"0",\n	"backgroundimagebrightness":"1.0",\n	"backgroundimageediting":"0",\n	"gridystep":"1.0",\n	"gridmode":"0",\n	"showtimedep":"0",\n	"overviewbounds":"0.000000 0.000000 346.500000 154.200000",\n	"overviewmode":"2",\n	"palettecolors":"",\n	"showmenu":"1",\n	"gridxstep":"2.0",\n	"showparmdialog":"0"\n}\n' panetab2
+netcolumns -c display,xray,select,origin,capture,bone -n OBJ panetab2
+netcolumns -c display,render,template,selectabletemplate,highlight,unload,bypass,lock -n SOP panetab2
+netcolumns -c delscript,comment -n PART panetab2
+netcolumns -c display,render,template,bypass -n POP panetab2
+netcolumns -c delscript,comment -n CHOPNET panetab2
+netcolumns -c display,export,audio,bypass,lock -n CHOP panetab2
+netcolumns -c startrender,bypass,lock -n ROP panetab2
+netcolumns -c delscript,comment -n SHOP panetab2
+netcolumns -c display,render,template,bypass -n COP2 panetab2
+netcolumns -c delscript,comment -n IMG panetab2
+netcolumns -c delscript,comment,input -n VOP panetab2
+netcolumns -c delscript,comment -n VOPNET panetab2
+netcolumns -c delscript,comment -n DOP panetab2
+netcolumns -c delscript,comment -n MGR panetab2
+netcolumns -c delscript,comment -n DIR panetab2
+networkeditor -p '{\n	"obj:listmode":"0",\n	"ch:listmode":"0",\n	"showchilddep":"1",\n	"showdep":"0",\n	"perfstatname":"Time",\n	"showperfstats":"1",\n	"grouplistsplit":"0.75",\n	"showtree":"0",\n	"showtypesidebar":"0",\n	"showparmdialogmax":"1",\n	"treesplit":"0.25",\n	"palettesize":"150 150",\n	"typesidebarsplit":"0.25",\n	"palettemode":"0",\n	"showgrouplist":"0",\n	"backgroundimagebrightness":"1.0",\n	"backgroundimageediting":"0",\n	"gridystep":"1.0",\n	"gridmode":"0",\n	"showtimedep":"0",\n	"overviewbounds":"0.000000 0.000000 455.963694 256.608917",\n	"overviewmode":"2",\n	"palettecolors":"",\n	"showmenu":"1",\n	"gridxstep":"2.0",\n	"showparmdialog":"0"\n}\n' panetab4
+netcolumns -c display,xray,select,origin,capture,bone -n OBJ panetab4
+netcolumns -c display,render,template,selectabletemplate,highlight,unload,bypass,lock -n SOP panetab4
+netcolumns -c delscript,comment -n PART panetab4
+netcolumns -c display,render,template,bypass -n POP panetab4
+netcolumns -c delscript,comment -n CHOPNET panetab4
+netcolumns -c display,export,audio,bypass,lock -n CHOP panetab4
+netcolumns -c startrender,bypass,lock -n ROP panetab4
+netcolumns -c delscript,comment -n SHOP panetab4
+netcolumns -c display,render,template,bypass -n COP2 panetab4
+netcolumns -c delscript,comment -n IMG panetab4
+netcolumns -c delscript,comment,input -n VOP panetab4
+netcolumns -c delscript,comment -n VOPNET panetab4
+netcolumns -c delscript,comment -n DOP panetab4
+netcolumns -c delscript,comment -n MGR panetab4
+netcolumns -c delscript,comment -n DIR panetab4
+bundlelist -G 0.5 -g 0 -p 0 panetab7
+linker -m lightmask/lightcentric -G 0.5 -f * -s "" -e 1 -w 0 -h 0.5 -F * -S "" -E 1 -W 0 -H 0.5 -e 1 -w 0 -h 0.5 -E 1 -W 0 -H 0.5 -c 0 -R 0 panetab8
+parmeditor -T 0.25 -w 0 panetab6
+parmeditor -T 0.25 -w 0 panetab5
+treecontrol -a 0 -h 0 -i 1 -f 0 -O 0 -S 0 -D 0 -P 0 -H 0 -V 0 -C 0 -I 0 -R 0 panetab1
+viewerstow -x open -b stow -l stow -m hide -c hide -d open Double_mon.panetab16.world
+vieweroption -a 2 Double_mon.panetab16.world
+viewlayout -s 2 Double_mon.panetab16.world
+viewtype -t ortho_right Double_mon.panetab16.world.`vpname("Double_mon.panetab16.world",4)`
+viewtype -t ortho_front Double_mon.panetab16.world.`vpname("Double_mon.panetab16.world",3)`
+viewtype -t ortho_top Double_mon.panetab16.world.`vpname("Double_mon.panetab16.world",1)`
+viewtype -t perspective Double_mon.panetab16.world.`vpname("Double_mon.panetab16.world",2)`
+iprview -t 0.1 -l 0 -e 1 -u 1  panetab20
+chopview -a 0 -c "" -k 1 -m 1 -b 1 -e 1 -f 0 -g 0 -H 1 -i 0 -j 1 -l 0 -n 1 -V 0 -y 0 -B 0 -s 0 -S 0.034375 -u 0 -v 0 -h -10 310 -r -1.5 1.5 panetab21
+helpbrowser panetab12
+pythonpanel -s on -t on -n interface1 panetab9
+pythonpanel -s on -t on -n flipWrite panetab10
+pythonpanel -s on -t on -n datasinc panetab11
+datatree panetab18
+performance -c on -d on -f on -g off -k on -m off -n on -o on -t off -v on -y on -u on -e off -r absolute -w tree panetab19

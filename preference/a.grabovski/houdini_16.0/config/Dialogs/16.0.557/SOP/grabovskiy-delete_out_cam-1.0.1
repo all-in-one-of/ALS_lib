@@ -1,0 +1,67 @@
+// Magic: b47ed3a5
+// Automatically generated PSI dialog (PSI version 16.0.557)
+// Mon Apr  3 18:54:22 2017
+
+
+f_tmp = FLOAT_FIELD;	// dialog.top.ui
+
+campath.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH JUSTIFY(left,center)
+
+ campath.label = PARM_LABEL("Camera", "campath") WIDTH(1.5);
+ PARM_FIELD(pathstring, "campath") VALUE(campath.val) 
+	LABELREF(campath.label) HSTRETCH;
+
+ ACTION_ICONBUTTON "BUTTONS_jump" VALUE(campath.jump)
+    HELP("Jump to operator\nCtrl+LMB: Open parameters popup dialog")
+    UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+ ACTION_ICONBUTTON "BUTTONS_chooser_node" VALUE(campath.plus)
+    HELP("Open floating operator chooser") UI_FLAT_ICON_BTN_SIZE_SMALL 
+    LOOKFLAT;
+
+}
+
+padding.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ padding.label = PARM_LABEL("Padding", "padding") WIDTH(1.5);
+ PARM(float, 1, "padding", none, none) RANGE(0,1)
+	 LABELREF(padding.label) HSTRETCH;
+
+}
+
+delprims.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("delprims", "Delete Empty Prims") toggle VALUE(delprims.val);
+
+    { HSTRETCH }
+
+}
+
+dialog_norm.gad = 
+{
+    LAYOUT(vertical) SPACING(0.02) HSTRETCH LOOK(plain) 
+    campath.gad; 
+    padding.gad; 
+    delprims.gad; 
+} 
+// dialog.bot.ui
+
+extrastuffstowbar_minimize.val := 1;
+
+dialog = OPENNOTIFIER
+{
+    LAYOUT(vertical) SPACING(0.02) LOOK(bg) VALUE(open.val) HSTRETCH
+
+    { HEIGHT(1p) LOOK(bg) HSTRETCH }
+
+    dialog_norm.gad;
+}

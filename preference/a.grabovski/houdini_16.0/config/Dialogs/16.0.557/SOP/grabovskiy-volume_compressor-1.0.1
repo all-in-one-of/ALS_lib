@@ -1,0 +1,307 @@
+// Magic: 41a0cad6
+// Automatically generated PSI dialog (PSI version 16.0.557)
+// Fri Apr  7 18:05:51 2017
+
+
+f_tmp = FLOAT_FIELD;	// dialog.top.ui
+
+docompress.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("docompress", "Compress Volumes") toggle VALUE(docompress.val);
+
+    { HSTRETCH }
+
+}
+
+compressgroup.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    compressgroup.label = PARM_LABEL("Source Group", "compressgroup") WIDTH(1.5);
+    PARM_FIELD(string, "compressgroup") VALUE(compressgroup.val) 
+	LABELREF(compressgroup.label) HSTRETCH;
+
+    compressgroup.menu SIZE(0.26, 0.26) LOOK(menuiconbutton);
+
+    ACTION_ICONBUTTON "BUTTONS_reselect" VALUE(compressgroup.script_action)
+	HELP("Select geometry from an available viewport.\nShift-click to turn on Select Groups.")
+	UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+}
+
+constanttol.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ constanttol.label = PARM_LABEL("Constant Tile Tol", "constanttol") WIDTH(1.5);
+ PARM(float, 1, "constanttol", none, none) RANGE(0,1)
+	LOCK_RANGE_MIN LABELREF(constanttol.label) HSTRETCH;
+
+}
+
+quantizetol.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ quantizetol.label = PARM_LABEL("Quantization Tol", "quantizetol") WIDTH(1.5);
+ PARM(float, 1, "quantizetol", none, none) RANGE(0,1)
+	LOCK_RANGE_MIN LABELREF(quantizetol.label) HSTRETCH;
+
+}
+
+dither.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Dithering", "dither") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    dither.menu;
+
+    { HSTRETCH }
+
+}
+
+usefp16.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("usefp16", "Use 16bit Float") toggle VALUE(usefp16.val);
+
+    { HSTRETCH }
+
+}
+
+convertvdb.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("convertvdb", "Convert To VDB") toggle VALUE(convertvdb.val);
+
+    { HSTRETCH }
+
+}
+
+vdbgroup.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    vdbgroup.label = PARM_LABEL("Source Group", "vdbgroup") WIDTH(1.5);
+    PARM_FIELD(string, "vdbgroup") VALUE(vdbgroup.val) 
+	LABELREF(vdbgroup.label) HSTRETCH;
+
+    vdbgroup.menu SIZE(0.26, 0.26) LOOK(menuiconbutton);
+
+    ACTION_ICONBUTTON "BUTTONS_reselect" VALUE(vdbgroup.script_action)
+	HELP("Select geometry from an available viewport.")
+	UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+}
+
+order.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Vector Resmaple Interpolation", "order") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    order.menu;
+
+    { HSTRETCH }
+
+}
+
+vecmask.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("vecmask", "Mask Vector By Base Field") toggle VALUE(vecmask.val);
+
+    { HSTRETCH }
+
+}
+
+expand.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ expand.label = PARM_LABEL("Voxels to Expand", "expand") WIDTH(1.5);
+ PARM(integer, 1, "expand", none, none) RANGE(1,10)
+	 LABELREF(expand.label) HSTRETCH;
+
+}
+
+dowrite.gad = ROW
+{
+    HSTRETCH
+
+    { WIDTH(1.5) }
+    { WIDTH(0.08) }
+
+    PARM_BUTTON("dowrite", "Write Proxy") toggle VALUE(dowrite.val);
+
+    { HSTRETCH }
+
+}
+
+proxyfile.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+ proxyfile.label = PARM_LABEL("Low Res File", "proxyfile") WIDTH(1.5);
+
+ PARM_FIELD (pathstring, "proxyfile") LABELREF(proxyfile.label)
+	VALUE(proxyfile.val) HSTRETCH;
+
+    proxyfile.menu SIZE(0.26, 0.26) LOOK(menuiconbutton);
+
+ ACTION_ICONBUTTON "BUTTONS_chooser_file" VALUE(proxyfile.plus) LOOKFLAT
+    HELP("Open floating file chooser") UI_FLAT_ICON_BTN_SIZE_SMALL;
+
+}
+
+resscale.gad = 
+{
+ LAYOUT(horizontal) HSTRETCH
+
+ resscale.label = PARM_LABEL("Resolution Scale", "resscale") WIDTH(1.5);
+ PARM(float, 1, "resscale", none, none) RANGE(9.9999999999999995e-07,1)
+	LOCK_RANGE LABELREF(resscale.label) HSTRETCH;
+
+}
+
+multifield.gad = 
+{
+    LAYOUT(horizontal) JUSTIFY(left, center) HSTRETCH
+
+    PARM_LABEL_SIMPLE("Save Mode", "multifield") WIDTH(1.5);
+    { WIDTH(0.09) }
+
+    multifield.menu;
+
+    { HSTRETCH }
+
+}
+
+save_group.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    save_group.label = PARM_LABEL("Save Group", "save_group") WIDTH(1.5);
+    PARM_FIELD(string, "save_group") VALUE(save_group.val) 
+	LABELREF(save_group.label) HSTRETCH;
+
+    save_group.menu SIZE(0.26, 0.26) LOOK(menuiconbutton);
+
+    ACTION_ICONBUTTON "BUTTONS_reselect" VALUE(save_group.script_action)
+	HELP("Select geometry from an available viewport.\nShift-click to turn on Select Groups.")
+	UI_FLAT_ICON_BTN_SIZE_SMALL LOOKFLAT;
+
+}
+
+sepparm.gad = 
+
+{
+    LAYOUT(vertical) HSTRETCH 
+
+    { HEIGHT(0.1) }
+    SEPARATOR; 
+    { HEIGHT(0.1) }
+}
+base_name.row.join =		
+{
+  LAYOUT(horizontal) HSTRETCH JUSTIFY(left, center)
+
+base_name.gad = ROW
+{
+    HSTRETCH JUSTIFY(left, center)
+
+    base_name.label = PARM_LABEL("Base Field Name", "base_name") WIDTH(1.5);
+    PARM_FIELD(string, "base_name") VALUE(base_name.val) 
+	LABELREF(base_name.label) HSTRETCH;
+
+}
+
+createnodes.gad = ROW
+{
+    JUSTIFY(left, center)
+
+    {  }
+    { WIDTH(0.1) }
+
+    PARM_BUTTON("createnodes", "Create Cache")
+	push VALUE(createnodes.val);
+
+}
+}	// Template join.bot
+
+
+folder0.gad = 
+GROUP simple "Proxy"
+{ 
+    VALUE(folder0.gad.val) LAYOUT(vertical) HSTRETCH 
+	    dowrite.gad;		
+	    proxyfile.gad;		
+	    resscale.gad;		
+	    multifield.gad;		
+	    save_group.gad;		
+} 
+
+folder1_1.gad = 
+GROUP simple "VDB"
+{ 
+    VALUE(folder1_1.gad.val) LAYOUT(vertical) HSTRETCH 
+	    convertvdb.gad;		
+	    vdbgroup.gad;		
+	    order.gad;		
+	    vecmask.gad;		
+	    expand.gad;		
+} 
+
+folder1.gad = 
+GROUP simple "Volume Compress"
+{ 
+    VALUE(folder1.gad.val) LAYOUT(vertical) HSTRETCH 
+	    docompress.gad;		
+	    compressgroup.gad;		
+	    constanttol.gad;		
+	    quantizetol.gad;		
+	    dither.gad;		
+	    usefp16.gad;		
+} 
+
+dialog_norm.gad = 
+{
+    LAYOUT(vertical) SPACING(0.02) HSTRETCH LOOK(plain) 
+    folder1.gad; 
+    folder1_1.gad; 
+    folder0.gad; 
+    sepparm.gad; 
+    base_name.row.join; 
+} 
+// dialog.bot.ui
+
+extrastuffstowbar_minimize.val := 1;
+
+dialog = OPENNOTIFIER
+{
+    LAYOUT(vertical) SPACING(0.02) LOOK(bg) VALUE(open.val) HSTRETCH
+
+    { HEIGHT(1p) LOOK(bg) HSTRETCH }
+
+    dialog_norm.gad;
+}
