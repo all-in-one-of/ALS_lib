@@ -21,6 +21,6 @@ def cleanEmptyDirs(root):
 
 if __name__ == '__main__':
 	pass
-	test = '//PROJECTS/Alisa_Film/HoudiniProject/scenes'
+	test = 'D:/HoudiniProject'
 	cleanEmptyDirs(test)
 	

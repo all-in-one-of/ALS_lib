@@ -19,8 +19,9 @@ shotInfo = seqShPat.search(hipPath)
 
 
 # #------------- init variables -----------------
-glob = {'JOB' : '{0}/{1}'.format(HOUDINI_GLOB_PATH, shotInfo.group('job')) if shotInfo else '{}/Main'.format(HOUDINI_GLOB_PATH),
-		'MJOB' : HOUDINI_GLOB_PATH.replace('HoudiniProject', 'MayaProject'),} #maya project path
+glob = {'JOB' : '{0}/Jobs/{1}'.format(HOUDINI_GLOB_PATH, shotInfo.group('job')) if shotInfo else '{}/Jobs/Main'.format(HOUDINI_GLOB_PATH),
+		'MJOB' : HOUDINI_GLOB_PATH.replace('HoudiniProject', 'MayaProject'), #maya project path
+		'ALS' : '{}/ALS_lib'.format(HOUDINI_GLOB_PATH)}
 		       
 if shotInfo:
 	glob['SEQ'] = shotInfo.group('seq')
