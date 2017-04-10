@@ -30,7 +30,7 @@ if profile == 'Anton':
     ROOT_DIR = 'D:'
 
 HOUDINI_INSTALL_PATH='C:/Houdini{}/Houdini_'.format(HOUDINI_MAJOR_RELEASE)
-HOUDINI_GLOB_PATH = "{0}/HoudiniProjects".format(ROOT_DIR)
+HOUDINI_GLOB_PATH = "{0}/HoudiniProject".format(ROOT_DIR)
 ALS_PATH = '{0}/ALS_lib'.format(HOUDINI_GLOB_PATH)
 #
 HFS = HOUDINI_INSTALL_PATH + HOUDINI_BUILD
