@@ -42,14 +42,17 @@ seqShPat = re.compile('\\\\(?P<proj>[^\\\\]*)\\\\seq\d+\\\\(?P<seq>seq\d+)_(?P<s
 # print seqShPat.search(r'D:\HoudiniProjects\scenes\seq000\seq000_sh000').groups()
 
 try:
-    filePath = sys.argv[1]
+    filePath = sys.argv[2]
     shotInfo = seqShPat.search(filePath)
-    proj = shotInfo.group('proj')
-    seq = shotInfo.group('seq')
-    sh = shotInfo.group('sh')
-    sub = shotInfo.group('sub')
-    shotDir = '{0}/{0}_{1}_{2}'.format(seq, sh, sub) if sub else '{0}/{0}_{1}'.format(seq, sh)
-    localDir = '{0}{1}/scenes/{2}'.format(HOUDINI_GLOB_PATH, proj, shotDir)
+    if shotInfo:
+        proj = shotInfo.group('proj')
+        seq = shotInfo.group('seq')
+        sh = shotInfo.group('sh')
+        sub = shotInfo.group('sub')
+        shotDir = '{0}/{0}_{1}_{2}'.format(seq, sh, sub) if sub else '{0}/{0}_{1}'.format(seq, sh)
+        localDir = '{0}{1}/scenes/{2}'.format(HOUDINI_GLOB_PATH, proj, shotDir)
+    else:
+        localDir = ''
 
 except IndexError:
     filePath = ''
