@@ -1,8 +1,6 @@
-from startFilm16 import *
-
-file = None
+from wrapHou import *
 try :
-    file = sys.argv[1]
+    file = sys.argv[2]
 except :
     file = ''
 

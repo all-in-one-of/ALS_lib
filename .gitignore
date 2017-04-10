@@ -2,8 +2,11 @@
 *.pyc
 
 # backup dirs
-hda/*/backup
+otls/*/backup
 gallery/backup
 
 # backup files
 *_bak*.hip
+
+#test script
+scrtipts/test.py

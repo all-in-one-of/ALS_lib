@@ -3,12 +3,10 @@ import sys
 import subprocess
 import re
 
-profile = os.path.expandvars("%userprofile%").split('\\')[-1]
-users = {'a.grabovski' : 'a.grabovski',
-         'a.krylevsky' : 'a.krylevsky',
-         'Anton'       : 'a.grabovski',}
-
-user  = users[profile] if profile in users else 'default'
+#------------------------- users init -----------------------------------
+pythonPath = '/'.join( sys.argv[0].split('\\')[0:-1] + ['python',] )
+sys.path.append(pythonPath)
+import userInfo
 
 #------------------------- get version string ----------------------------
 try:
@@ -26,7 +24,7 @@ HOUDINI_PACK_VERSION  = vers.group('pack')
 
 #--------------------------- get project and bin path ----------------------
 ROOT_DIR = '//PROJECTS/Alisa_Film'
-if profile == 'Anton':
+if userInfo.profile == 'Anton':
     ROOT_DIR = 'D:'
 
 HOUDINI_INSTALL_PATH='C:/Houdini{}/Houdini_'.format(HOUDINI_MAJOR_RELEASE)
@@ -38,19 +36,19 @@ os.environ['HFS'] = HFS
 HB = HFS + '/bin'
 
 #------------------------- get shot information ----------------------------
-seqShPat = re.compile('\\\\(?P<proj>[^\\\\]*)\\\\seq\d+\\\\(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\\\\*|\/*)')
+seqShPat = re.compile('\\\\(?P<job>[^\\\\]*)\\\\seq\d+\\\\(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\\\\*|\/*)')
 # print seqShPat.search(r'D:\HoudiniProjects\scenes\seq000\seq000_sh000').groups()
 
 try:
     filePath = sys.argv[2]
     shotInfo = seqShPat.search(filePath)
     if shotInfo:
-        proj = shotInfo.group('proj')
+        job = shotInfo.group('job')
         seq = shotInfo.group('seq')
         sh = shotInfo.group('sh')
         sub = shotInfo.group('sub')
         shotDir = '{0}/{0}_{1}_{2}'.format(seq, sh, sub) if sub else '{0}/{0}_{1}'.format(seq, sh)
-        localDir = '{0}{1}/scenes/{2}'.format(HOUDINI_GLOB_PATH, proj, shotDir)
+        localDir = '{0}{1}/scenes/{2}'.format(HOUDINI_GLOB_PATH, job, shotDir)
     else:
         localDir = ''
 
@@ -66,7 +64,8 @@ PATH = [HB, os.environ['PATH']]
 HOUDINI_PATH = ['{0}'.format( HOUDINI_GLOB_PATH ), localDir, '&']
 HOUDINI_DSO_PATH = ['{0}/dso/'.format(HOUDINI_GLOB_PATH),'@/dso']
 HOUDINI_GALLERY_PATH = ['{0}/gallery/'.format(ALS_PATH),'@/gallery']
-HOUDINI_OTLSCAN_PATH = ['{0}/otls/{1}'.format(ALS_PATH, i) for i in ['OBJ', 'SOP', 'DOP', 'ROP']] + ['@/otls']
+HOUDINI_OTLSCAN_PATH = ['{0}/otls'.format(ALS_PATH)]
+HOUDINI_OTLSCAN_PATH += ['{0}/otls/{1}'.format(ALS_PATH, i) for i in ['OBJ', 'SOP', 'DOP', 'ROP']] + ['@/otls']
 HOUDINI_SCRIPT_PATH = ['{0}/scripts'.format(ALS_PATH), '@/scripts']
 HOUDINI_TOOLBAR_PATH = ['{0}/toolbar/'.format(ALS_PATH),'@/toolbar']
 HOUDINI_VEX_PATH = ['{0}/vex/^'.format(ALS_PATH),'@/vex/^']
@@ -84,7 +83,7 @@ setGlobVar('PYTHON_PANEL_PATH', PYTHON_PANEL_PATH)
 
 os.environ['HOUDINI_SPLASH_FILE']= "{0}/icons/houdini15_splash_Anton_Grabovskiy_var1.tif".format(ALS_PATH)
 os.environ['VISUAL'] = "C:/Program Files/Sublime Text 3/sublime_text.exe"
-os.environ['HOUDINI_USER_PREF_DIR'] = '{0}/preference/{1}/houdini___HVER__'.format(HOUDINI_GLOB_PATH, user)
+os.environ['HOUDINI_USER_PREF_DIR'] = '{0}/preference/{1}/houdini___HVER__'.format(HOUDINI_GLOB_PATH, userInfo.user)
 os.environ['HOUDINI_CONSOLE_LINES'] = "1024"
     
 if __name__ == '__main__':        
