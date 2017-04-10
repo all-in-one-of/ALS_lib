@@ -6,6 +6,7 @@ otls/*/backup
 gallery/backup
 
 # backup files
+*_bak*.hda
 *_bak*.hip
 
 #test script
