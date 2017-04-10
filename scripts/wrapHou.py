@@ -81,7 +81,7 @@ setGlobVar('PYTHON_PANEL_PATH', PYTHON_PANEL_PATH)
 
 os.environ['HOUDINI_SPLASH_FILE']= "{0}/icons/houdini15_splash_Anton_Grabovskiy_var1.tif".format(ALS_PATH)
 os.environ['VISUAL'] = "C:/Program Files/Sublime Text 3/sublime_text.exe"
-os.environ['HOUDINI_USER_PREF_DIR'] = '{0}/preference/{1}/houdini___HVER__'.format(ALS_PATH, user)
+os.environ['HOUDINI_USER_PREF_DIR'] = '{0}/preference/{1}/houdini___HVER__'.format(HOUDINI_GLOB_PATH, user)
 os.environ['HOUDINI_CONSOLE_LINES'] = "1024"
     
 if __name__ == '__main__':        
