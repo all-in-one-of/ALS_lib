@@ -49,44 +49,38 @@ def createMerge() :
         merge.setSelected(1)
         clr = hou.Color( colors.merge )
         merge.setColor( clr )
+
+def createOutputNode( type, name=None, color=None, position=[0,-1] ):
+    node = checkSelection()
+    
+    if node :
+        parent = node.parent()
+        pos = node.position()
+        if name != None:
+            out = parent.createNode(type, node_name=name)
+        else:
+            out = parent.createNode(type)
+        out.setPosition( pos + hou.Vector2(position[0], position[1]) )
+        out.setInput( 0, node )
+        out.setDisplayFlag(1)
+        try :
+            out.setRenderFlag(1)
+        except :
+            pass
+        node.setSelected(0)
+        out.setSelected(1)
+        if color != None:
+            out.setColor( hou.Color( color ) )
         
 def createNullOutput() :
     node = checkSelection()
-    
     if node :
-        parent = node.parent()
-        pos = node.position()
-        out = parent.createNode("null", node_name = "OUT")
-        out.setPosition( pos + hou.Vector2(0, -1) )
-        out.setInput( 0, node )
-        out.setDisplayFlag(1)
-        try :
-            out.setRenderFlag(1)
-        except :
-            pass
-        node.setSelected(0)
-        out.setSelected(1)
-        clr = hou.Color( colors.null )
-        out.setColor( clr )
+        createOutputNode( 'null', 'OUT', colors.null )
         
 def createOutput() :
     node = checkSelection()
-    
     if node :
-        parent = node.parent()
-        pos = node.position()
-        out = parent.createNode("output", node_name = "OUT")
-        out.setPosition( pos + hou.Vector2(0, -1) )
-        out.setInput( 0, node )
-        out.setDisplayFlag(1)
-        try :
-            out.setRenderFlag(1)
-        except :
-            pass
-        node.setSelected(0)
-        out.setSelected(1)
-        clr = hou.Color( colors.output )
-        out.setColor( clr )
+        createOutputNode( 'output', 'output0', colors.output )
         
 def reloadScene() :
     if not "untitled.hip" in hou.hipFile.basename() :

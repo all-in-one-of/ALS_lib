@@ -14,6 +14,8 @@
     <memberTool name="objMerge"/>
     <memberTool name="createOut"/>
     <memberTool name="createOutput"/>
+    <memberTool name="attribwrangle"/>
+    <memberTool name="volumewrangle"/>
     <memberTool name="transform"/>
     <memberTool name="blastName"/>
     <memberTool name="hdaNewVer"/>
@@ -89,5 +91,17 @@ userfuncs.HDA_AddVersion()]]></script>
     <script scriptType="python"><![CDATA[import hou, workCal
 reload( workCal )
 workCal.printMonth()]]></script>
+  </tool>
+
+  <tool name="attribwrangle" label="Attrib" icon="SOP_attribwrangle">
+    <script scriptType="python"><![CDATA[import hou, userfuncs, colors
+reload( userfuncs )
+userfuncs.createOutputNode('attribwrangle', color=colors.wrangle)]]></script>
+  </tool>
+
+  <tool name="volumewrangle" label="Volume" icon="SOP_volumewrangle">
+    <script scriptType="python"><![CDATA[import hou, userfuncs, colors
+reload( userfuncs )
+userfuncs.createOutputNode('volumewrangle', color=colors.wrangle)]]></script>
   </tool>
 </shelfDocument>

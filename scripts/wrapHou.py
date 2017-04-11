@@ -86,4 +86,5 @@ os.environ['HOUDINI_CONSOLE_LINES'] = "1024"
     
 if __name__ == '__main__':        
     startpath = ('\"{0}/houdinifx.exe\" {1}'.format(HB, filePath))
+    print startpath
     subprocess.Popen(startpath)
