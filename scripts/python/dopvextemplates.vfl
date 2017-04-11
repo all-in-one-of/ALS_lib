@@ -1,0 +1,56 @@
+#START
+//Full Fluid Source
+float vel_bias = clamp(volumesample(0, "density", @P) - @density, 0, 1 );
+float dens_ctrl = @density * @Timeinc * 24 * ch("density_disappear");
+float temp_ctrl = volumesample(0, "density", @P) * @Timeinc * 24 * ch("temperature_scale");
+
+v@vel = lerp( v@vel, volumesamplev(1, "vel", @P) * ch("velocity_scale"), vel_bias );
+f@density = max(volumesample(0, "density", @P) * ch("density_scale"), @density - dens_ctrl);
+f@temperature += temp_ctrl;
+
+@collision = min(volumesample(2, "collision", @P) * -1, @collision);
+v@collisionvel = volumesamplev(1, "collisionvel", @P) * @Timeinc * chi("fps");
+int handle = pcopen(3, "P", @P, ch("search_radius"), int(ch("number_of_points")));
+f@divergence = pcfilter(handle, "div") * ch("div_scale") * @density;
+pcclose(handle);
+#END
+
+#START
+//Density and Temperature Source
+float dens_ctrl = @density * @Timeinc * 24 * ch("density_disappear");
+float temp_ctrl = volumesample(0, "density", @P) * @Timeinc * 24 * ch("temperature_scale");
+f@density = max(volumesample(0, "density", @P) * ch("density_scale"), @density - dens_ctrl);
+f@temperature += temp_ctrl;
+#END
+
+#START
+//Collision Source
+@collision = max(volumesample(1, "collision", @P) * -1, @collision);
+v@collisionvel = volumesamplev(1, "collisionvel", @P) * @Timeinc * chi("fps");
+#END
+
+#START
+//Divergence Source by Particles
+int handle = pcopen(2, "P", @P, ch("search_radius"), int(ch("number_of_points")));
+f@divergence = pcfilter(handle, "div") * ch("div_scale") * @density;
+pcclose(handle);
+#END
+
+#START
+//Particles Collision
+int prim;
+vector uv;
+float dist = xyzdist(0, @P, prim, uv);
+vector pos = primuv( 0, "P", prim, uv );
+vector dir = normalize( pos - @P );
+vector nn = normalize( prim_normal(0, prim, uv[0], uv[1] ) );
+v@tan = 0;
+
+if( dist < @pscale * ch("particle_radius") || dot( nn, dir ) > 0 ){
+    @P = pos + nn * @pscale * ch("particle_radius");
+    vector tangent = cross( cross( {0,1,0}, nn ), nn );
+    if( dot( tangent, {0,1,0} ) < 0 ) tangent *= -1;
+    tangent = normalize( tangent ) * ch("speed");
+    v@tan = tangent;
+}
+#END

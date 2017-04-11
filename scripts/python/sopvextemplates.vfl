@@ -1,0 +1,111 @@
+#START
+//Primitive vertex loop
+int npts = primvertexcount( 0, @primnum );
+for( int i = 0; i < npts; i++ ){
+    int pt = vertexpoint( 0, vertexindex( 0, @primnum, i ) );
+
+}
+#END
+
+
+#START
+//Create centrod (detail)
+vector pp = 0;
+for( int i = 0; i < npoints(0); i++ ){
+    pp += point(0, "P", i);
+    removepoint(0, i);
+}
+
+addpoint(0, pp / npoints(0));
+#END
+
+
+#START
+//Point cloud iterate distance
+int handle = pcopen( 1, "P", @P, ch("rad"), chi("npoints") );
+float scale = 0;
+while( pciterate( handle ) ){
+    float dist;
+    pcimport( handle, "point.distance", dist );
+    scale = pow( fit( dist, 0, ch("rad"), 1, 0 ), ch("exp") );
+
+}
+pcclose( handle ); 
+#END
+
+#START
+//Point neighbours loop
+int nbs = neighbourcount( 0, @ptnum );
+for( int i = 0; i < nbs; i++ ){
+    int pt = neighbour( 0, @ptnum, i );
+
+}
+#END
+
+
+#START
+//Find point by atribute
+int pt = findattribval(0, "point", "name", s@name);
+if( pt >= 0 ){
+
+
+}
+#END
+
+#START
+//Point Normal
+vector  point_normal( int input; int ptnum ){
+    vector nn = 0;
+    int prims[] = pointprims( input, ptnum );
+    for( int i = 0; i < len( prims ); i++ )
+        nn += prim_normal( 0, prims[i], 0.5, 0.5 );
+        
+    return normalize( nn / len( prims ) );
+
+}
+#END
+
+
+#START
+//Alembic name from path
+string name = split( s@path, "/" )[-1];
+name = re_replace( "_abcShape", "", name );
+name = re_replace( "_geomShape", "", name );
+s@name = name;
+#END
+
+
+#START
+//PC Find Foreach point loop
+int closept[] = pcfind( 1, "P", @P, ch("rad"), chi("npts") );
+foreach( int pt; closept ){
+    vector pp = point( 1, "P", pt );
+
+}
+#END
+
+#START
+//Pscale default
+@pscale = fit01( pow( rand(@ptnum + ch('seed')), ch('exp')), ch('min_pscale'), ch('max_pscale') );
+#END
+
+#START
+//Alembic Path
+string name = chs('name');
+s@path = sprintf('%s/%sShape', name, name );
+#END
+
+
+#START
+//Clean Empty Prims
+if( primvertexcount( 0, @primnum ) == 0 )
+    removeprim( 0, @primnum, 1 );
+#END
+
+
+#START
+//Delete by SDF
+if( volumesample( 1, 'surface', @P ) < 0 )
+    removepoint( 0, @ptnum );
+    
+#END

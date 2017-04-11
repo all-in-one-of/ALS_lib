@@ -33,6 +33,7 @@ HOUDINI_GLOB_PATH = "{0}/HoudiniProject".format(ROOT_DIR)
 LIB_PATH = '{0}/Libraries'.format(HOUDINI_GLOB_PATH)
 ALS_PATH = '{0}/ALS_lib'.format(LIB_PATH)
 PW_PATH = '{0}/PW_lib'.format(LIB_PATH)
+QLIB_PATH = '{0}/qLib'.format(LIB_PATH)
 #
 HFS = HOUDINI_INSTALL_PATH + HOUDINI_BUILD
 os.environ['HFS'] = HFS 
@@ -64,14 +65,16 @@ globs = {}
 globs['PATH'] = [HB, os.environ['PATH']]
 globs['HOUDINI_PATH'] = ['{0}'.format(HOUDINI_GLOB_PATH), 
                          localDir,
-                         ALS_PATH, '&']
-                         
+                         ALS_PATH,
+                         QLIB_PATH, '&']
+
 globs['PYTHONPATH'] =  ['{0}/hqt'.format(PW_PATH),
                         '{0}/pw_Houdini_VEX_Editor'.format(PW_PATH),
                         '{0}/pw_MultiScriptEditor'.format(PW_PATH),
                          os.environ['PYTHONPATH']]
 
 globs['HOUDINI_OTLSCAN_PATH'] = ['{0}/otls/{1}'.format(ALS_PATH, i) for i in ['OBJ', 'SOP', 'DOP', 'ROP']] + ['@/otls']
+globs['HOUDINI_OTLSCAN_PATH'] += ['{0}/otls/{1}'.format(QLIB_PATH, i) for i in ['base', 'experimental', 'future', 'graveyard']]
 
 for key, val in globs.iteritems():
     os.environ[key] = os.path.pathsep.join(val)
