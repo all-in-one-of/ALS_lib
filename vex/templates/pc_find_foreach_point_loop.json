@@ -1,0 +1,5 @@
+{
+    "text": "int closept[] = pcfind( 1, \"P\", @P, ch(\"rad\"), chi(\"npts\") );\nforeach( int pt; closept ){\n    vector pp = point( 1, \"P\", pt );\n\n}", 
+    "keyword": "pcf", 
+    "name": "PC Find Foreach point loop"
+}

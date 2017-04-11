@@ -1,0 +1,5 @@
+{
+    "text": "int pr = findattribval(1, \"primitive\", \"name\", s@name);\nif( pr >= 0 ){\n    $cursor$\n\n\n    }", 
+    "keyword": "fpr", 
+    "name": "Find prim by atribute"
+}

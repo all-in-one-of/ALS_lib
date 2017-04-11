@@ -1,0 +1,5 @@
+{
+    "text": "int handle = pcopen( 1, \"P\", @P, ch(\"rad\"), 1 );\nfloat map = 0;\nwhile( pciterate( handle ) ){\n    float dist;\n    pcimport( handle, \"point.distance\", dist );\n    map = pow( fit( dist, 0, ch(\"rad\"), 1, 0 ), ch(\"exp\") );\n    $cursor$\n\n    }\npcclose( handle );", 
+    "keyword": "pcd", 
+    "name": "Point cloud iterate distance"
+}

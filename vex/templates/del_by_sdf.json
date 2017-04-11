@@ -1,0 +1,5 @@
+{
+    "text": "if( volumesample( 1, 'surface', @P ) < 0 )\n    $cursor$removepoint( 0, @ptnum );", 
+    "keyword": "sdf", 
+    "name": "Del by sdf"
+}

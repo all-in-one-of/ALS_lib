@@ -1,0 +1,5 @@
+{
+    "text": "if( primvertexcount( 0, @primnum ) == 0 )\n    removeprim( 0, @primnum, 1 );", 
+    "keyword": "dep", 
+    "name": "Del emty prims"
+}

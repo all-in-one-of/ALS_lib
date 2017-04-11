@@ -1,0 +1,5 @@
+{
+    "text": "int npts = primvertexcount( 0, @primnum );\nfor( int i = 0; i < npts; i++ ){\n    int pt = vertexpoint( 0, vertexindex( 0, @primnum, i ) );\n    $cursor$\n\n    }", 
+    "keyword": "pvl", 
+    "name": "Primitive vertex loop"
+}

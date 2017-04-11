@@ -1,0 +1,5 @@
+{
+    "text": "int nbs = neighbourcount( 0, @ptnum );\nfor( int i = 0; i < nbs; i++ ){\n    int pt = neighbour( 0, @ptnum, i );\n    $cursor$\n\n}", 
+    "keyword": "pnl", 
+    "name": "Point neighbours loop"
+}

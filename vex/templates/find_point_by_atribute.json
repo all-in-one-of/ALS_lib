@@ -1,0 +1,5 @@
+{
+    "text": "int pt = findattribval(1, \"point\", \"id\", i@id);\nif( pt >= 0 ){\n    $cursor$\n\n\n    }", 
+    "keyword": "fpt", 
+    "name": "Find point by atribute"
+}
