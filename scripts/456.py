@@ -12,18 +12,19 @@ LOCAL_MAYA_SCENES = 'Q:/Film/Scenes'
 RENDER_COMPOSE = '//POST/film/RenderCompose'
 
 #
-seqShPat = re.compile('\/(?P<job>[^\/]*)\/[^\/]+\/seq\d+\/(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\/*|\/*)')
-#parse hip path
+# seqShPat = re.compile('\/(?P<job>[^\/]*)\/[^\/]+\/seq\d+\/(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\/*|\/*)')
+jobPat = re.compile('\/Jobs/(?P<job>[^\/]+)')
+seqShPat = re.compile('(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\/*|\/*)')
 hipPath = hou.hipFile.path()
+jobSearch = jobPat.search(hipPath)
 shotInfo = seqShPat.search(hipPath)
 
-
 # #------------- init variables -----------------
-globs = {'JOB' : '{0}/Jobs/{1}'.format(HOUDINI_GLOB_PATH, shotInfo.group('job')) if shotInfo else '{}/Jobs/Main'.format(HOUDINI_GLOB_PATH),
+globs = {'JOB' : '{0}/Jobs/{1}'.format(HOUDINI_GLOB_PATH, JOB) if jobSearch else '{}/Jobs/Main'.format(HOUDINI_GLOB_PATH),
 		'MJOB' : HOUDINI_GLOB_PATH.replace('HoudiniProject', 'MayaProject'), #maya project path
 		'ALS' : '{}/ALS_lib'.format(HOUDINI_GLOB_PATH)}
 		       
-if shotInfo:
+if shotInfo != None and JOB != None:
 	globs['SEQ'] = shotInfo.group('seq')
 	globs['SH'] = shotInfo.group('sh')
 	globs['SUB'] = shotInfo.group('sub')
@@ -37,7 +38,7 @@ if shotInfo:
 
 		globs['HDATA'] = '{0}/data/{1}'.format(globs['JOB'], shotDir)
 		globs['HDATA_globs'] = globs['HDATA']
-		globs['DATA_STORE'] = '{0}/data_store/{1}/{2}'.format(HOUDINI_globs_PATH, shotInfo.group('job'), shotDir)
+		globs['DATA_STORE'] = '{0}/data_store/{1}/{2}'.format(HOUDINI_globs_PATH, JOB, shotDir)
 		if userInfo.user != 'default':
 			globs['HDATA'] = globs['HDATA'].replace(HOUDINI_globs_PATH, 'Q:/houdini')
 
