@@ -19,19 +19,19 @@
     <memberTool name="hdaNewVer"/>
     <memberTool name="calendar"/>
   </toolshelf>
-  
-  <tool name="reload" label="Reload" icon="$JOB/../icons/standart/COMMON/file.svg">
+
+  <tool name="reload" label="Reload" icon="SOP_file">
     <script scriptType="python"><![CDATA[import hou, userfuncs
 userfuncs.reloadScene()]]></script>
   </tool>
 
-  <tool name="new_shot" label="New Shot" icon="$JOB/../icons/standart/COMMON/file.svg">
+  <tool name="new_shot" label="New Shot" icon="SOP_file">
     <script scriptType="python"><![CDATA[import hou, userfuncs
 reload( userfuncs )
 userfuncs.createNewShot()]]></script>
   </tool>
 
-  <tool name="save_new" label="New Version" icon="$JOB/../icons/standart/COMMON/file.svg">
+  <tool name="save_new" label="New Version" icon="SOP_file">
     <script scriptType="python"><![CDATA[import hou, userfuncs
 reload( userfuncs )
 userfuncs.newHipFileVersion()]]></script>
