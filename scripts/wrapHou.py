@@ -57,29 +57,20 @@ except IndexError:
     localDir = ''
 
 #--------------------------- set environment variables ---------------------
-def setGlobVar(varName, valList):
-    os.environ[varName] = os.path.pathsep.join(valList)
-#
-PATH = [HB, os.environ['PATH']]
-HOUDINI_PATH = ['{0}'.format( HOUDINI_GLOB_PATH ), localDir, '&']
-HOUDINI_DSO_PATH = ['{0}/dso/'.format(HOUDINI_GLOB_PATH),'@/dso']
-HOUDINI_GALLERY_PATH = ['{0}/gallery/'.format(ALS_PATH),'@/gallery']
-HOUDINI_OTLSCAN_PATH = ['{0}/otls'.format(ALS_PATH)]
-HOUDINI_OTLSCAN_PATH += ['{0}/otls/{1}'.format(ALS_PATH, i) for i in ['OBJ', 'SOP', 'DOP', 'ROP']] + ['@/otls']
-HOUDINI_SCRIPT_PATH = ['{0}/scripts'.format(ALS_PATH), '@/scripts']
-HOUDINI_TOOLBAR_PATH = ['{0}/toolbar/'.format(ALS_PATH),'@/toolbar']
-HOUDINI_VEX_PATH = ['{0}/vex/^'.format(ALS_PATH),'@/vex/^']
-PYTHON_PANEL_PATH = ['{0}/python_panels'.format(ALS_PATH), '&']
+globs = {}
+globs['PATH'] = [HB, os.environ['PATH']]
+globs['HOUDINI_PATH'] = ['{0}'.format( HOUDINI_GLOB_PATH ), localDir, '&']
+globs['HOUDINI_DSO_PATH'] = ['{0}/dso/'.format(HOUDINI_GLOB_PATH),'@/dso']
+globs['HOUDINI_GALLERY_PATH'] = ['{0}/gallery/'.format(ALS_PATH),'@/gallery']
+globs['HOUDINI_OTLSCAN_PATH'] = ['{0}/otls'.format(ALS_PATH)]
+globs['HOUDINI_OTLSCAN_PATH'] += ['{0}/otls/{1}'.format(ALS_PATH, i) for i in ['OBJ', 'SOP', 'DOP', 'ROP']] + ['@/otls']
+globs['HOUDINI_SCRIPT_PATH'] = ['{0}/scripts'.format(ALS_PATH), '@/scripts']
+globs['HOUDINI_TOOLBAR_PATH'] = ['{0}/toolbar/'.format(ALS_PATH),'@/toolbar']
+globs['HOUDINI_VEX_PATH'] = ['{0}/vex/^'.format(ALS_PATH),'@/vex/^']
+globs['PYTHON_PANEL_PATH'] = ['{0}/python_panels'.format(ALS_PATH), '&']
 
-setGlobVar('PATH', PATH)
-setGlobVar('HOUDINI_PATH', HOUDINI_PATH)
-setGlobVar('HOUDINI_DSO_PATH', HOUDINI_DSO_PATH)
-setGlobVar('HOUDINI_GALLERY_PATH', HOUDINI_GALLERY_PATH)
-setGlobVar('HOUDINI_OTLSCAN_PATH', HOUDINI_OTLSCAN_PATH)
-setGlobVar('HOUDINI_SCRIPT_PATH', HOUDINI_SCRIPT_PATH)
-setGlobVar('HOUDINI_TOOLBAR_PATH', HOUDINI_TOOLBAR_PATH)
-setGlobVar('HOUDINI_VEX_PATH', HOUDINI_VEX_PATH)
-setGlobVar('PYTHON_PANEL_PATH', PYTHON_PANEL_PATH)
+for key, val in globs.iteritems():
+    os.environ[key] = os.path.pathsep.join(val)
 
 os.environ['HOUDINI_SPLASH_FILE']= "{0}/icons/houdini15_splash_Anton_Grabovskiy_var1.tif".format(ALS_PATH)
 os.environ['VISUAL'] = "C:/Program Files/Sublime Text 3/sublime_text.exe"
