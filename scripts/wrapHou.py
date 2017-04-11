@@ -4,7 +4,8 @@ import subprocess
 import re
 
 #------------------------- users init -----------------------------------
-pythonPath = '/'.join( sys.argv[0].split('\\')[0:-1] + ['python',] )
+sep = re.search('\/|\\\\', sys.argv[0] ).group()
+pythonPath = '/'.join( sys.argv[0].split(sep)[0:-1] + ['python',] )
 sys.path.append(pythonPath)
 import userInfo
 
@@ -29,7 +30,9 @@ if userInfo.profile == 'Anton':
 
 HOUDINI_INSTALL_PATH='C:/Houdini{}/Houdini_'.format(HOUDINI_MAJOR_RELEASE)
 HOUDINI_GLOB_PATH = "{0}/HoudiniProject".format(ROOT_DIR)
-ALS_PATH = '{0}/ALS_lib'.format(HOUDINI_GLOB_PATH)
+LIB_PATH = '{0}/Libraries'.format(HOUDINI_GLOB_PATH)
+ALS_PATH = '{0}/ALS_lib'.format(LIB_PATH)
+PW_PATH = '{0}/PW_lib'.format(LIB_PATH)
 #
 HFS = HOUDINI_INSTALL_PATH + HOUDINI_BUILD
 os.environ['HFS'] = HFS 
@@ -59,15 +62,16 @@ except IndexError:
 #--------------------------- set environment variables ---------------------
 globs = {}
 globs['PATH'] = [HB, os.environ['PATH']]
-globs['HOUDINI_PATH'] = ['{0}'.format( HOUDINI_GLOB_PATH ), localDir, '&']
-globs['HOUDINI_DSO_PATH'] = ['{0}/dso/'.format(HOUDINI_GLOB_PATH),'@/dso']
-globs['HOUDINI_GALLERY_PATH'] = ['{0}/gallery/'.format(ALS_PATH),'@/gallery']
-globs['HOUDINI_OTLSCAN_PATH'] = ['{0}/otls'.format(ALS_PATH)]
-globs['HOUDINI_OTLSCAN_PATH'] += ['{0}/otls/{1}'.format(ALS_PATH, i) for i in ['OBJ', 'SOP', 'DOP', 'ROP']] + ['@/otls']
-globs['HOUDINI_SCRIPT_PATH'] = ['{0}/scripts'.format(ALS_PATH), '@/scripts']
-globs['HOUDINI_TOOLBAR_PATH'] = ['{0}/toolbar/'.format(ALS_PATH),'@/toolbar']
-globs['HOUDINI_VEX_PATH'] = ['{0}/vex/^'.format(ALS_PATH),'@/vex/^']
-globs['PYTHON_PANEL_PATH'] = ['{0}/python_panels'.format(ALS_PATH), '&']
+globs['HOUDINI_PATH'] = ['{0}'.format(HOUDINI_GLOB_PATH), 
+                         localDir,
+                         ALS_PATH, '&']
+                         
+globs['PYTHONPATH'] =  ['{0}/hqt'.format(PW_PATH),
+                        '{0}/pw_Houdini_VEX_Editor'.format(PW_PATH),
+                        '{0}/pw_MultiScriptEditor'.format(PW_PATH),
+                         os.environ['PYTHONPATH']]
+
+globs['HOUDINI_OTLSCAN_PATH'] = ['{0}/otls/{1}'.format(ALS_PATH, i) for i in ['OBJ', 'SOP', 'DOP', 'ROP']] + ['@/otls']
 
 for key, val in globs.iteritems():
     os.environ[key] = os.path.pathsep.join(val)

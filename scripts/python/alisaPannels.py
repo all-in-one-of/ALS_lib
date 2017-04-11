@@ -5,10 +5,19 @@ except :
     from PySide2.QtWidgets import *
     from PySide2.QtCore import *
 
-import hou, toolutils, subprocess, os, socket
-import datetime, subprocess, re
-import dataCleaner2
+import hou
+import toolutils
+import subprocess
+import os
+import socket
+import datetime
+import subprocess
+import re
 
+import dataCleaner2
+import fileUtils
+
+HOUDINI_GLOB_PATH = os.environ['HOUDINI_PATH'].split(os.path.pathsep)[0]
 P4 = "C:/Program Files/Perforce/p4"
 PYTHON = "C:/Python27_64/python.exe"
 UPDATEASSETS = "//PROJECTS/Alisa_Film/HoudiniProject/scripts/p4update.py"
@@ -28,9 +37,9 @@ def createPath( path ) :
             except :
                 pass
 
-class projectBrowser (QFrame) :
+class projectBrowser (QWidget) :
     def __init__(self) :
-        QFrame.__init__( self )
+        QWidget.__init__( self )
         
         #============fields==============
         self.projField = QLineEdit()
@@ -53,9 +62,6 @@ class projectBrowser (QFrame) :
         
         self.flipField = QLineEdit()
         self.flipField.setText( hou.expandString( '$PLAY' ) )
-        
-        self.simField = QLineEdit()
-        self.simField.setText( hou.expandString( '$SIMPATH' ) )
         
         self.wrangleField = QLineEdit()
         self.wrangleField.setText( hou.expandString( '$WRANGLE' ) )
@@ -128,12 +134,6 @@ class projectBrowser (QFrame) :
         flipButton.setFixedSize(QSize(120, 25))
         flipButton.setFocusPolicy(Qt.NoFocus)
         
-        simButton = QToolButton( self )
-        simButton.clicked.connect( self._simDir )
-        simButton.setText("Sim Path")
-        simButton.setFixedSize(QSize(120, 25))
-        simButton.setFocusPolicy(Qt.NoFocus)
-        
         wrangleButton = QToolButton( self )
         wrangleButton.clicked.connect( self._wrangleDir )
         wrangleButton.setText("Saved Wrangles")
@@ -184,10 +184,6 @@ class projectBrowser (QFrame) :
         flipLayout.addWidget( flipButton )
         flipLayout.addWidget( self.flipField )
         
-        simLayout = QHBoxLayout()
-        simLayout.addWidget( simButton )
-        simLayout.addWidget( self.simField )
-        
         wrangleLayout = QHBoxLayout()
         wrangleLayout.addWidget( wrangleButton )
         wrangleLayout.addWidget( self.wrangleField )
@@ -210,7 +206,6 @@ class projectBrowser (QFrame) :
         MasterLayout.addLayout(mCacheLayout)
         MasterLayout.addLayout(MScenesLayout)
         MasterLayout.addLayout(flipLayout)
-        MasterLayout.addLayout(simLayout)
         MasterLayout.addLayout(wrangleLayout)
         MasterLayout.addLayout(rcpathLayout)
         MasterLayout.addLayout(referenceLayout)
@@ -218,60 +213,58 @@ class projectBrowser (QFrame) :
 
         self.setLayout(MasterLayout)
         self.setProperty("houdiniStyle", True)
+
+    def openPath(self, field, var, create_dir=False):
+        field.setText( hou.expandString( var ) )
+        path = field.text().replace( '/', '\\' )
+        if create_dir:
+            fileUtils.createDir(path)
+        os.startfile( path )
         
     def _projDir( self ) :
-        self.projField.setText( hou.expandString( '$JOB' ) )
-        path = self.projField.text().replace( '/', '\\' )
-        os.startfile( path )
+        self.openPath(self.projField, '$JOB', create_dir=False)
         
     def _mprojDir( self ) :
-        self.mProjField.setText( hou.expandString( '$MJOB' ) )
-        path = self.mProjField.text().replace( '/', '\\' )
-        os.startfile( path )
+        self.openPath(self.mProjField, '$MJOB', create_dir=False)
         
     def _dataDir( self ) :
-        self.hdataField.setText( hou.expandString( '$HDATA' ) )
-        path = self.hdataField.text().replace( '/', '\\' )
-        os.startfile( path )
+        self.openPath(self.hdataField, '$HDATA', create_dir=True)
+        
+    def _mDataDir( self ) :
+        self.openPath(self.mDataField, '$MDATA', create_dir=True)
+        
+    def _mCacheDir( self ) :
+        self.openPath(self.mCacheField, '$MCACHE', create_dir=True)
+        
+    def _mScenesDir( self ) :
+        self.openPath(self.mScenesField, '$MSCENES', create_dir=False)
+        
+    def _flipDir( self ) :
+        self.openPath(self.flipField, '$PLAY', create_dir=True)
+        
+    def _wrangleDir( self ) :
+        self.openPath(self.wrangleField, '$WRANGLE', create_dir=True)
+        
+    def _rcpathDir( self ) :
+        self.openPath(self.rcpathField, '$RCPATH', create_dir=True)
+        
+    def _referenceDir( self ) :
+        self.openPath(self.referenceField, '$REFPATH', create_dir=True)
+
+    # non standart functions
         
     def _dataLocalDir( self ) :
         self.hdataField.setText( hou.expandString( '$HDATA' ) )
         path = self.hdataField.text().replace( self.projField.text(), LOCAL ).replace( '/', '\\' )
-        print path
         os.startfile( path )
         
     def _dataStorageDir( self ) :
         self.hdataField.setText( hou.expandString( '$HDATA' ) )
         path = self.hdataField.text().replace( LOCAL, self.projField.text() ).replace( 'data', 'data_store' ).replace( '/', '\\' )
-        '''
-        print '\\'.join( path.split('\\')[:-1] )
-        if not os.path.exists( path ) :
-            while not os.path.exists( path ) and len( path ) > 5 :
-                path = '\\'.join( path.split('\\')[:-1] )
-                print path
-
-            if not os.path.exists( path ) :
-                    return
-        '''
-        os.startfile( path )
-        
-    def _mDataDir( self ) :
-        self.mDataField.setText( hou.expandString( '$MDATA' ) )
-        path = self.mDataField.text().replace( '/', '\\' )
-        os.startfile( path )
-        
-    def _mCacheDir( self ) :
-        self.mCacheField.setText( hou.expandString( '$MCACHE' ) )
-        path = self.mCacheField.text().replace( '/', '\\' )
-        os.startfile( path )
-        
-    def _mScenesDir( self ) :
-        self.mScenesField.setText( hou.expandString( '$MSCENES' ) )
-        path = self.mScenesField.text().replace( '/', '\\' )
         os.startfile( path )
         
     def _openScene( self ) :
-        bat = hou.expandString( '$JOB' ) + '/scripts/maya2016-x64_open_scene.cmd'
+        bat = hou.expandString( '$ALS' ) + '/scripts/maya2016-x64_open_scene.cmd'
         scene = hou.expandString( '$PERFORCE' )
         path = hou.hipFile.path()
         curSeq = '%s_%s' % ( hou.hscriptExpression( '$SEQ' ), hou.hscriptExpression( '$SH' ) )
@@ -316,34 +309,9 @@ class projectBrowser (QFrame) :
             cmd = '%s %s' % ( bat.replace('/', '\\'), scene )
             maya = subprocess.Popen( cmd, env = env )
         
-    def _flipDir( self ) :
-        self.flipField.setText( hou.expandString( '$PLAY' ) )
-        path = self.flipField.text().replace( '/', '\\' )
-        os.startfile( path )
-        
-    def _simDir( self ) :
-        self.simField.setText( hou.expandString( '$SIMPATH' ) )
-        path = self.simField.text().replace( '/', '\\' )
-        os.startfile( path )
-        
-    def _wrangleDir( self ) :
-        self.wrangleField.setText( hou.expandString( '$WRANGLE' ) )
-        path = self.wrangleField.text().replace( '/', '\\' )
-        os.startfile( path )
-        
-    def _rcpathDir( self ) :
-        self.rcpathField.setText( hou.expandString( '$RCPATH' ) )
-        path = self.rcpathField.text().replace( '/', '\\' )
-        os.startfile( path )
-        
-    def _referenceDir( self ) :
-        self.referenceField.setText( hou.expandString( '$REFPATH' ) )
-        path = self.referenceField.text().replace( '/', '\\' )
-        os.startfile( path )
-        
-class flipbook( QFrame ) :
+class flipbook( QWidget ) :
     def __init__(self) :
-        QFrame.__init__( self )
+        QWidget.__init__( self )
 
         self.job  = hou.expandString( '$JOB' )
         self.play = hou.expandString( '$PLAY' )
@@ -500,7 +468,7 @@ class flipbook( QFrame ) :
         if not ext in [ 'jpg', 'png' ] :
             tmp = dir + '/%s_tmp' % socket.gethostname()
             createPath( tmp )
-            ffmpeg = hou.expandString( '$JOB/ffmpeg/bin/ffmpeg.exe' )
+            ffmpeg = '{0}/ffmpeg/bin/ffmpeg.exe'.format(HOUDINI_GLOB_PATH)
             fps = hou.expandString( '$FPS' )
             
             self.viewwrite( '-q {0} -f {1} {2} -r 2048 858 -g {3} -c'.format( qual, start, end, gamma ), "%s/'$F4'.jpg" % tmp )
@@ -523,9 +491,9 @@ class flipbook( QFrame ) :
         self.replace = 0
 
 
-class dataCleaner( QFrame ) :
+class dataCleaner( QWidget ) :
     def __init__(self) :
-        QFrame.__init__( self )
+        QWidget.__init__( self )
         self.job = hou.expandString( '$JOB' )
 
         cleanBox = QGroupBox( 'Data Cleaner' )

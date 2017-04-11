@@ -18,29 +18,35 @@ seqShPat = re.compile('(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\/*|\/*)
 hipPath = hou.hipFile.path()
 jobSearch = jobPat.search(hipPath)
 shotInfo = seqShPat.search(hipPath)
+try:
+	job = jobSearch.group('job')
+except(AttributeError):
+	job = 'Main'
 
 # #------------- init variables -----------------
-globs = {'JOB' : '{0}/Jobs/{1}'.format(HOUDINI_GLOB_PATH, JOB) if jobSearch else '{}/Jobs/Main'.format(HOUDINI_GLOB_PATH),
-		'MJOB' : HOUDINI_GLOB_PATH.replace('HoudiniProject', 'MayaProject'), #maya project path
+globs = {'JOB' : '{0}/Jobs/{1}'.format(HOUDINI_GLOB_PATH, job),
+		'MJOB' : HOUDINI_GLOB_PATH.replace('HoudiniProject', 'MayaProject'),
 		'ALS' : '{}/ALS_lib'.format(HOUDINI_GLOB_PATH)}
+
 		       
-if shotInfo != None and JOB != None:
+if shotInfo != None :
 	globs['SEQ'] = shotInfo.group('seq')
 	globs['SH'] = shotInfo.group('sh')
 	globs['SUB'] = shotInfo.group('sub')
 
-	if globs['SEQ'] != '' and SH != '':
+	if globs['SEQ'] != None:
 		shotDir = '{0}/{0}_{1}'.format(globs['SEQ'], globs['SH'])
-		if SUB != '':
+		if globs['SUB'] != None:
 			shotDir += '_{}'.format(globs['SUB'])
 
 		globs['RCPATH'] = '{0}/{1}'.format(RENDER_COMPOSE, shotDir)
 
 		globs['HDATA'] = '{0}/data/{1}'.format(globs['JOB'], shotDir)
 		globs['HDATA_globs'] = globs['HDATA']
-		globs['DATA_STORE'] = '{0}/data_store/{1}/{2}'.format(HOUDINI_globs_PATH, JOB, shotDir)
+		globs['DATA_STORE'] = '{0}/data_store/{1}/{2}'.format(HOUDINI_GLOB_PATH, job, shotDir)
+		
 		if userInfo.user != 'default':
-			globs['HDATA'] = globs['HDATA'].replace(HOUDINI_globs_PATH, 'Q:/houdini')
+			globs['HDATA'] = globs['HDATA'].replace(HOUDINI_GLOB_PATH, 'Q:/houdini')
 
 		globs['MDATA'] = '{0}/_Export'.format(globs['RCPATH'])
 		globs['MCACHE'] = '{0}/cache/alembic/{1}'.format(globs['MJOB'], shotDir)
@@ -56,10 +62,13 @@ if shotInfo != None and JOB != None:
 else:
 	hip = hou.expandString('$HIP')
 	globs['HDATA'] = '{0}/data'.format(hip)
+	globs['MDATA'] = '{0}/geo'.format(hip)
 	globs['PLAY'] = '{0}/flipbook'.format(hip)
 	globs['WRANGLE'] = '{0}/vex_wrangles'.format(hip)
 	globs['PROXY'] = '{0}/proxy'.format(hip)
 	globs['MCACHE'] = '{0}/alembic'.format(hip)
+	globs['RCPATH'] = '{0}/render'.format(hip)
+	globs['REFPATH'] = '{0}/references'.format(hip)
 
 # #-------------- set houdini vaiables --------------
 for key, val in globs.iteritems():

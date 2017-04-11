@@ -2,14 +2,20 @@
 Render manager module for Sidefx houdini and Cinesoft Deputat. Writen by Anton Grabovskiy. 2016.
 version 1.0
 '''
-import hou, os, datetime, subprocess, itertools, re
+import hou
+import os
+import datetime
+import subprocess
+import itertools
+import re
 
-v = re.compile( '^(\d+)\.(\d+)\.(\d+)' )
-x = hou.expandString('$_HIP_SAVEVERSION') 
-ver = v.search( x ).groups()
+import fileUtils
 
-S = 'hy_film16' if ver[0] == '16' else 'hy_film'
-STARTER = "//PROJECTS/Alisa_Film/HoudiniProject/scripts/{}.py".format( S ) 
+# v = re.compile( '^(\d+)\.(\d+)\.(\d+)' )
+VER = hou.expandString('$_HIP_SAVEVERSION') 
+HOUDINI_GLOB_PATH = os.environ['HOUDINI_PATH'].split(os.path.pathsep)[0]
+ALS = hou.expandString('$ALS')
+STARTER = "{0}/scripts/wrapHy.py".format(ALS)
 LOCAL = 'Q:/houdini'
 
 #functions 
@@ -64,7 +70,7 @@ class driverNode() :
     def start( self ) : return self.node.parm( "f1" ).eval()
     def end( self )   : return self.node.parm( "f2" ).eval()
     
-    def filePath( self ) : return self.fileParm().eval().replace( LOCAL, self.job )
+    def filePath( self ) : return self.fileParm().eval().replace( LOCAL, HOUDINI_GLOB_PATH )
     def ext( self ) : 
         ext = self.filePath().split(".")[-1]
         result = "bgeo.sc" if ext == "sc" else ext
@@ -94,11 +100,11 @@ class deputat() :
     def __init__ ( self, node ) :
         self.node    = node
         self.rop     = hou.node( node.parm("ropnode").eval() )
-        self.job     = node.parm('job').eval()
-        self.rcpath  = node.parm('rcpath').eval()
-        self.seq     = node.parm('seq').eval()
-        self.sh      = node.parm('sh').eval()
-        self.hdata   = '{0}/data/{1}/{1}_{2}'.format( self.job, self.seq, self.sh) #node.parm('hdata').eval()
+        self.job     = hou.expandString('$JOB')
+        self.rcpath  = hou.expandString('$RCPATH')
+        self.seq     = hou.expandString('$SEQ')
+        self.sh      = hou.expandString('$SH')
+        self.hdata   = hou.expandString('$HDATA').replace( LOCAL, HOUDINI_GLOB_PATH )
 
         self.simmode = node.parm('simmode').eval()
         self.distribute = node.parm('distribute').eval()
@@ -112,12 +118,13 @@ class deputat() :
         self.cmd     = node.parm('cmd').eval()
         self.comment = node.parm('comment').eval()
         self.tilescript = node.parm('tilescript').eval()
-        self.seq_sh  = "%s_%s"%(self.seq, self.sh)
+        self.seq_sh  = "%s_%s"%(self.seq, self.sh) if self.seq != '' else ''
         self.hstart  = '%s/scripts'%self.job
         
         self.hipName = hou.hipFile.name()
         self.hipBasename = hou.hipFile.basename().split(".hip")[0]
-        self.taskName = "%s.%s" % ( self.seq_sh, self.hipBasename )
+        self.taskName = "%s.%s" % ( self.seq_sh, self.hipBasename ) if self.seq_sh != ''\
+                        else self.hipBasename
 
         self.prerender = self.node.parm('dopreren').eval()
 
@@ -239,7 +246,7 @@ class deputat() :
         hycmd  = vfx + "/hycmd"
         for dir in ( export, vfx, hycmd ) :
             if not os.path.exists(dir) :
-                os.mkdir(dir)
+                fileUtils.createDir(dir)
                 
         return { "VFX" : vfx, "hycmd" : hycmd }
         
@@ -284,7 +291,7 @@ class deputat() :
         else :
             outpath = driver.fileParm().eval()
         #print( 'Distrib = %s      path = %s' % ( distrib, outpath ) )
-        return outpath.replace( LOCAL, self.job )
+        return outpath.replace( LOCAL, HOUDINI_GLOB_PATH )
 
         
     def hycmd( self, driver, num, fmode = "r", distrib = 0 ) :
@@ -412,8 +419,6 @@ class deputat() :
         mainTaskName = "%s-r(%s)-d(%s)-tf(%d)-m(%s)" % ( self.taskName, rname, driversString, self.totalFrames(), mode )
         fileNameBase = mainTaskName.replace("-", ".").replace("(", "-").replace(")", "").replace(",", ".")
         alfName = "%s/%s.alf" % ( self.dirs("img")["VFX"], fileNameBase )
-        #starter = "//PROJECTS/Alisa_Film/HoudiniProject/scripts/hy_chess.py"
-        starter = STARTER
         
         
         now_time = datetime.datetime.now()
@@ -435,14 +440,14 @@ class deputat() :
                 drType = driver.type()
                 if len( drivers ) == 1 :
                     code += "    Task {%s -t(%s) -fr(%d-%d)} -cmds {\n" % ( cmdName, drType, start, end )
-                    code += "        RemoteCmd {python.exe \\\"%s\\\" \\\"%s\\\"} -service {mantra} -tags {mantra}\n        }" % ( starter, cmdFile )
-                    code += "%s" % ( (" -preview {\n            mplay.exe \"%s\"\n        }" % self.hycmd(driver, start)["outpath"] ) if driver.type() == "img"\
+                    code += "        RemoteCmd {python.exe \\\"%s\\\" %s \\\"%s\\\"} -service {mantra} -tags {mantra}\n        }"%( STARTER, VER, cmdFile )
+                    code += "%s" % ( (" -preview {\n            mplay.exe \"{%s}\"\n        }" % self.hycmd(driver, start)["outpath"] ) if driver.type() == "img"\
                                 else (" -preview {\n            gplay.exe \"%s\"\n        }"  % self.hycmd(driver, start)["outpath"] ) )
                     if idx == len( drivers ) - 1 : code += " %s" % ( self.AlfredClean( driver, alfName ) )
                 else : 
                     if idx == 0 : code += "    Task {(%s) -m(%s)} -subtasks {\n" % ( driversString, mode )
                     code += "        Task {%s -t(%s) -fr(%d-%d)} -cmds {\n" % ( cmdName, drType, start, end )
-                    code += "            RemoteCmd {python.exe \\\"%s\\\" \\\"%s\\\"} -service {mantra} -tags {mantra}\n        }" % ( starter, cmdFile )
+                    code += "            RemoteCmd {python.exe \\\"%s\\\" %s \\\"%s\\\"} -service {mantra} -tags {mantra}\n        }"%( STARTER, VER, cmdFile )
                     code += "%s" % ( (" -preview {\n            mplay.exe \"%s\"\n        }\n" % self.hycmd(driver, start)["outpath"] ) if driver.type() == "img"\
                                 else (" -preview {\n            gplay.exe \"%s\"\n        }\n"  % self.hycmd(driver, start)["outpath"] ) )
                     if idx == len( drivers ) - 1 : code += "   } %s" % ( self.AlfredClean( driver, alfName ) )
@@ -461,7 +466,7 @@ class deputat() :
                     cmdName = "%s -p(%s) -w(%0*d)" % ( self.wPrefix(), self.wedgeNamesString(thread), padzero, thread )
                     cmdFile = cmdFile = self.hycmd( driver, thread, "w" )["name"]
                     code += "        Task {%s} -cmds {\n" % ( cmdName )
-                    code += "            RemoteCmd {python.exe \\\"%s\\\" \\\"%s\\\"} -service {mantra} -tags {mantra}\n        }" % ( starter, cmdFile )
+                    code += "            RemoteCmd {python.exe \\\"%s\\\" %s \\\"%s\\\"} -service {mantra} -tags {mantra}\n        }"%( STARTER, VER, cmdFile )
                     previewFile = self.hycmd(driver, thread)["outpath"].replace( "$F%d" % driverPadzero, "%0*d" % ( driverPadzero, start ) ) if "sim" in mode else self.hycmd(driver, thread)["outpath"]
                     code += "%s" % ( (" -preview {\n            mplay.exe \"%s\"\n        }\n" % previewFile ) if driver.type() == "img"\
                                 else (" -preview {\n            gplay.exe \"%s\"\n        }\n"  % previewFile ) )
@@ -479,7 +484,7 @@ class deputat() :
                     cmdFile = self.hycmd( driver, thread, "w" )["name"]
                     if thread == 0 :code += "    Task {(%s) -m(%s)} -subtasks {\n" % ( driversString, mode )
                     code += "        Task {%s -t(%s) -fr(%d-%d)} -cmds {\n" % ( cmdName, drType, start, end )
-                    code += "            RemoteCmd {python.exe \\\"%s\\\" \\\"%s\\\"} -service {mantra} -tags {mantra}\n        }" % ( starter, cmdFile )
+                    code += "            RemoteCmd {python.exe \\\"%s\\\" %s \\\"%s\\\"} -service {mantra} -tags {mantra}\n        }"%( STARTER, VER, cmdFile )
                     code += "%s" % ( (" -preview {\n            mplay.exe \"%s\"\n        }\n" % self.hycmd(driver, start, 'r', thread)["outpath"] ) if driver.type() == "img"\
                                 else (" -preview {\n            gplay.exe \"%s\"\n        }\n"  % self.hycmd(driver, start, 'r', thread)["outpath"] ) )
                     if thread == len( range( self.distributeparts ) ) - 1 : code += "   } %s" % ( self.AlfredClean( driver, alfName ) )
@@ -495,7 +500,7 @@ class deputat() :
                 for thread in range( start, end + 1 ) :
                     cmdFile = self.hycmd( driver, thread, "w" )["name"]
                     code += "        Task {%s -f(%0*d)} -cmds {\n" % ( cmdName, driverPadzero, thread )
-                    code += "            RemoteCmd {python.exe \\\"%s\\\" \\\"%s\\\"} -service {mantra} -tags {mantra}\n        }" % ( starter, cmdFile )
+                    code += "            RemoteCmd {python.exe \\\"%s\\\" %s \\\"%s\\\"} -service {mantra} -tags {mantra}\n        }"%( STARTER, VER, cmdFile )
                     code += "%s" % ( (" -preview {\n            mplay.exe \"%s\"\n        }\n" % self.hycmd(driver, thread)["outpath"] ) if driver.type() == "img"\
                                 else (" -preview {\n            gplay.exe \"%s\"\n        }\n"  % self.hycmd(driver, thread)["outpath"] ) )
                     if thread == end : code += "   } %s" % ( self.AlfredClean( driver, alfName ) )
@@ -516,7 +521,7 @@ class deputat() :
             hou.hipFile.save()
 
     def render( self ) :
-        must_vars = [self.rcpath, self.hdata, self.seq, self.sh]
+        must_vars = [self.rcpath, self.hdata]
         empty = ""
         for var in must_vars :
             if not var :
@@ -540,41 +545,3 @@ if dep.prerender :
 if dep.save :
     dep.saveHipFile()
 dep.render()
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        

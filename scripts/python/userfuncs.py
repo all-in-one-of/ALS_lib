@@ -2,6 +2,7 @@ import hou, toolutils
 import colors
 import os
 import tempfile
+import re
 reload( colors )
 
 def checkSelection( ) :
