@@ -10,6 +10,8 @@
     <interfaceItem name="datasinc"/>
     <interfaceItem name="flipWrite"/>
     <interfaceItem name="VEXEditorPanelClass"/>
+    <interfaceItem name="QtDesigner"/>
+    <interfaceItem name="interface1"/>
   </interfacesMenu>
   <interfacesMenu type="panetab">
     <interfaceItem name="project_browser"/>

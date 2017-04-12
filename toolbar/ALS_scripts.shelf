@@ -16,10 +16,12 @@
     <memberTool name="createOutput"/>
     <memberTool name="attribwrangle"/>
     <memberTool name="volumewrangle"/>
+    <memberTool name="changewrangle"/>
     <memberTool name="transform"/>
     <memberTool name="blastName"/>
     <memberTool name="hdaNewVer"/>
     <memberTool name="calendar"/>
+    <memberTool name="test"/>
   </toolshelf>
 
   <tool name="reload" label="Reload" icon="SOP_file">
@@ -96,12 +98,25 @@ workCal.printMonth()]]></script>
   <tool name="attribwrangle" label="Attrib" icon="SOP_attribwrangle">
     <script scriptType="python"><![CDATA[import hou, userfuncs, colors
 reload( userfuncs )
-userfuncs.createOutputNode('attribwrangle', color=colors.wrangle)]]></script>
+userfuncs.createOutputNode('attribwrangle', color=colors.wrangle_new)]]></script>
   </tool>
 
   <tool name="volumewrangle" label="Volume" icon="SOP_volumewrangle">
     <script scriptType="python"><![CDATA[import hou, userfuncs, colors
 reload( userfuncs )
-userfuncs.createOutputNode('volumewrangle', color=colors.wrangle)]]></script>
+userfuncs.createOutputNode('volumewrangle', color=colors.wrangle_new)]]></script>
+  </tool>
+
+  <tool name="changewrangle" label="Change" icon="SOP_attribexpression">
+    <script scriptType="python"><![CDATA[import userfuncs
+reload(userfuncs)
+userfuncs.changeWrangle()]]></script>
+  </tool>
+
+  <tool name="test" label="TEST" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[import my_test 
+reload(my_test)
+my_test.test()
+]]></script>
   </tool>
 </shelfDocument>

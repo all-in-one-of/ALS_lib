@@ -1,8 +1,11 @@
-import hou, toolutils
-import colors
+import hou
+import toolutils
 import os
 import tempfile
 import re
+
+import fileUtils
+import colors
 reload( colors )
 
 def checkSelection( ) :
@@ -324,7 +327,10 @@ def HDA_IncrementVersion( threshold, dirPath, namePrefix, major, minor, work, id
         return res
 
 def HDA_isUnlockedAsset( node ):
-    return not node.isLocked() and node.type().definition() is not None
+    try:
+        return not node.isLocked() and node.type().definition() is not None
+    except(AttributeError):
+        return not node.isLockedHDA() and node.type().definition() is not None
 
 
 def HDA_AddVersion( threshold = 10 ) :
@@ -386,25 +392,18 @@ def HDA_AddVersion( threshold = 10 ) :
 def createNewShot() :
     import platform
     system = platform.system()
-    seq_sh = hou.ui.readMultiInput( "Enter sequence and shot numbers:", ("Sequence:", "Shot"), buttons = ("OK", "Cancel") )
+    seq_sh = hou.ui.readMultiInput( "Enter sequence and shot numbers:", ("Sequence:", "Shot", "Sub"), buttons = ("OK", "Cancel") )
     if seq_sh[0] == 0 :
         job = hou.expandString( "$JOB" )
         seq = seq_sh[1][0]
         sh  = seq_sh[1][1]
+        sub = seq_sh[1][2]
         path = "{0}/scenes/seq{1}/seq{1}_sh{2}".format( job, seq, sh )
+        if sub != '':
+            path += "_sub{0}".format(sub)
         confirm = hou.ui.displayMessage( '"%s" path will be created. Are you sure?' % path, ("Ok", "Cancel") )
         if confirm == 0 :
-            lst = path.replace("//","##").split("/")
-            current = []
-            for num, part in enumerate( lst ) :
-                current.append(part)
-                pathString = "/".join(current).replace("##", "//")
-                currentPath =  pathString if system == "Windows" else "/" + pathString
-                if not os.path.exists( currentPath ) :
-                    try :
-                        os.mkdir( currentPath )
-                    except :
-                        pass
+            fileUtils.createDir(path)
 
 
 def mergeToGeo() :
@@ -503,6 +502,51 @@ def createSubnet() :
         out.setColor( hou.Color( colors.output ) )
         node.setSelected(0)
         sub.setSelected(1)
+
+def changeWrangle():
+    nodes = hou.selectedNodes()
+    for node in nodes:
+        try:
+
+            mode = node.parm('mode').eval()
+            types = ['attribwrangle', 'volumewrangle', 'deformationwrangle']
+            wrangle = types[mode]
+            group_parm = 'group{}'.format( '2' if mode == 1 else "" )
+            group = node.parm(group_parm).eval()
+            snippet = 'snippet{}'.format( mode+1 )
+            code = node.parm(snippet).eval()
+
+            pcodes = [i.asCode() for i in node.parms()]
+            new_node = hou.copyNodesTo( [node], node.parent() )[0]
+            new_node = new_node.changeNodeType(wrangle)
+            pn = re.compile('.parm\(\"([^\)]+)\"\)')
+            
+            for p in pcodes:
+                try:
+                    exec(p)
+                except(AttributeError):
+                    pname = pn.search(p).groups()[0]
+                    print 'Can\'t set parm {}'.format(pname)
+
+            new_node.parm('group').set( group )
+            new_node.parm('snippet').set( code )
+            new_node.matchCurrentDefinition()
+
+            for i, inp in enumerate(node.inputs()):
+                new_node.setInput(i, inp)
+
+            for c in node.outputConnections():
+                out = c.outputNode()
+                i = c.inputIndex()
+                out.setInput(i, new_node)
+
+            name = node.name()
+            node.destroy()
+            new_node.setName(name)
+            new_node.setColor(hou.Color(colors.wrangle_new))
+            
+        except(AttributeError):
+            hou.ui.displayMessage("{} is not an actionwrangle instance!".format(node.name()))
 
 
 

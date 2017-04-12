@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>pb</class>
+ <widget class="QWidget" name="pb">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>609</width>
+    <height>340</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="8" column="1" colspan="3">
+    <widget class="QLineEdit" name="refField"/>
+   </item>
+   <item row="8" column="0">
+    <widget class="QPushButton" name="refButton">
+     <property name="text">
+      <string>References</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="hdataButton">
+     <property name="text">
+      <string>Houdini Data</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="hdataField"/>
+   </item>
+   <item row="2" column="2">
+    <widget class="QPushButton" name="localDataButton">
+     <property name="text">
+      <string>Local</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="3">
+    <widget class="QLineEdit" name="jobField"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="mjobButton">
+     <property name="text">
+      <string>Maya JOB</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="3">
+    <widget class="QLineEdit" name="mjobField"/>
+   </item>
+   <item row="6" column="1" colspan="3">
+    <widget class="QLineEdit" name="flipField"/>
+   </item>
+   <item row="7" column="0">
+    <widget class="QPushButton" name="rcButton">
+     <property name="text">
+      <string>Render Compose</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="3">
+    <widget class="QPushButton" name="sceneButton">
+     <property name="text">
+      <string>Open Scene</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QPushButton" name="storageButton">
+     <property name="text">
+      <string>Storage</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1" colspan="3">
+    <widget class="QLineEdit" name="rcField"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="QPushButton" name="flipButton">
+     <property name="text">
+      <string>Flipbooks</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QPushButton" name="mdataButton">
+     <property name="text">
+      <string>Maya Import</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QPushButton" name="mscenesButton">
+     <property name="text">
+      <string>Maya Scenes</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" colspan="2">
+    <widget class="QLineEdit" name="mscenesField"/>
+   </item>
+   <item row="3" column="1" colspan="3">
+    <widget class="QLineEdit" name="mdataField"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QPushButton" name="mcacheButton">
+     <property name="text">
+      <string>Maya Export</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1" colspan="3">
+    <widget class="QLineEdit" name="mcacheField"/>
+   </item>
+   <item row="9" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0">
+    <widget class="QPushButton" name="jobButton">
+     <property name="text">
+      <string>Houdini JOB</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

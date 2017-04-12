@@ -3,17 +3,26 @@ try :
     from PySide.QtCore import *
 except :
     from PySide2.QtWidgets import *
+    from PySide2.QtGui import *
     from PySide2.QtCore import *
     
-import hou, os, sys, subprocess, json, re, socket
+import hou
+import os
+import sys
+import subprocess
+import json
+import re
+import socket
 import datetime
 import userfuncs
 
 MAYAPY_PATH = 'mayapy.exe'
 P4 = "C:/Program Files/Perforce/p4"
-START = "//PROJECTS/Alisa_Film/HoudiniProject/scripts/maya_start.py"
+HOUDINI_GLOB_PATH = os.environ['HOUDINI_PATH'].split(os.path.pathsep)[0]
+ALS = hou.expandString('$ALS')
+START = "{0}/scripts/maya_start.py".format(ALS)
 PYTHON = "C:/Python27_64/python.exe"
-UPDATEASSETS = "//PROJECTS/Alisa_Film/HoudiniProject/scripts/p4update.py"
+UPDATEASSETS = "{0}/scripts/p4update.py".format(ALS)
 
 def openFileInEditor( file ) :
     if os.path.exists( file ) :

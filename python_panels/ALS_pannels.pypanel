@@ -11,9 +11,8 @@ import alisaPannels
 
 def createInterface():
     reload( alisaPannels )
-    interface = alisaPannels.projectBrowser()
-    
-    return interface]]></script>
+    w = alisaPannels.projectBrowser()
+    return w.widget]]></script>
     <help><![CDATA[]]></help>
   </interface>
   <interface name="flipWrite" label="Flipbook Recorder" icon="$JOB/../../icons/standart/IMAGE/new_sequence.svg" help_url="">
@@ -22,9 +21,12 @@ import alisaPannels
 
 def createInterface():
     reload( alisaPannels )
-    interface = alisaPannels.flipbook()
+    w = alisaPannels.flipbook()
+    w.setStyleSheet('')
+    import hqt
+    w.setStyleSheet( hqt.get_h14_style() )
     
-    return interface]]></script>
+    return w]]></script>
     <help><![CDATA[]]></help>
   </interface>
   <interface name="datasinc" label="Data Sinc" icon="$JOB/../../icons/standart/BUTTONS/cook.svg" help_url="">
@@ -33,9 +35,12 @@ import alisaPannels
 
 def createInterface():
     reload( alisaPannels )
-    interface = alisaPannels.dataCleaner()
+    w = alisaPannels.dataCleaner()
+    w.setStyleSheet('')
+    import hqt
+    w.setStyleSheet( hqt.get_h14_style() )
     
-    return interface]]></script>
+    return w]]></script>
     <help><![CDATA[]]></help>
   </interface>
 </pythonPanelDocument>

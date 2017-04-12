@@ -21,6 +21,6 @@ def cleanEmptyDirs(root):
 
 if __name__ == '__main__':
 	pass
-	test = 'D:/HoudiniProject'
+	test = r'\\PROJECTS\Alisa_Film\HoudiniProject\data_store\\'
 	cleanEmptyDirs(test)
 	

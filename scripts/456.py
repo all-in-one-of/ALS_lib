@@ -26,7 +26,7 @@ except(AttributeError):
 # #------------- init variables -----------------
 globs = {'JOB' : '{0}/Jobs/{1}'.format(HOUDINI_GLOB_PATH, job),
 		'MJOB' : HOUDINI_GLOB_PATH.replace('HoudiniProject', 'MayaProject'),
-		'ALS' : '{}/ALS_lib'.format(HOUDINI_GLOB_PATH)}
+		'ALS' : '{}/Libraries/ALS_lib'.format(HOUDINI_GLOB_PATH)}
 
 		       
 if shotInfo != None :
@@ -42,7 +42,7 @@ if shotInfo != None :
 		globs['RCPATH'] = '{0}/{1}'.format(RENDER_COMPOSE, shotDir)
 
 		globs['HDATA'] = '{0}/data/{1}'.format(globs['JOB'], shotDir)
-		globs['HDATA_globs'] = globs['HDATA']
+		globs['HDATA_GLOB'] = globs['HDATA']
 		globs['DATA_STORE'] = '{0}/data_store/{1}/{2}'.format(HOUDINI_GLOB_PATH, job, shotDir)
 		
 		if userInfo.user != 'default':

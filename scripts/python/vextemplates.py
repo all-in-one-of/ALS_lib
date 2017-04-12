@@ -1,7 +1,7 @@
 import hou, re
 
-SOPTEMPLATEFILE = hou.expandString("$JOB") + "/scripts/python/sopvextemplates.vfl"
-DOPTEMPLATEFILE = hou.expandString("$JOB") + "/scripts/python/dopvextemplates.vfl"
+SOPTEMPLATEFILE = hou.expandString("$ALS") + "/scripts/python/sopvextemplates.vfl"
+DOPTEMPLATEFILE = hou.expandString("$ALS") + "/scripts/python/dopvextemplates.vfl"
 
 def replaceSimbols() :
     list = [ "$", "Dollar", "^", "Up Arrow", "?", "Question", "#", "Hash",  ]
