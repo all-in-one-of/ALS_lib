@@ -70,7 +70,6 @@ class projectBrowser () :
         print self.widget.jobButton.clicked.connect(self._projDir)
 
     def openPath(self, field, var, create_dir=False):
-        print 'ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
         field.setText(hou.expandString(var))
         path = field.text().replace('/', '\\')
         if create_dir:
