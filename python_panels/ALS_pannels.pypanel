@@ -6,40 +6,35 @@
  same interface or of the interfaces menu are not allowed
  in a single file. -->
   <interface name="project_browser" label="Project Browser" icon="SOP_file" help_url="">
-    <script><![CDATA[#from PySide import QtGui, QtCore
+    <script><![CDATA[from hutil.Qt import QtCore, QtUiTools, QtWidgets
 import alisaPannels
+import hqt
 
 def createInterface():
-    reload( alisaPannels )
+    reload(alisaPannels)
     w = alisaPannels.projectBrowser()
-    return w.widget]]></script>
+    return w]]></script>
     <help><![CDATA[]]></help>
   </interface>
   <interface name="flipWrite" label="Flipbook Recorder" icon="$JOB/../../icons/standart/IMAGE/new_sequence.svg" help_url="">
-    <script><![CDATA[#from PySide import QtGui, QtCore
+    <script><![CDATA[from hutil.Qt import QtCore, QtUiTools, QtWidgets
 import alisaPannels
+import hqt
 
 def createInterface():
-    reload( alisaPannels )
+    reload(alisaPannels)
     w = alisaPannels.flipbook()
-    w.setStyleSheet('')
-    import hqt
-    w.setStyleSheet( hqt.get_h14_style() )
-    
     return w]]></script>
     <help><![CDATA[]]></help>
   </interface>
   <interface name="datasinc" label="Data Sinc" icon="$JOB/../../icons/standart/BUTTONS/cook.svg" help_url="">
-    <script><![CDATA[#from PySide import QtGui, QtCore
+    <script><![CDATA[from hutil.Qt import QtCore, QtUiTools, QtWidgets
 import alisaPannels
+import hqt
 
 def createInterface():
-    reload( alisaPannels )
+    reload(alisaPannels)
     w = alisaPannels.dataCleaner()
-    w.setStyleSheet('')
-    import hqt
-    w.setStyleSheet( hqt.get_h14_style() )
-    
     return w]]></script>
     <help><![CDATA[]]></help>
   </interface>

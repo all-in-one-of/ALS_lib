@@ -26,11 +26,10 @@ from hutil.Qt import QtCore, QtUiTools, QtWidgets
 import hqt
 
 def createInterface():
-    ui_file_path = "{0}/scripts/widgets/flipbook2.ui".format( hou.expandString('$ALS') )
-    loader = QtUiTools.QUiLoader()
-    theMainWidget = loader.load(ui_file_path)
-    theMainWidget.setStyleSheet( hqt.get_h14_style() )
-    return theMainWidget]]></script>
+    import alisaPannels
+    reload(alisaPannels)
+    w = alisaPannels.projectBrowser()
+    return w]]></script>
     <help><![CDATA[]]></help>
   </interface>
 </pythonPanelDocument>

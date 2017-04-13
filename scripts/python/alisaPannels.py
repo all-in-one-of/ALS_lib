@@ -4,6 +4,7 @@ from hutil.Qt.QtWidgets import *
 
 import hou
 import toolutils
+import itertools
 import subprocess
 import os
 import socket
@@ -35,8 +36,24 @@ def createPath(path) :
             except :
                 pass
 
-class projectBrowser () :
+class XXX(QWidget):
+    def __init__(self, parent = None):
+        super(XXX, self).__init__(parent)
+        h = QHBoxLayout(self)
+        ui_file_path = "{0}/scripts/widgets/projectBrowser.ui".format(hou.expandString('$ALS'))
+        loader = QUiLoader()
+        self.widget = loader.load(ui_file_path)
+        self.widget.jobButton.clicked.connect(self.yyy)
+        h.addWidget(self.widget)
+        #jobButton = widget.findChild(QPushButton, 'jobButton')
+        #jobButton.clicked.connect(self.yyy)
+
+    def yyy(self):
+        print 456
+
+class projectBrowser (QWidget) :
     def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
         ui_file_path = "{0}/scripts/widgets/projectBrowser.ui".format(hou.expandString('$ALS'))
         loader = QUiLoader()
         self.widget = loader.load(ui_file_path)
@@ -64,7 +81,10 @@ class projectBrowser () :
         self.widget.storageButton.clicked.connect(self._dataStorageDir)
         self.widget.sceneButton.clicked.connect(self._openScene)
 
-        # self.widget.setStyleSheet(hqt.get_h14_style())
+        h = QHBoxLayout(self)
+        h.setContentsMargins(0,0,0,0)
+        h.addWidget(self.widget)
+        self.widget.setStyleSheet(hqt.get_h14_style())
 
     def test( self ):
         print self.widget.jobButton.clicked.connect(self._projDir)
@@ -154,71 +174,30 @@ class projectBrowser () :
             maya = subprocess.Popen(cmd, env = env)
         
 class flipbook(QWidget) :
-    def __init__(self) :
-        QWidget.__init__(self)
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        ui_file_path = "{0}/scripts/widgets/flipbook.ui".format(hou.expandString('$ALS'))
+        loader = QUiLoader()
+        self.widget = loader.load(ui_file_path)
 
         self.job  = hou.expandString('$JOB')
         self.play = hou.expandString('$PLAY')
         self.seq  = hou.expandString('$SEQ')
         self.sh   = hou.expandString('$SH')
+        self.width = 2048
+        self.height = 858
         self.replace = 0
-        
-        pathLabel = QLabel('Path ')
-        self.pathField = QLineEdit('$PLAY/001.mov')
-        self.getDirBtn = QToolButton(self)
+
+        h = QHBoxLayout(self)
+        h.setContentsMargins(0,0,0,0)
+        h.addWidget(self.widget)
+        self.widget.setStyleSheet(hqt.get_h14_style())
+
         # icon = QIcon()
         # icon.addPixmap(QPixmap("file.png"))
-        # self.getDirBtn.setIcon(icon)
-        self.getDirBtn.clicked.connect(self._getFlipPath)
-        self.dirToggle = QCheckBox('Create Intermediate Directories')
-        self.dirToggle.setChecked(1)
-        
-        startLabel      = QLabel('Start')
-        self.startField = QLineEdit('$RFSTART')
-        endLabel        = QLabel('End')
-        self.endField   = QLineEdit('$RFEND')
-        gammaLabel        = QLabel('    Gamma')
-        self.gammaField   = QLineEdit('2.2')
-        self.gammaField.setFixedSize(QSize(40, 20))
-        antialiasLabel        = QLabel('    Anialiasing')
-        self.antialiasField   = QLineEdit('4')
-        self.antialiasField.setFixedSize(QSize(40, 20))
-        
-        flipbookButton = QToolButton(self)
-        flipbookButton.clicked.connect(self._flipWrite)
-        flipbookButton.setText("Write Flipbook")
-        flipbookButton.setFixedSize(QSize(120, 25))
-        flipbookButton.setFocusPolicy(Qt.NoFocus)
-        
-        #============Element Layouts=============
-        pathLayout = QHBoxLayout()
-        pathLayout.addWidget(pathLabel)
-        pathLayout.addWidget(self.pathField)
-        pathLayout.addWidget(self.getDirBtn)
-        pathLayout.addWidget(self.dirToggle)
-        
-        rangeLayout = QHBoxLayout()
-        rangeLayout.addWidget(startLabel)
-        rangeLayout.addWidget(self.startField)
-        rangeLayout.addWidget(endLabel)
-        rangeLayout.addWidget(self.endField)
-        rangeLayout.addWidget(gammaLabel)
-        rangeLayout.addWidget(self.gammaField)
-        rangeLayout.addWidget(antialiasLabel)
-        rangeLayout.addWidget(self.antialiasField)
-        
-        runLayout = QHBoxLayout()
-        runLayout.addWidget(flipbookButton)
-        
-        #============Master Layout=============
-        MasterLayout = QVBoxLayout()
-        MasterLayout.addLayout(pathLayout)
-        MasterLayout.addLayout(rangeLayout)
-        MasterLayout.addLayout(runLayout)
-        
-        MasterLayout.addStretch(1)
-        self.setLayout(MasterLayout)
-        # self.setProperty("houdiniStyle", True)
+        # self.widget.getDirBtn.setIcon(icon)
+        self.widget.getDirBtn.clicked.connect(self._getFlipPath)
+        self.widget.flipbookButton.clicked.connect(self._flipWrite)
 
     def existsCheck(self, path) :
         if os.path.exists(path) and self.replace == 0 :
@@ -238,11 +217,11 @@ class flipbook(QWidget) :
                 frameGrp = frameExp.group().split(".")[-2]
                 padding = len(frameGrp)
                 pathExp = pathExp.replace('.%s.' % frameGrp, '.$F%s.' % padding)
-        self.pathField.setText(pathExp)
+        self.widget.pathField.setText(pathExp)
         return True
 
     def _getFlipPath(self) :
-        startDir = hou.expandString(self.pathField.text())
+        startDir = hou.expandString(self.widget.pathField.text())
         fname = QFileDialog.getSaveFileName(self, "Save Flipbook", dir=startDir, filter="(*.mov *.mp4 *.jpg *.png)")
         if fname[0] :
             self.existsCheck(fname[0]) 
@@ -265,34 +244,18 @@ class flipbook(QWidget) :
         if not go :
             hou.hscript('viewwrite {} {} {}'.format(options, current_view, outpath))
             #print 'viewwrite {} {} {}'.format(options, current_view, outpath)
-        hou.hscript('pane -f 0 %s' % pane)                
-        
+        hou.hscript('pane -f 0 %s' % pane)
         
     def _flipWrite(self) :
-        path = self.pathField.text()
-        expandPath = hou.expandString(self.pathField.text())
+        path = self.widget.pathField.text()
+        expandPath = hou.expandString(self.widget.pathField.text())
         check = self.existsCheck(expandPath)
         if not check :
             return
         lst = path.split('/')
         dir = hou.expandString('/'.join(lst[:-1]))
         name = lst[-1]
-        '''
-        if os.path.exists(path) :
-            fileList = os.listdir('/'.join(path.split('/')[:-1]))
-            listString = ''
-            i = 0
-            for file in fileList :
-                listString += file + '\n'
-                i += 1
-                if i > 20 :
-                    listString += '...\n'
-                    break
-            new = hou.ui.readInput('Flip book file is exists! Please enter a new name.\nList of files:\n%s' % listString)
-            name = new[1]
-            if not name : 
-                return
-        '''
+
         if not name.split('.')[-1] in ['jpg', 'png', 'mp4', 'mov'] :
             name += '.mov'
         path = dir + '/' + name
@@ -300,13 +263,13 @@ class flipbook(QWidget) :
         ext  =  name.split('.')[-1]
         baseName = name.split('.' + ext)[0]
         print baseName
-        qual  = int(float(hou.expandString(self.antialiasField.text())))
-        start = int(float(hou.expandString(self.startField.text())))
-        end   = int(float(hou.expandString(self.endField.text())))
-        gamma = float(hou.expandString(self.gammaField.text()))
+        qual  = int(float(hou.expandString(self.widget.antialiasSpinBox.text())))
+        start = int(float(hou.expandString(self.widget.startField.text())))
+        end   = int(float(hou.expandString(self.widget.endField.text())))
+        gamma = float(hou.expandString(self.widget.gammaSpinBox.text()))
         start = max(1, start)
         
-        if self.dirToggle.checkState() == Qt.CheckState.Checked :
+        if self.widget.dirToggle.checkState() == Qt.CheckState.Checked :
             createPath(dir)
             
         if not ext in [ 'jpg', 'png' ] :
@@ -315,7 +278,7 @@ class flipbook(QWidget) :
             ffmpeg = '{0}/ffmpeg/bin/ffmpeg.exe'.format(HOUDINI_GLOB_PATH)
             fps = hou.expandString('$FPS')
             
-            self.viewwrite('-q {0} -f {1} {2} -r 2048 858 -g {3} -c'.format(qual, start, end, gamma), "%s/'$F4'.jpg" % tmp)
+            self.viewwrite('-q {0} -f {1} {2} -r {4} {5} -g {3} -c'.format(qual, start, end, gamma, self.width, self.height), "%s/'$F4'.jpg"%tmp)
             
             cmd = '{0} -framerate {3} -start_number {1} -i {2} -r {3} -vcodec libx264 {4}'.format(ffmpeg, start, tmp + r'/%04d.jpg', fps, path).replace('/', '\\')
             print cmd
@@ -328,95 +291,36 @@ class flipbook(QWidget) :
             
         else :
             #pass
-            self.viewwrite('-q {0} -f {1} {2} -r 2048 858 -g {3} -c'.format(qual, start, end, gamma), "%s/%s.%s" % (dir, baseName.replace('$F4', "'$F4'"), ext))
+            self.viewwrite('-q {0} -f {1} {2} -r {4} {5} -g {3} -c'.format(qual, start, end, gamma, self.width, self.height),\
+                           "{}/{}.{}".format(dir, baseName.replace('$F4', "'$F4'"), ext))
         
-        cmd = 'explorer /select,%s' % path.replace('/', '\\').replace('$F4', ('%s' % start).zfill(4))
+        cmd = 'explorer /select,{}'.format(path.replace('/', '\\').replace('$F4', ('%s'%start).zfill(4)))
         subprocess.Popen(cmd)
         self.replace = 0
 
 
 class dataCleaner(QWidget) :
-    def __init__(self) :
-        QWidget.__init__(self)
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        ui_file_path = "{0}/scripts/widgets/datasync.ui".format(hou.expandString('$ALS'))
+        loader = QUiLoader()
+
+        self.widget = loader.load(ui_file_path)
+        h = QHBoxLayout(self)
+        h.setContentsMargins(0,0,0,0)
+        h.addWidget(self.widget)
+        self.widget.setStyleSheet(hqt.get_h14_style())
+
         self.job = hou.expandString('$JOB')
 
-        cleanBox = QGroupBox('Data Cleaner')
-        syncBox  = QGroupBox('Data Sync')
-        
-        scenesLabel = QLabel('Scenes dir for clean ')
-        self.scenesField = QLineEdit('$JOB/scenes')
-        self.getDirBtn = QToolButton(self)
-        # icon = QIcon()
-        # icon.addPixmap(QPixmap("file.png"))
-        # self.getDirBtn.setIcon(icon)
-        self.getDirBtn.clicked.connect(self._getScenesPath)
-
-        maskLabel = QLabel('Mask Dirs RegExp    ')
-        self.maskField = QLineEdit('(.*)seq000(.*)')
-
-        self.startRepareBtn = QToolButton(self)
-        self.startRepareBtn.setText('REPARE CACHES')
-        self.startRepareBtn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.startRepareBtn.font().setPointSize(500)
-        self.startRepareBtn.clicked.connect(self._runRepare)
-
-        self.startCleanBtn = QToolButton(self)
-        self.startCleanBtn.setText('CLEAN')
-        self.startCleanBtn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.startCleanBtn.font().setPointSize(500)
-        self.startCleanBtn.clicked.connect(self._runCleaner)
-
-        self.syncButton = QToolButton(self)
-        self.syncButton.setText('SYNC NOW')
-        self.syncButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.syncButton.clicked.connect(self._runButchSync)
-
-        self.syncGuiButton = QToolButton(self)
-        self.syncGuiButton.setText('OPEN SYNC GUI')
-        self.syncGuiButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.syncGuiButton.clicked.connect(self._runGuiSync)
-
-         #============Element Layouts=============
-        scenesPathLayout = QHBoxLayout()
-        scenesPathLayout.addWidget(scenesLabel)
-        scenesPathLayout.addWidget(self.scenesField)
-        scenesPathLayout.addWidget(self.getDirBtn)
-
-        maskExpresLayout = QHBoxLayout()
-        maskExpresLayout.addWidget(maskLabel)
-        maskExpresLayout.addWidget(self.maskField)        
-
-        ctartCleanLayout = QHBoxLayout()
-        ctartCleanLayout.addWidget(self.startRepareBtn)
-        ctartCleanLayout.addWidget(self.startCleanBtn)
-
-
-        #=============Group Box Layouts===========
-        cleanGroupLayout = QVBoxLayout()
-        cleanGroupLayout.setContentsMargins(20,20,20,20)
-        cleanGroupLayout.addLayout(scenesPathLayout)
-        cleanGroupLayout.addLayout(maskExpresLayout)
-        cleanGroupLayout.addLayout(ctartCleanLayout)
-        cleanBox.setLayout(cleanGroupLayout)
-
-        symcGroupLayout  = QHBoxLayout()
-        symcGroupLayout.setContentsMargins(20,20,20,20)
-        symcGroupLayout.addWidget(self.syncButton)
-        symcGroupLayout.addWidget(self.syncGuiButton)
-        syncBox.setLayout(symcGroupLayout)
-
-        
-        #============Master Layout=============
-        MasterLayout = QVBoxLayout()
-        MasterLayout.addWidget(cleanBox)
-        MasterLayout.addWidget(syncBox)
-        
-        #MasterLayout.addStretch(1)
-        self.setLayout(MasterLayout)
-        # self.setProperty("houdiniStyle", True)
+        self.widget.getDirBtn.clicked.connect(self._getScenesPath)
+        self.widget.startRepareBtn.clicked.connect(self._runRepare)
+        self.widget.startCleanBtn.clicked.connect(self._runCleaner)
+        self.widget.syncButton.clicked.connect(self._runButchSync)
+        self.widget.syncGuiButton.clicked.connect(self._runGuiSync)
 
     def _getScenesPath(self) :
-        startDir = hou.expandString(self.scenesField.text())
+        startDir = hou.expandString(self.widget.scenesField.text())
         fname = QFileDialog.getExistingDirectory(dir = startDir)
         if fname :
             self.scenesField.setText(fname.replace('\\', '/').replace(self.job, '$JOB'))
@@ -427,8 +331,8 @@ class dataCleaner(QWidget) :
 
     def _runCleaner(self) :
         reload(dataCleaner2)
-        scenes = hou.expandString(self.scenesField.text())
-        mask   = self.maskField.text()
+        scenes = hou.expandString(self.widget.scenesField.text())
+        mask   = self.widget.maskField.text()
         dataCleaner2.analize(scenes, mask)
 
     def _runButchSync(self) :
