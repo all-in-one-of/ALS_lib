@@ -65,10 +65,10 @@ def createOutputNode( type, name=None, color=None, position=[0,-1] ):
             out = parent.createNode(type)
         out.setPosition( pos + hou.Vector2(position[0], position[1]) )
         out.setInput( 0, node )
-        out.setDisplayFlag(1)
         try :
+            out.setDisplayFlag(1)
             out.setRenderFlag(1)
-        except :
+        except(AttributeError) :
             pass
         node.setSelected(0)
         out.setSelected(1)
