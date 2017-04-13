@@ -114,7 +114,9 @@ def createTree():
     clean(ropnet)
     for i in range(number):
         rop = 'cachepath{0}'.format(i+1)
-        srcNode = hou.node(node.parm(rop).eval())
+        ropPathParm = node.parm(rop).eval()
+        ropPathParm = relToAbsPath( node, ropPathParm )
+        srcNode = hou.node(ropPathParm)
 
         try:
             ropType = assPat.search(srcNode.type().name()).group('name')
@@ -131,7 +133,7 @@ def createTree():
                 outputNode = srcNode.node(name)
                 createRopNode(ropnet, 'geometry', name, outputNode, collect, i)
 
-            elif ropType == 'rop_geometry':
+            elif ropType == 'rop_geometry' or ropType == 'geometry':
                 name = srcNode.name()
                 outputNode = srcNode
                 createRopNode(ropnet, 'geometry', name, outputNode, collect, i)
@@ -143,7 +145,7 @@ def createTree():
                 outputNode = srcNode.node('output_abc')
                 createRopNode(ropnet, 'alembic', name, outputNode, collect, i)
 
-            elif ropType == 'rop_alembic':
+            elif ropType == 'rop_alembic' or ropType == 'alembic':
                 name = srcNode.name()
                 outputNode = srcNode
                 createRopNode(ropnet, 'alembic', name, outputNode, collect, i)
