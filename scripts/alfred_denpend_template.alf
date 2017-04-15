@@ -1,0 +1,45 @@
+##AlfredToDo 3.0
+
+Job -title {test_task}\
+    -comment {}\
+    -subtasks {
+    Task {test_parent} -cmds {
+        RemoteCmd {python.exe //PROJECTS/Alisa_Film/HoudiniProject/Libraries/ALS_lib/scripts/python/my_test.py}
+    }
+    
+    Task {test_collect} -subtasks {
+        Task {child_task 1} -subtasks {
+            Instance {test_parent}
+        } -cmds {
+            RemoteCmd {python.exe //PROJECTS/Alisa_Film/HoudiniProject/Libraries/ALS_lib/scripts/python/my_test_2.py}
+        }
+        Task {child_task 2} -subtasks {
+            Instance {test_parent}
+        } -cmds {
+            RemoteCmd {python.exe //PROJECTS/Alisa_Film/HoudiniProject/Libraries/ALS_lib/scripts/python/my_test_2.py}
+        }        
+        
+    }
+     
+}
+
+
+
+
+##AlfredToDo 3.0
+
+Job -title {test_task}\
+    -comment {}\
+    -subtasks {
+    Task {test_parent} -cmds {
+        RemoteCmd {python.exe //PROJECTS/Alisa_Film/HoudiniProject/Libraries/ALS_lib/scripts/python/my_test.py}
+    }
+
+    Iterate frame -from 1 -to 10 -by 1 -subtasks {
+        } -template {
+        Task {test_child $frame} -cmds {
+            RemoteCmd {python.exe //PROJECTS/Alisa_Film/HoudiniProject/Libraries/ALS_lib/scripts/python/my_test_2.py}
+        }
+    }
+     
+}

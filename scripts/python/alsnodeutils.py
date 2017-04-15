@@ -17,6 +17,10 @@ def relToAbsPath(node, path):
     except(AttributeError):
         return None
 
+def relToAbsNode(node, path):
+    absPath = relToAbsPath(node, path)
+    return hou.node(absPath)
+
 def frameExpExpand(path):
     '''
     Expand string, but leave $F expression
@@ -98,6 +102,16 @@ def copyParms(src, target):
                     target.parm(p.name()).setExpression(expression)
             except(AttributeError):
                 pass
+
+def shortType(node):
+    assPat = re.compile('\:\:(?P<name>[^\:]+)\:\:')
+    try:
+        return assPat.search(node.type().name()).group('name')
+    except(AttributeError):
+        try:
+            return node.type().name()
+        except(AttributeError):
+            return None
 
 if __name__ == '__main__':
     pass

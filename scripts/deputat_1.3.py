@@ -1,6 +1,6 @@
 '''
 Render manager module for Sidefx houdini and Cinesoft Deputat. Writen by Anton Grabovskiy. 2016.
-version 1.0
+version 1.3
 '''
 import hou
 import os
@@ -369,7 +369,7 @@ class deputat() :
             filename = "%s/%s.%s.%d.hycmd" % ( self.dirs( driver.type() )["hycmd"], taskName, distribType, num )
 
 
-        code += 'rop.render( frame_range = ( %d, %d ), output_progress = True )\n' % ( start, end )
+        code += 'rop.render( frame_range = ( %d, %d ), verbose = True, output_progress = True )\n' % ( start, end )
         code += 'exit()\n'
 
 
