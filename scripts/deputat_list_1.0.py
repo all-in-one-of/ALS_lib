@@ -164,6 +164,7 @@ python %WRAPPER% %VERSION% %RENDER% %HIPPATH% %ROPNODE% %F1% %F2% %F3%
                   'instance' : instance}
         if len(self.cmd) > 1:
             code = r'''
+
 Task {{{task}}} -subtasks {{'''.format(**kwargs)
             for i, cmd in enumerate(self.cmd):
                 kwargs['frame'] = i + self.fr[0]
@@ -173,6 +174,7 @@ Task {{{task}}} -subtasks {{'''.format(**kwargs)
                 kwargs['num'] = i
 
                 code += r'''
+
     Task {{{subtask}.frame.{frame}}} -cmds {{
             RemoteCmd {{{cmd}}} -service {{mantra}} -tags {{mantra}}
         }} -preview {{
@@ -184,16 +186,17 @@ Task {{{task}}} -subtasks {{'''.format(**kwargs)
             Instance {{{instance}}}
         }}'''.format(**kwargs)
 
-            code += '\n\n    } -cleanup {\n'
+            code += '\n\n    } -cleanup {'
             for i, cmd in enumerate(self.cmd):
                 kwargs['cmd'] = cmd
                 code += '''
         Cmd {{Alfred}} -msg {{File delete "{cmd}"}}'''.format(**kwargs)
-            code += '\n\n    }'
+            code += '\n    }'
 
         else:
             kwargs['cmd'] = self.cmd[0]
             code = r'''
+
 Task {{{task}}} -cmds {{
         RemoteCmd {{{cmd}}} -service {{mantra}} -tags {{mantra}}
     }} -preview {{
@@ -250,8 +253,8 @@ Job -title {{ {job} }} -comment {{ {comment} }} -subtasks {{'''.format(**kwargs)
             code += out.alfred(instance=dep)
             if i == len(self.outputs)-1:
                 code += ''' -cleanup {{
-        Cmd {{Alfred}} -msg {{File delete "{}"}}
-    }}'''.format(alfFile)
+            Cmd {{Alfred}} -msg {{File delete "{}"}}
+        }}'''.format(alfFile)
         code += '\n\n    }'
         with open(alfFile, 'w') as f:
             f.write(code)
