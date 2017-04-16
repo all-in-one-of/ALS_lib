@@ -13,11 +13,7 @@ try:
         rop.parm("vm_vexprofile").set(2)
     except(AttributeError):
         pass
-    # print rop.parm('vm_picture').unexpandedString()
-    # print hou.hipFile.name()
-    # print hou.hipFile.path()
-    print hou.expandString('$HIP')
-    # rop.render(frame_range = f, verbose = True, output_progress = True)
+    rop.render(frame_range = f, verbose = True, output_progress = True)
     exit()
 
 except(IndexError):

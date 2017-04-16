@@ -11,10 +11,16 @@ LOCAL_DATA_PATH = 'Q:/houdini'
 LOCAL_MAYA_SCENES = 'Q:/Film/Scenes'
 RENDER_COMPOSE = '//POST/film/RenderCompose'
 HIP = hou.expandString('$HIP')
-print sys.argv
+HIPNAME = hou.expandString('$HIPNAME')
+#rop cmd fix
+if not HOUDINI_GLOB_PATH in HIP:
+	try:
+		HIP = '/'.join(sys.argv[1].split('\\')[:-1])
+		HIPNAME = sys.argv[1].split('\\')[-1].replace('.hip', '')
+	except(IndexError):
+		print 'HIP variables are breaked!'
+		pass
 
-#
-# seqShPat = re.compile('\/(?P<job>[^\/]*)\/[^\/]+\/seq\d+\/(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\/*|\/*)')
 jobPat = re.compile('\/Jobs/(?P<job>[^\/]+)')
 seqShPat = re.compile('(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\/*|\/*)')
 jobSearch = jobPat.search(HIP)
@@ -24,7 +30,7 @@ try:
 except(AttributeError):
 	job = 'Main'
 
-# #------------- init variables -----------------
+#------------- init variables -----------------
 globs = {'JOB' : '{0}/Jobs/{1}'.format(HOUDINI_GLOB_PATH, job),
 		'MJOB' : HOUDINI_GLOB_PATH.replace('HoudiniProject', 'MayaProject'),
 		'ALS' : '{}/Libraries/ALS_lib'.format(HOUDINI_GLOB_PATH)}
@@ -72,7 +78,12 @@ else:
 	globs['REFPATH'] = '{0}/references'.format(HIP)
 	globs['_EXPORT'] = '{0}/_Export'.format(HIP)
 
-# #-------------- set houdini vaiables --------------
+	#rop cmd fix
+	globs['HIP'] = HIP
+	globs['HIPNAME'] = HIPNAME
+	globs['HIPFILE'] = '{}/{}'.format(HIP, HIPNAME)
+
+# -------------- set houdini vaiables --------------
 for key, val in globs.iteritems():
 	hou.hscript('set -g {0}={1}'.format(key, val))
 
