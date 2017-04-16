@@ -10,14 +10,15 @@ HOUDINI_GLOB_PATH = os.environ['HOUDINI_PATH'].split(os.path.pathsep)[0]
 LOCAL_DATA_PATH = 'Q:/houdini'
 LOCAL_MAYA_SCENES = 'Q:/Film/Scenes'
 RENDER_COMPOSE = '//POST/film/RenderCompose'
+HIP = hou.expandString('$HIP')
+print sys.argv
 
 #
 # seqShPat = re.compile('\/(?P<job>[^\/]*)\/[^\/]+\/seq\d+\/(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\/*|\/*)')
 jobPat = re.compile('\/Jobs/(?P<job>[^\/]+)')
 seqShPat = re.compile('(?P<seq>seq\d+)_(?P<sh>sh\d+)(?=_(?P<sub>sub\d+)|\/*|\/*)')
-hipPath = hou.hipFile.path()
-jobSearch = jobPat.search(hipPath)
-shotInfo = seqShPat.search(hipPath)
+jobSearch = jobPat.search(HIP)
+shotInfo = seqShPat.search(HIP)
 try:
 	job = jobSearch.group('job')
 except(AttributeError):
@@ -59,16 +60,17 @@ if shotInfo != None :
 		globs['MRENDER'] = '{0}/OppositeLayer/MasterBeauty'.format(globs['RCPATH'])
 		globs['LS'] = '{0}/RND_files/render_{1}_master/LS'.format(globs['MJOB'], globs['SEQ'])
 		globs['REFPATH'] = '{0}/references/{1}'.format(globs['JOB'], shotDir)
+		globs['_EXPORT'] = '{0}/_Export/{1}'.format(globs['JOB'], shotDir)
 else:
-	hip = hou.expandString('$HIP')
-	globs['HDATA'] = '{0}/data'.format(hip)
-	globs['MDATA'] = '{0}/geo'.format(hip)
-	globs['PLAY'] = '{0}/flipbook'.format(hip)
-	globs['WRANGLE'] = '{0}/vex_wrangles'.format(hip)
-	globs['PROXY'] = '{0}/proxy'.format(hip)
-	globs['MCACHE'] = '{0}/alembic'.format(hip)
-	globs['RCPATH'] = '{0}/render'.format(hip)
-	globs['REFPATH'] = '{0}/references'.format(hip)
+	globs['HDATA'] = '{0}/data'.format(HIP)
+	globs['MDATA'] = '{0}/geo'.format(HIP)
+	globs['PLAY'] = '{0}/flipbook'.format(HIP)
+	globs['WRANGLE'] = '{0}/vex_wrangles'.format(HIP)
+	globs['PROXY'] = '{0}/proxy'.format(HIP)
+	globs['MCACHE'] = '{0}/alembic'.format(HIP)
+	globs['RCPATH'] = '{0}/render'.format(HIP)
+	globs['REFPATH'] = '{0}/references'.format(HIP)
+	globs['_EXPORT'] = '{0}/_Export'.format(HIP)
 
 # #-------------- set houdini vaiables --------------
 for key, val in globs.iteritems():

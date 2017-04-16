@@ -352,10 +352,10 @@ class deputat() :
             end = driver.end()
             if driver.type() != "abc" :
                 code += 'rop.parm("lpostframe").set("python")\n'
-                postframe  = "import datetime\\n"
-                postframe += "now = datetime.datetime.now().strftime('%H:%M:%S')\\n"
-                postframe += "print ( \'[%s] Frame finished ( %s )\' % ( now, hou.expandString(\'$F\') ) )"
-                code += 'rop.parm("postframe").set("%s")\n' % postframe
+                # postframe  = "import datetime\\n"
+                # postframe += "now = datetime.datetime.now().strftime('%H:%M:%S')\\n"
+                # postframe += "print ( \'[%s] Frame finished ( %s )\' % ( now, hou.expandString(\'$F\') ) )"
+                # code += 'rop.parm("postframe").set("%s")\n' % postframe
             if not "wedge" in mode : filename = "%s/%s.hycmd" % ( self.dirs( driver.type() )["hycmd"], taskName )
         if mode == "wedge" :
             start = self.wFrame()
