@@ -7,7 +7,7 @@ import userInfo
 import fileUtils
 
 HOUDINI_GLOB_PATH = os.environ['HOUDINI_PATH'].split(os.path.pathsep)[0]
-LOCAL_DATA_PATH = 'Q:/houdini'
+LOCAL_DATA_PATH = 'Q:/Houdini'
 LOCAL_MAYA_SCENES = 'Q:/Film/Scenes'
 RENDER_COMPOSE = '//POST/film/RenderCompose'
 HIP = hou.expandString('$HIP')
@@ -16,9 +16,7 @@ HIPNAME = hou.expandString('$HIPNAME')
 if not HOUDINI_GLOB_PATH in HIP:
 	try:
 		HIP = '/'.join(sys.argv[1].split('\\')[:-1])
-		HIPNAME = sys.argv[1].split('\\')[-1].replace('.hip', '')
 	except(IndexError):
-		print 'HIP variables are breaked!'
 		pass
 
 jobPat = re.compile('\/Jobs/(?P<job>[^\/]+)')
@@ -53,7 +51,7 @@ if shotInfo != None :
 		globs['DATA_STORE'] = '{0}/data_store/{1}/{2}'.format(HOUDINI_GLOB_PATH, job, shotDir)
 		
 		if userInfo.user != 'default':
-			globs['HDATA'] = globs['HDATA'].replace(HOUDINI_GLOB_PATH, 'Q:/houdini')
+			globs['HDATA'] = globs['HDATA'].replace(HOUDINI_GLOB_PATH, LOCAL_DATA_PATH)
 
 		globs['MDATA'] = '{0}/_Export'.format(globs['RCPATH'])
 		globs['MCACHE'] = '{0}/cache/alembic/{1}'.format(globs['MJOB'], shotDir)
@@ -77,11 +75,6 @@ else:
 	globs['RCPATH'] = '{0}/render'.format(HIP)
 	globs['REFPATH'] = '{0}/references'.format(HIP)
 	globs['_EXPORT'] = '{0}/_Export'.format(HIP)
-
-	#rop cmd fix
-	globs['HIP'] = HIP
-	globs['HIPNAME'] = HIPNAME
-	globs['HIPFILE'] = '{}/{}.hip'.format(HIP, HIPNAME)
 
 # -------------- set houdini vaiables --------------
 for key, val in globs.iteritems():

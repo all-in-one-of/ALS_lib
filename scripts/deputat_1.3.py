@@ -16,7 +16,7 @@ VER = hou.expandString('$_HIP_SAVEVERSION')
 HOUDINI_GLOB_PATH = os.environ['HOUDINI_PATH'].split(os.path.pathsep)[0]
 ALS = hou.expandString('$ALS')
 STARTER = "{0}/scripts/wrapHy.py".format(ALS)
-LOCAL = 'Q:/houdini'
+LOCAL = 'Q:/Houdini'
 
 #functions 
 def searchDriverNode( node ) :    
@@ -311,7 +311,7 @@ class deputat() :
         if driver.type() == "img" : 
             code += 'rop.parm("vm_image_comment").set("%s")\n' % self.comment
             code += 'rop.parm("vm_verbose").set(4)\n'
-            code += 'rop.parm("vm_vexprofile").set(2)\n'
+            code += 'rop.parm("vm_vexprofile").set(1)\n'
             code += 'rop.parm("vm_tilecallback").set("%s")\n' % self.tilescript
             
         if "wedge" in self.mode() :

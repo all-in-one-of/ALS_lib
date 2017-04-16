@@ -32,13 +32,11 @@ class ropTask():
         self.depend = depend
         self.nodeType = alsnodeutils.shortType(node)
         self.renderType = RENDER_TYPES[self.nodeType]
+        self.mode = self._getMode()
         self.taskName = self._taskName()
         self.fr = self._getRange()
-        self.mode = self._getMode()
         self.cmd = self._cmd()
         self.preview = self._getFileName()
-        # self.alf = self._alfred()
-        # print self.alf
 
     def _getRange(self):
         f = [int(self.node.parm('f{}'.format(i+1)).eval()) for i in range(3)]
@@ -49,8 +47,10 @@ class ropTask():
         if self.nodeType == 'my_cache':
             sim = self.node.parm('simmode').eval()
             single = self.node.parm('single').eval()
-            if single :
+            if single:
                 self.fr = 1,1,1
+            if sim:
+                self.renderType = 'sim'
             return 'single' if sim or single else 'range'
         elif self.renderType == 'abc':
             return 'single'
@@ -134,17 +134,19 @@ python %WRAPPER% %VERSION% %RENDER% %HIPPATH% %ROPNODE% %F1% %F2% %F3%
             pad = 4
         if self.mode == 'single':
             frame = '%0*d'%(pad, int(self.fr[0]))
-            return fexp.sub(frame, file)
+            fname = fexp.sub(frame, file)
+            fname =  fname.replace(LOCAL, HOUDINI_GLOB_PATH)
+            return fname
         elif self.mode == 'range':
             res = []
             _fr = [i for i in self.fr]
             _fr[1] += 1
             for i in range(*_fr):
                 frame = '%0*d'%(pad, i)
-                res.append(fexp.sub(frame, file))
+                fname = fexp.sub(frame, file)
+                fname = fname.replace(LOCAL, HOUDINI_GLOB_PATH)
+                res.append(fname)
             return res
-                
-
     def _setLevel(self, code, level):
         indent = ''.join(['    ' for i in range(level)])
         res = []
@@ -160,61 +162,49 @@ python %WRAPPER% %VERSION% %RENDER% %HIPPATH% %ROPNODE% %F1% %F2% %F3%
                   'preview' : 'mplay.exe' if self.renderType == 'img' else 'gplay.exe',
                   'file' : self.preview,
                   'instance' : instance}
-        # ---------------------------------- Multiframe task ------------------------------
-        if len(self.cmd) > 1: 
+        if len(self.cmd) > 1:
             code = r'''
-
-Task {{ {task} }} -subtasks {{'''.format(**kwargs)
-            kwargs['subtask'] = kwargs['task'].split('.')[0]
+Task {{{task}}} -subtasks {{'''.format(**kwargs)
             for i, cmd in enumerate(self.cmd):
-                kwargs['cmd'] = cmd
                 kwargs['frame'] = i + self.fr[0]
+                kwargs['subtask'] = kwargs['task'].split('.')[0]
+                kwargs['cmd'] = cmd
                 kwargs['file'] = self.preview[i]
                 kwargs['num'] = i
 
-                # ----------------------------- Default free task --------------------------
-                if instance == None:
-                    code += r'''
-
-    Task {{ {subtask}.frame.{frame} }} -cmds {{
-            RemoteCmd {{ {cmd} }}
+                code += r'''
+    Task {{{subtask}.frame.{frame}}} -cmds {{
+            RemoteCmd {{{cmd}}} -service {{mantra}} -tags {{mantra}}
         }} -preview {{
             {preview} "{file}"
         }}'''.format(**kwargs)
-                # ----------------------------- Dependent task --------------------------
-                else :
-                    code += r'''
 
-    Task {{ {subtask}.frame.{frame} }} -subtasks {{
-            Instance {{ {instance} }}
-        }} -cmds {{
-            RemoteCmd {{ {cmd} }}
-        }} -preview {{
-            {preview} "{file}"
-        }} -cleanup {{
-            Cmd {{ Alfred }} -msg {{ File delete "{cmd}" }}
+                if instance != None:
+                    code += r''' -subtasks {{
+            Instance {{{instance}}}
         }}'''.format(**kwargs)
 
-            # ----------------------------- Default free task cleanup --------------------------
-            if instance == None:
-                code += '\n\n    } -cleanup {\n'
-                for i, cmd in enumerate(self.cmd):
-                    kwargs['cmd'] = cmd
-                    code += '''
-        Cmd {{ Alfred }} -msg {{ File delete "{cmd}" }}'''.format(**kwargs)
+            code += '\n\n    } -cleanup {\n'
+            for i, cmd in enumerate(self.cmd):
+                kwargs['cmd'] = cmd
+                code += '''
+        Cmd {{Alfred}} -msg {{File delete "{cmd}"}}'''.format(**kwargs)
             code += '\n\n    }'
 
         else:
             kwargs['cmd'] = self.cmd[0]
             code = r'''
-
-Task {{ {task} }} -cmds {{
-        RemoteCmd {{ {cmd} }}
+Task {{{task}}} -cmds {{
+        RemoteCmd {{{cmd}}} -service {{mantra}} -tags {{mantra}}
     }} -preview {{
         {preview} "{file}"
     }}'''.format(**kwargs)
+            if instance != None:
+                code += r''' -subtasks {{
+        Instance {{{instance}}}
+    }}'''.format(**kwargs)
             code += ''' -cleanup {{
-        Cmd {{ Alfred }} -msg {{ File delete "{cmd}" }}
+        Cmd {{Alfred}} -msg {{File delete "{cmd}"}}
     }}'''.format(**kwargs)
 
         return self._setLevel(code, level)
@@ -250,26 +240,29 @@ class deputat():
         return None
 
     def _alfred(self):
+        alfFile = '{}/{}.alf'.format(EXPORT, self.jobName)
         kwargs = {'job' : self.jobName,
                   'comment' : self.comment}
         code = r'''##AlfredToDo 3.0
 Job -title {{ {job} }} -comment {{ {comment} }} -subtasks {{'''.format(**kwargs)
-        for out in self.outputs:
+        for i, out in enumerate(self.outputs):
             dep = self.findOutput(out.depend)
             code += out.alfred(instance=dep)
+            if i == len(self.outputs)-1:
+                code += ''' -cleanup {{
+        Cmd {{Alfred}} -msg {{File delete "{}"}}
+    }}'''.format(alfFile)
         code += '\n\n    }'
-
-        alfFile = '{}/{}.alf'.format(EXPORT, self.jobName)
         with open(alfFile, 'w') as f:
             f.write(code)
         return alfFile
 
     def start(self):
         if self.save == 1:
-            print 'Save scene'
             hou.hipFile.save()
         print self.cmd
-        hou.hscript(self.cmd)
+        if self.submit:
+            hou.hscript(self.cmd)
 
 
 dep = deputat()
