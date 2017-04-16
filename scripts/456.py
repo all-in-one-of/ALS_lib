@@ -81,7 +81,7 @@ else:
 	#rop cmd fix
 	globs['HIP'] = HIP
 	globs['HIPNAME'] = HIPNAME
-	globs['HIPFILE'] = '{}/{}'.format(HIP, HIPNAME)
+	globs['HIPFILE'] = '{}/{}.hip'.format(HIP, HIPNAME)
 
 # -------------- set houdini vaiables --------------
 for key, val in globs.iteritems():

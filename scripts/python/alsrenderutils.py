@@ -34,8 +34,9 @@ def checkTree(node):
                 if not ropType in validTypes :
                     hou.ui.displayMessage("Invalid rop type '{}' in path {}".format(ropType, i+1))
                 else:
-                    depend = int(node.parm('depend{}'.format(i+1)).eval())
-                    result.append((i+1, srcNode, depend))
+                    depend = node.parm('depend{}'.format(i+1)).eval()
+                    depend = 0 if depend == '' else depend
+                    result.append((i+1, srcNode, int(depend)))
     return result
 
 def createRopNode(*args):
