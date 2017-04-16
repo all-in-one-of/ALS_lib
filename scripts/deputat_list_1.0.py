@@ -160,34 +160,47 @@ python %WRAPPER% %VERSION% %RENDER% %HIPPATH% %ROPNODE% %F1% %F2% %F3%
                   'preview' : 'mplay.exe' if self.renderType == 'img' else 'gplay.exe',
                   'file' : self.preview,
                   'instance' : instance}
-        if len(self.cmd) > 1:
+        # ---------------------------------- Multiframe task ------------------------------
+        if len(self.cmd) > 1: 
             code = r'''
 
 Task {{ {task} }} -subtasks {{'''.format(**kwargs)
+            kwargs['subtask'] = kwargs['task'].split('.')[0]
             for i, cmd in enumerate(self.cmd):
-                kwargs['frame'] = i + self.fr[0]
-                kwargs['subtask'] = kwargs['task'].split('.')[0]
                 kwargs['cmd'] = cmd
+                kwargs['frame'] = i + self.fr[0]
                 kwargs['file'] = self.preview[i]
                 kwargs['num'] = i
 
-                code += r'''
+                # ----------------------------- Default free task --------------------------
+                if instance == None:
+                    code += r'''
 
     Task {{ {subtask}.frame.{frame} }} -cmds {{
             RemoteCmd {{ {cmd} }}
         }} -preview {{
             {preview} "{file}"
         }}'''.format(**kwargs)
+                # ----------------------------- Dependent task --------------------------
+                else :
+                    code += r'''
 
-                if instance != None:
-                    code += r''' -subtasks {{
+    Task {{ {subtask}.frame.{frame} }} -subtasks {{
             Instance {{ {instance} }}
+        }} -cmds {{
+            RemoteCmd {{ {cmd} }}
+        }} -preview {{
+            {preview} "{file}"
+        }} -cleanup {{
+            Cmd {{ Alfred }} -msg {{ File delete "{cmd}" }}
         }}'''.format(**kwargs)
 
-            code += '\n\n    } -cleanup {\n'
-            for i, cmd in enumerate(self.cmd):
-                kwargs['cmd'] = cmd
-                code += '''
+            # ----------------------------- Default free task cleanup --------------------------
+            if instance == None:
+                code += '\n\n    } -cleanup {\n'
+                for i, cmd in enumerate(self.cmd):
+                    kwargs['cmd'] = cmd
+                    code += '''
         Cmd {{ Alfred }} -msg {{ File delete "{cmd}" }}'''.format(**kwargs)
             code += '\n\n    }'
 
@@ -199,10 +212,6 @@ Task {{ {task} }} -cmds {{
         RemoteCmd {{ {cmd} }}
     }} -preview {{
         {preview} "{file}"
-    }}'''.format(**kwargs)
-            if instance != None:
-                code += r''' -subtasks {{
-        Instance {{ {instance} }}
     }}'''.format(**kwargs)
             code += ''' -cleanup {{
         Cmd {{ Alfred }} -msg {{ File delete "{cmd}" }}
