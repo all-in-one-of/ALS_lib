@@ -7,8 +7,8 @@
 
   <toolshelf name="als_scripts" label="ALS Scripts">
     <memberTool name="reload"/>
-    <memberTool name="new_shot"/>
     <memberTool name="save_new"/>
+    <memberTool name="new_shot"/>
     <memberTool name="createSubnet"/>
     <memberTool name="mergegeo"/>
     <memberTool name="objMerge"/>
@@ -22,6 +22,7 @@
     <memberTool name="hdaNewVer"/>
     <memberTool name="calendar"/>
     <memberTool name="test"/>
+    <memberTool name="relock"/>
   </toolshelf>
 
   <tool name="reload" label="Reload" icon="SOP_file">
@@ -118,5 +119,11 @@ userfuncs.changeWrangle()]]></script>
 reload(my_test)
 my_test.test()
 ]]></script>
+  </tool>
+
+  <tool name="relock" label="Relock" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[import userfuncs
+reload( userfuncs )
+userfuncs.relock()]]></script>
   </tool>
 </shelfDocument>

@@ -482,6 +482,17 @@ def createSubnet() :
     node = checkSelection()
     
     if node :
+        sel = hou.selectedNodes()
+        print len(sel), 
+        if len(sel)==1 and node.type().name() == 'subnet':
+            pat = re.compile('label\d')
+            for p in node.parms():
+                find = pat.search(p.name())
+                if find:
+                    p.hide(1)
+            node.setColor( hou.Color( colors.subnet ) )
+            return
+
         parent = node.parent()
         pos = node.position()
         sub = parent.createNode("subnet")
@@ -547,6 +558,12 @@ def changeWrangle():
             
         except(AttributeError):
             hou.ui.displayMessage("{} is not an actionwrangle instance!".format(node.name()))
+
+def relock():
+    node = checkSelection()
+    if node.isHardLocked():
+        node.setHardLocked(0)
+        node.setHardLocked(1)
 
 
 

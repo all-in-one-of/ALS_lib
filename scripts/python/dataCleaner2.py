@@ -289,7 +289,10 @@ class thread_repare(QThread) :
         print '\nMove all losted files back to data filder:\n'
         for d in self.dirs :
             cd = d.replace( '\\', '/' )
-            dataPath = cd.replace( 'data_store', 'data' )
+            store = hou.expandString('$DATA_STORE')
+            data = hou.expandString('$HDATA_GLOB')
+            dataPath = cd.replace( store, data )
+            print dataPath
             createPath( dataPath )
             for f in os.listdir( cd ) :
                 self.update.emit()
@@ -381,7 +384,7 @@ def searchLostCaches( ) :
         if n.type().name() == 'file' :
             file = n.parm('file').eval()
             path = '/'.join( file.split('/')[:-1] )
-            hdata = hou.expandString( '$HDATA' )
+            hdata = hou.expandString( '$HDATA_GLOB' )
             data_store = hou.expandString( '$DATA_STORE' )
             store_path = path
             if hdata in path : 
@@ -395,7 +398,11 @@ def searchLostCaches( ) :
                     
             if 'WEDGE' in path :
                 pattern = weExp.search( file ).group()
-                for f in os.listdir( store_path ) :
+                try:
+                    fileList = os.listdir( store_path )
+                except(WindowsError):
+                    fileList = []
+                for f in fileList :
                     if pattern in f :
                         lost_wedges.append( store_path + '/' + f )
                         filecount += 1

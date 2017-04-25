@@ -67,6 +67,7 @@ if shotInfo != None :
 		globs['_EXPORT'] = '{0}/_Export/{1}'.format(globs['JOB'], shotDir)
 else:
 	globs['HDATA'] = '{0}/data'.format(HIP)
+	globs['HDATA_GLOB'] = '{0}/data'.format(HIP)
 	globs['MDATA'] = '{0}/geo'.format(HIP)
 	globs['PLAY'] = '{0}/flipbook'.format(HIP)
 	globs['WRANGLE'] = '{0}/vex_wrangles'.format(HIP)

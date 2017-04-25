@@ -23,7 +23,7 @@ UPDATEASSETS = "//PROJECTS/Alisa_Film/HoudiniProject/scripts/p4update.py"
 SYNC = "C:/Program Files/FreeFileSync/FreeFileSync.exe"
 SYNC_BATCH = "//PROJECTS/Alisa_Film/HoudiniProject/data_sinc.ffs_batch"
 SYNC_GUI = "//PROJECTS/Alisa_Film/HoudiniProject/data_sinc.ffs_gui"
-LOCAL = 'Q:/houdini'
+LOCAL = 'Q:/Houdini'
 
 def createPath(path) :
     current = []
@@ -101,7 +101,7 @@ class projectBrowser (QWidget) :
     def _mprojDir(self) :
         self.openPath(self.widget.mjobField, '$MJOB')
     def _dataDir(self) :
-        self.openPath(self.widget.hdataField, '$HDATA', True)
+        self.openPath(self.widget.hdataField, '$HDATA_GLOB', True)
     def _mDataDir(self) :
         self.openPath(self.widget.mdataField, '$MDATA', True)
     def _mCacheDir(self) :
@@ -118,13 +118,14 @@ class projectBrowser (QWidget) :
     # non standart functions
         
     def _dataLocalDir(self) :
-        self.widget.hdataField.setText(hou.expandString('$HDATA'))
-        path = self.hdataField.text().replace(self.widget.jobField.text(), LOCAL).replace('/', '\\')
+        self.widget.hdataField.setText(hou.expandString('$HDATA_GLOB'))
+        path = self.widget.hdataField.text().replace(self.widget.jobField.text(), LOCAL).replace('/', '\\')
         os.startfile(path)
         
     def _dataStorageDir(self) :
-        self.widget.hdataField.setText(hou.expandString('$HDATA'))
-        path = self.hdataField.text().replace(LOCAL, self.widget.jobField.text()).replace('data', 'data_store').replace('/', '\\')
+        self.widget.hdataField.setText(hou.expandString('$HDATA_GLOB'))
+        path = hou.expandString('$DATA_STORE').replace('/', '\\')
+        fileUtils.createDir(path)
         os.startfile(path)
         
     def _openScene(self) :

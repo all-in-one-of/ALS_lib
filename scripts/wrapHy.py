@@ -19,6 +19,9 @@ except(IndexError):
     kwargs['f2'] = ''
     kwargs['f3'] = ''
 
-if __name__ == '__main__':       
+if __name__ == '__main__':
     startpath = '\"{HB}/hython.exe\" "{file}" "{hip}" "{node}" {f1} {f2} {f3}'.format(**kwargs)
     subprocess.call(startpath)
+    # x = subprocess.Popen(startpath, stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+    # for line in iter(x.stdout.readline, b''):
+    #     print(">>> " + line.rstrip())

@@ -5,8 +5,9 @@ try:
     f = (int(sys.argv[3]),
          int(sys.argv[4]),
          int(sys.argv[5]))
-
+    print "Load scene {}".format(hip)
     hou.hipFile.load(hip)
+    print "Scene loaded successfully."
     hippath = '/'.join(hip.split('\\')[:-1])
     hipname = hip.split('\\')[-1].replace('.hip', '')
     hou.hscript('set -g HIP={}'.format(hippath))
@@ -23,7 +24,9 @@ try:
             rop.parm("alfprogress").set(1)
         except(AttributeError):
             pass
+    print "Start render process in {}".format(rop.path())
     rop.render(frame_range = f, verbose = True, output_progress = True)
+    print "Render completed."
     exit()
 
 except(IndexError):

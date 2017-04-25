@@ -6,45 +6,45 @@ menubar      -1
 statusbar    panel 0
 radial menu set defaultmodeling
 root {
-    split 0.594792 H {
+    split 0.497396 H {
         split 0.118462 H L {
             tabs 0 1 {
-                pane panetab14 -a 0 -l 10 -H /obj/ -T OBJ -m treecontrol
+                pane panetab14 -a 0 -l 10 -H /obj/buildings/ -T SOP -m treecontrol
             }
             tabs 0 1 {
-                pane panetab2 -a 0 -l 1 -H /obj/ -T OBJ -m neteditor
+                pane panetab2 -a 0 -l 10 -H /obj/buildings/ -T SOP -m neteditor
                 pane panetab13 -a 0 -l 0 -H /obj/ -T OBJ -m assetbrowser
             }
         }
         split 0.625831 V {
             tabs 0 1 {
-                pane panetab5 -a 0 -l 1 -H /obj/ -T OBJ -m pythonpanel
+                pane panetab5 -a 0 -l 1 -H /obj/buildings/ -T SOP -m pythonpanel
                 pane panetab6 -a 0 -l 0 -H /obj/ -T OBJ -m bundlelist
                 pane panetab7 -a 0 -l 0 -H /obj/ -T OBJ -m linker
                 pane panetab8 -a 0 -l 0 -H /obj/ -T OBJ -m python
             }
             tabs 0 1 {
-                pane panetab4 -a 0 -l 1 -H /obj/ -T OBJ -m parmeditor
+                pane panetab4 -a 0 -l 10 -H /obj/buildings/ -T SOP -m parmeditor
             }
         }
     }
 
-    panel panel1 -w 1920 40 1920 1137 {
+    panel panel1 -w 1920 48 1920 1121 {
         split 0.779661 V {
             tabs 0 1 {
-                pane panetab15 -a 0 -l 10 -H /obj/ -T OBJ -m details
+                pane panetab15 -a 0 -l 10 -H /obj/buildings/ -T SOP -m details
             }
             split 0.723437 H {
                 split 0.151908 H {
                     tabs 0 1 {
-                        pane panetab1 -a 0 -l 10 -H /obj/ -T OBJ -m treecontrol
+                        pane panetab1 -a 0 -l 10 -H /obj/buildings/ -T SOP -m treecontrol
                     }
                     tabs 0 1 {
-                        pane panetab16 -a 0 -l 10 -H /obj/ -T OBJ -m sceneview
-                        pane panetab20 -a 0 -l 10 -H /obj/ -T OBJ -m iprviewer
+                        pane panetab16 -a 0 -l 10 -H /obj/buildings/ -T SOP -m sceneview
+                        pane panetab20 -a 0 -l 10 -H /obj/buildings/ -T SOP -m iprviewer
                         pane panetab21 -a 0 -l 10 -H /ch/ -T CHOPNET -m channelview
                         pane panetab22 -a 0 -l 10 -H /img/ -T IMG -m imageview
-                        pane panetab23 -a 0 -l 10 -H /obj/ -T OBJ -m details
+                        pane panetab23 -a 0 -l 10 -H /obj/buildings/ -T SOP -m details
                         pane panetab3 -a 0 -l 0 -H /obj/ -T OBJ -m materialpalette
                         pane panetab12 -a 0 -l 0 -H /obj/ -T OBJ -m helpbrowser
                     }
@@ -68,7 +68,7 @@ root {
 }
 shelfdock -o 1 -l icon_and_text -G "0.46 0.50" add shelf_set_1 shelf_set_2
 treecontrol -a 0 -h 0 -i 1 -f 0 -O 0 -S 0 -D 0 -P 0 -H 0 -V 0 -C 0 -I 0 -R 0 panetab14
-networkeditor -p '{\n	"obj:listmode":"0",\n	"sop:listmode":"0",\n	"out:listmode":"0",\n	"showchilddep":"1",\n	"showdep":"0",\n	"perfstatname":"Time",\n	"showperfstats":"1",\n	"grouplistsplit":"0.75",\n	"showtree":"0",\n	"showtypesidebar":"0",\n	"showparmdialogmax":"1",\n	"treesplit":"0.25",\n	"palettesize":"150 150",\n	"typesidebarsplit":"0.25",\n	"palettemode":"0",\n	"showgrouplist":"0",\n	"backgroundimagebrightness":"1.0",\n	"backgroundimageediting":"0",\n	"gridystep":"1.0",\n	"gridmode":"0",\n	"showtimedep":"0",\n	"overviewbounds":"0.000000 0.000000 336.900000 287.100000",\n	"overviewmode":"2",\n	"palettecolors":"",\n	"showmenu":"1",\n	"gridxstep":"2.0",\n	"showparmdialog":"0"\n}\n' panetab2
+networkeditor -p '{\n	"sop:listmode":"0",\n	"obj:listmode":"0",\n	"out:listmode":"0",\n	"showchilddep":"1",\n	"showdep":"0",\n	"perfstatname":"Time",\n	"showperfstats":"1",\n	"grouplistsplit":"0.75",\n	"showtree":"0",\n	"showtypesidebar":"0",\n	"showparmdialogmax":"1",\n	"treesplit":"0.25",\n	"palettesize":"150 150",\n	"typesidebarsplit":"0.25",\n	"palettemode":"0",\n	"showgrouplist":"0",\n	"backgroundimagebrightness":"1.0",\n	"backgroundimageediting":"0",\n	"gridystep":"1.0",\n	"gridmode":"0",\n	"showtimedep":"0",\n	"overviewbounds":"0.000000 0.000000 283.800000 291.900000",\n	"overviewmode":"2",\n	"palettecolors":"",\n	"showmenu":"1",\n	"gridxstep":"2.0",\n	"showparmdialog":"0"\n}\n' panetab2
 netcolumns -c display,xray,select,origin,capture,bone -n OBJ panetab2
 netcolumns -c display,render,template,selectabletemplate,highlight,unload,bypass,lock -n SOP panetab2
 netcolumns -c delscript,comment -n PART panetab2
@@ -97,7 +97,7 @@ viewtype -t ortho_front Double_mon.panetab16.world.`vpname("Double_mon.panetab16
 viewtype -t ortho_top Double_mon.panetab16.world.`vpname("Double_mon.panetab16.world",1)`
 viewtype -t perspective Double_mon.panetab16.world.`vpname("Double_mon.panetab16.world",2)`
 iprview -t 0.1 -l 0 -e 1 -u 1  panetab20
-chopview -a 0 -c "" -k 1 -m 1 -b 1 -e 1 -f 0 -g 0 -H 1 -i 0 -j 1 -l 0 -n 1 -V 0 -y 0 -B 0 -s 0 -S 0.034375 -u 0 -v 0 -h -10 310 -r -1.5 1.5 panetab21
+chopview -a 0 -c "" -k 1 -m 1 -b 1 -e 1 -f 0 -g 0 -H 1 -i 0 -j 1 -l 0 -n 1 -V 0 -y 0 -B 0 -s 0 -S 0.503125 -u 0 -v 0 -h -10 310 -r -1.5 1.5 panetab21
 helpbrowser panetab12
 pythonpanel -s on -t off -n project_browser panetab9
 pythonpanel -s on -t off -n flipWrite panetab17
