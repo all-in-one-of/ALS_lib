@@ -483,7 +483,6 @@ def createSubnet() :
     
     if node :
         sel = hou.selectedNodes()
-        print len(sel), 
         if len(sel)==1 and node.type().name() == 'subnet':
             pat = re.compile('label\d')
             for p in node.parms():
